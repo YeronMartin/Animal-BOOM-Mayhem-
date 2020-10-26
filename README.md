@@ -31,6 +31,7 @@ YeronMartin
 _Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
 toma el control de un animal que competirá en un torneo de balón prisionero para
 hacerse con la “​ _corona explosiva_ ​”.
+
 ----
 
 ## ÍNDICE

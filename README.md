@@ -61,40 +61,40 @@ _Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
 toma el control de un animal que competirá en un torneo de balón prisionero para
 hacerse con la “​ _corona explosiva_ ​”.
 ### 2.2. Características principales
-El juego presenta las siguientes características principales:
+El juego presenta las siguientes características principales:  
 ● **Simplicidad** ​: Al ser un videojuego de estilo arcade, este no presenta una
 historia muy compleja ya que el objetivo principal del videojuego es que el
 jugador se divierta. Por esta razón, tanto la historia como la jugabilidad son
-muy simples.
+muy simples.  
 ● **Frenético** ​: Durante la partida, los jugadores tendrán que buscar rápidamente
 todo tipo de objetos que lanzar al enemigo y tendrán que esquivarlos. Esto
-pondrá a prueba los reflejos y habilidades de los jugadores.
+pondrá a prueba los reflejos y habilidades de los jugadores.  
 ● **Dinámico** ​: Mientras pasa el tiempo de la partida, esta va evolucionando.
 Cuando se queden sin tiempo, los jugadores entran en el “​ _¡CAOS TOTAL!_ ​” ,
-un modo muerte súbita para decidir al ganador.
+un modo muerte súbita para decidir al ganador.  
 **● Escenarios tematizados:** ​Cada escenario es diferente del resto pues hay
 que enfrentarse a una serie de retos distintos en cada uno de ellos.
 
 
 ### 2.3. Género
 _Animal BOOM Mayhem_ es un videojuego que presenta características de varios
-géneros. Estos serían los siguientes:
+géneros. Estos serían los siguientes:  
 ● **Casual** ​: Son juegos con reglas simples que no requieren dedicación de
 tiempo a largo plazo o habilidades especiales para jugar. Son juegos dirigidos
 a un público principal de jugadores casuales. ​ _Animal BOOM Mayhem_ es un
 juego cuyo principal objetivo es que los jugadores se diviertan con partidas
-cortas y rápidas.
+cortas y rápidas.  
 ● **Party Game** ​: Juegos en los que los jugadores avanzan por turnos por un
 tablero virtual y deben ir superando diversas pruebas para competir entre sí
 para alcanzar la meta o el primer puesto. Animal BOOM Mayhem adopta el
-aspecto de la competición con un movimiento libre.
+aspecto de la competición con un movimiento libre.  
 ● **Acción** ​: Juegos que requieren que el jugador haga uso de sus reflejos,
 puntería y habilidad, generalmente en un contexto de combate o superación
 de peligros.
 ### 2.4. Propósito y público objetivo
 El propósito principal de ​ _Animal BOOM Mayhem_ es ofrecer a los jugadores un
 videojuego multijugador en línea frenético y sencillo con el que puedan entretenerse
-al estilo de los juegos arcade.
+al estilo de los juegos arcade.  
 _Animal BOOM Mayhem_ es un juego cuyo público objetivo son todas las edades
 debido a su estética arcade y sus mecánicas fáciles de entender para cualquier
 persona independientemente de la edad. Además, como la historia del juego es muy
@@ -106,11 +106,11 @@ libre que tengan.
 Cada partida se basará en una competición de animales jugando al balón prisionero
 en el que el jugador tratará de quedar el último para acabar victorioso. Para lograr
 esto, los jugadores deben aprovechar una serie de power-ups y habilidades de los
-objetos, así como evitar ciertos eventos del escenario.
-● **Movilidad:** ​ Cada jugador podrá moverse libremente por el espacio de juego.
+objetos, así como evitar ciertos eventos del escenario.  
+● **Movilidad:** ​ Cada jugador podrá moverse libremente por el espacio de juego.  
 ● **Acciones:** El combate se define por la posibilidad de poder coger y lanzar
 objetos para eliminar a los otros animales del torneo, además de poder
-esquivarlas agachándose.
+esquivarlas agachándose.  
 ● **Variedad:** El jugador podrá elegir entre varios animales y atuendos
 adicionales para tener una experiencia más personalizada, además de
 diversos escenarios con dinámicas diferentes.

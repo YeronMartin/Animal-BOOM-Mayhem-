@@ -13,13 +13,13 @@ Yerón Martín Sánchez
 ## ÍNDICE
 
 1. Cambios
-2. Introducción
-2.1 Concepto del juego
-2.2 Características principales
-2.3 Género 
-2.4 Propósito y público objetivo
-2.5 Jugabilidad
-2.6 Estilo visual
+2. Introducción  
+2.1 Concepto del juego  
+2.2 Características principales  
+2.3 Género  
+2.4 Propósito y público objetivo  
+2.5 Jugabilidad  
+2.6 Estilo visual  
 2.7 Alcance
 3. Mecánicas  
 3.1 Flujo de juego  

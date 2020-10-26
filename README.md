@@ -179,11 +179,15 @@ Finalmente, la partida acabará cuando quede un único jugador o equipo vivo. Al
 finalizar la partida, aparecerá una pantalla donde se indicará qué jugador o equipo
 ha ganado la partida. También, está pantalla incluirá una ventana donde se
 especifican las teclas que se deben de pulsar para que:
-● El jugador pueda volver a jugar otra vez.
-● El jugador vuelva a la pantalla de selección de personaje.
-● O el jugador pueda regresar al menú principal.
+
+  ● El jugador pueda volver a jugar otra vez.
+
+  ● El jugador vuelva a la pantalla de selección de personaje.
+
+  ● O el jugador pueda regresar al menú principal.
 En el apartado de ​ _Interfaz_ ​, se podrá observar un diagrama de flujo que muestra
 gráficamente todas las posibilidades de flujo entre pantallas.
+
 3.2. Personajes
 Todos los personajes son animales humanoides y comparten las mismas
 características a nivel jugable. Cada jugador podrá elegir el personaje que quiera
@@ -201,14 +205,23 @@ van a ser muy importantes para el desarrollo de la partida.
 ### 3.4. Controles
 A continuación, se puede observar una tabla que recoge los controles
 principales de los jugadores en ​ _Animal BOOM Mayhem_ ​:
-**Jugador 1 Jugador 2
-Movimiento** W, A, S, D^ I, J, K, L^
-**Recoger/Lanzar
-bola**
 
-### E O
+**Jugador 1**
+  
+  - Movimiento: W, A, S, D
+  
+  - Recoger/Lanzar bola: E
+  
+  - Agacharse: R
 
-**Agacharse** R^ P^
+**Jugador 2**
+
+  - Movimiento: I, J, K, L
+  
+  - Recoger/Lanzar bola: O
+  
+  - Agacharse: P
+
 ### 3.5. Colisiones
 En ​ _Animal BOOM Mayhem,_ ​el jugador puede moverse por todo el espacio de juego.
 Debido a esto y la dinámica del juego, se necesitarán colisiones para el correcto
@@ -216,22 +229,31 @@ funcionamiento de este. Se han de implementar diferentes colisiones entre
 personajes y elementos del juego.
 A continuación, se enumeran las colisiones entre objetos que se tiene pensado
 implementar:
-● Personaje - Objeto
-● Personaje - Bordes del estadio
-● Pelota - Bordes del estadio
-● Pelota - Obstáculos
-● Personaje - Obstáculos
+
+  ● Personaje - Objeto
+
+  ● Personaje - Bordes del estadio
+
+  ● Pelota - Bordes del estadio
+
+  ● Pelota - Obstáculos
+
+  ● Personaje - Obstáculos
 
 
 ### 3.6. Reglas de interacciones
 A continuación se describen las posibilidades de acción de los jugadores durante el
 transcurso de una partida:
-● **Movimiento en las 8 direcciones** ​. No hay sprint ni aguante físico.
-● **Recoger objetos del suelo** ​. Al situarse encima de un objeto en el
+
+  ● **Movimiento en las 8 direcciones** ​. No hay sprint ni aguante físico.
+
+  ● **Recoger objetos del suelo** ​. Al situarse encima de un objeto en el
 suelo, el jugador puede recogerlo para llevarlo consigo.
-● **Lanzar objetos** ​. El jugador arroja el objeto que lleva encima en la
+
+  ● **Lanzar objetos** ​. El jugador arroja el objeto que lleva encima en la
 dirección a la que el jugador mira.
-● **Agacharse** ​. Mientras el jugador mantiene pulsado el botón, el
+
+  ● **Agacharse** ​. Mientras el jugador mantiene pulsado el botón, el
 personaje del jugador se agacha en el suelo. Esta acción otorga al
 jugador un breve tiempo de inmunidad que le permitirá evitar impactos
 directos de los objetos.
@@ -243,45 +265,65 @@ En una partida por equipos, los jugadores eliminados son sacados de la zona de
 combate y llevados al área de los eliminados, que dependerá del mapa. Desde allí,
 los jugadores no podrán moverse ni utilizar objetos. Pero tendrán disponible la
 siguiente acción:
-● **Animar al equipo** ​. Otorga bonificaciones de distancia y velocidad de
+
+  ● **Animar al equipo** ​. Otorga bonificaciones de distancia y velocidad de
 lanzamiento a los miembros del equipo que queden en pie. Los
 jugadores que queden en pie pueden aturdir temporalmente a los
 jugadores que han sido eliminados mediante objetos.
+
 **Otras restricciones e interacciones:**
-● Puedes recoger un objeto del suelo mientras te mueves.
-● Puedes lanzar objetos en movimiento.
-● Todos los objetos que lanza el jugador pueden impactar tanto al propio
+
+  ● Puedes recoger un objeto del suelo mientras te mueves.
+
+  ● Puedes lanzar objetos en movimiento.
+  
+  ● Todos los objetos que lanza el jugador pueden impactar tanto al propio
 jugador como a sus compañeros de equipo.
-● No puedes moverte o lanzar objetos mientras te agachas.
-● No puedes lanzar ni recoger objetos mientras te agachas.
-● Al ser golpeado, el objeto que llevas encima cae al suelo.
-● Al ser eliminado, el objeto que llevabas encima cae al suelo.
+  
+  ● No puedes moverte o lanzar objetos mientras te agachas.
+  
+  ● No puedes lanzar ni recoger objetos mientras te agachas.
+  
+  ● Al ser golpeado, el objeto que llevas encima cae al suelo.
+  
+  ● Al ser eliminado, el objeto que llevabas encima cae al suelo.
 
 
 ### 3.7. Niveles
+
 En el juego, el jugador podrá elegir entre varios escenarios en los que se
 desarrollará la partida, cada uno de ellos con características diferentes:
-● **Estadio:** ​ Nivel básico sin cambios en el terreno.
-● **Glaciar:** El espacio de juego se basa en una isla de hielo que irá
+
+  ● **Estadio:** ​ Nivel básico sin cambios en el terreno.
+
+  ● **Glaciar:** El espacio de juego se basa en una isla de hielo que irá
 fragmentado con el paso del tiempo, de manera que poco a poco el
 espacio acabará reduciéndose.
-● **Volcán:** ​ En este escenario van apareciendo charcos de lava.
+  
+  ● **Volcán:** ​ En este escenario van apareciendo charcos de lava.
+
 ### 3.8. Objetos lanzables
 El jugador tendrá a su disposición diversos elementos que podrá lanzar para
 eliminar a otros jugadores:
-● **Bola normal** ​: Pelota que rebota al contacto, no desaparece cuando
+
+  ● **Bola normal** ​: Pelota que rebota al contacto, no desaparece cuando
 choca contra algo. Los jugadores son empujados al impactar.
-● **Bomba** ​: Explota cuando choca contra algo o cuando cae al suelo tras
+
+  ● **Bomba** ​: Explota cuando choca contra algo o cuando cae al suelo tras
 ser lanzada (jugadores, obstáculos, paredes). Daña a los jugadores y
 objetos que se encuentren en el radio de explosión.
-● **Bomba con temporizador** ​: Similar a la ​ _Bomba_ ​, pero con un
+
+  ● **Bomba con temporizador** ​: Similar a la ​ _Bomba_ ​, pero con un
 temporizador de 5 a 10 segundos tras ser lanzada. No explota al caer
 al suelo.
-● **Bola ígnea** ​: Similar a la ​ _Bola normal_ con el añadido de dejar un rastro
+  
+  ● **Bola ígnea** ​: Similar a la ​ _Bola normal_ con el añadido de dejar un rastro
 de llamas en su camino tras ser lanzada.
-● **Mini agujero negro** ​: Similar a la ​ _Bomba_ ​, pero atrae y daña a los
+
+  ● **Mini agujero negro** ​: Similar a la ​ _Bomba_ ​, pero atrae y daña a los
 jugadores que permanezcan en su área de efecto.
-● **Pelota boomerang** ​: Similar a la ​ _Bola normal_ ​, con la peculiaridad de
+
+  ● **Pelota boomerang** ​: Similar a la ​ _Bola normal_ ​, con la peculiaridad de
 invertir su dirección después de cierta distancia recorrida.
 
 

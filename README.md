@@ -7,7 +7,7 @@
 Grupo 5:
 Carlos del Águila Mateu
 Jesús David Rojo Martín
-Maria Busto Ramos
+María Busto Ramos
 Yerón Martín Sánchez
 ```
 
@@ -21,7 +21,7 @@ y.martin.2018@alumnos.urjc.es
 
 ```
 Correo de la universidad:
-CaDeMa2020
+CDAM2020
 jdrojo2018
 mariabusto
 YeronMartin

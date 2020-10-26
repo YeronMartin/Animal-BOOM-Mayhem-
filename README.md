@@ -47,20 +47,20 @@ Yerón Martín Sánchez
    - Ventana de victoria
 
 
-1. Cambios
+## 1. Cambios
 ​En este apartado se mostrarán las versiones del documento de diseño del juego.
 
 
-2. Introducción
+## 2. Introducción
 Sirva este documento como documento de diseño del juego ​ _Animal BOOM
 Mayhem,_ un juego multijugador en línea que implementa una versión renovada y
 divertida del balón prisionero. Su principal objetivo es mostrar y explicar los
 elementos que va a incluir ​ _Animal BOOM Mayhem_ ​.
-2.1. Concepto del juego
+### 2.1. Concepto del juego
 _Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
 toma el control de un animal que competirá en un torneo de balón prisionero para
 hacerse con la “​ _corona explosiva_ ​”.
-2.2. Características principales
+### 2.2. Características principales
 El juego presenta las siguientes características principales:
 ● **Simplicidad** ​: Al ser un videojuego de estilo arcade, este no presenta una
 historia muy compleja ya que el objetivo principal del videojuego es que el

@@ -127,167 +127,223 @@ etapas de su desarrollo se le dotará de las mecánicas básicas con variedad de
 recursos.
 
 
-## 3. Mecánicas
+## 3. Mecánicas  
+
 En esta parte del documento se profundizará y se describirán las mecánicas que
 definen a ​ _Animal BOOM Mayhem_ ​. Por una parte se definirá el desarrollo del juego,
-que reunirá las acciones del jugador durante el gameplay.
-### 3.1. Flujo de juego
+que reunirá las acciones del jugador durante el gameplay.  
+
+### 3.1. Flujo de juego  
+
 A lo largo de este punto, se describirá de principio a fin cómo es una partida de
 _Animal BOOM Mayhem_ ​, desde el momento en el que el jugador entra en el juego
 hasta que uno de los jugadores se hace con la victoria eliminando a todos sus
-adversarios.
+adversarios.  
+
 Cuando el jugador inicia ​ _Animal BOOM Mayhem_ ​, lo primero que ve es el ​ _Menú
 Principal_ ​. Este menú tiene varias opciones. Si el jugador desea jugar, este tiene que
 seleccionar la opción de ​ _Jugar_ ​. Tras seleccionar esta opción, el jugador debe de
 configurar su partida antes de comenzar a jugar mediante diversas pantallas de
-selección.
+selección.  
+
 En primer lugar, el jugador pasa a una pantalla donde puede indicar si quiere jugar
 de manera local o en línea, es decir, el ​ _modo de conexión_ ​. Esta sería la primera
-pantalla de selección.
+pantalla de selección.  
+
 Después, la siguiente pantalla sería en la que el jugador selecciona el ​ _modo de
-juego_ ​: todos contra todos o por equipos.
+juego_ ​: todos contra todos o por equipos.  
+
 Las dos siguientes pantallas serían: la pantalla de ​ _Selección de Personaje_ ​, donde el
 jugador debe escoger el personaje de la plantilla disponible con el que desea jugar,
 y la pantalla de ​ _Selección de Escenario_ ​, donde el jugador debe escoger el mapa de
-batalla.
+batalla.  
+
 Finalmente, tras escoger el escenario y haber configurado todas las opciones, el
 jugador llega a una pantalla donde habrá un botón de jugar. Al presionarlo, se
-iniciará la partida correspondiente.
+iniciará la partida correspondiente.  
+
 Al comenzar la partida, los jugadores aparecerán de manera semi aleatoria en el
 escenario, respetando siempre las distancias para que dos jugadores no aparezcan
-demasiado cerca.
+demasiado cerca.  
+
 Si el modo de juego es ​ _Todos contra Todos_ ​, desde ese momento, los jugadores
 tratarán de eliminarse entre ellos utilizando los objetos que tengan a mano en la
-
-
 zona de juego. En cambio, si el modo es ​ _Por Equipos_ el jugador deberá intentar
-eliminar a los miembros de los equipos rivales.
+eliminar a los miembros de los equipos rivales.  
+
 El usuario deberá tener en cuenta que al recibir, por defecto, tres impactos se
 agotará la vida de su personaje y será eliminado de la zona de juego. Además,
-podrá ser eliminado por ciertos obstáculos.
+podrá ser eliminado por ciertos obstáculos.  
+
 Durante la partida podrán ir apareciendo nuevos objetos, como bombas, para que la
-zona de juego no se quede vacía.
+zona de juego no se quede vacía.  
+
 A medida que pasa el tiempo, los jugadores obtendrán bonificaciones incrementales
 de potencia de lanzamiento. Asimismo, los objetos aumentarán su tamaño. Cuando
 haya pasado el tiempo suficiente, se activa el modo ​ _Muerte Súbita_ ​, donde la salud
-de todos los jugadores restantes es reducida a 1.
+de todos los jugadores restantes es reducida a 1.  
+
 Una vez que el jugador haya sido eliminado, podrá salir de la partida y volverse a
 unir a una nueva, o permanecer en la sala y animar a los jugadores, en caso de que
 se esté jugando en equipo. Se observará repercusión en el equipo animado, como
-por ejemplo, obteniendo power ups.
+por ejemplo, obteniendo power ups.  
+
 Finalmente, la partida acabará cuando quede un único jugador o equipo vivo. Al
 finalizar la partida, aparecerá una pantalla donde se indicará qué jugador o equipo
 ha ganado la partida. También, está pantalla incluirá una ventana donde se
-especifican las teclas que se deben de pulsar para que:
-● El jugador pueda volver a jugar otra vez.
-● El jugador vuelva a la pantalla de selección de personaje.
-● O el jugador pueda regresar al menú principal.
+especifican las teclas que se deben de pulsar para que:  
+
+● El jugador pueda volver a jugar otra vez.  
+
+● El jugador vuelva a la pantalla de selección de personaje.  
+
+● O el jugador pueda regresar al menú principal.  
+
 En el apartado de ​ _Interfaz_ ​, se podrá observar un diagrama de flujo que muestra
-gráficamente todas las posibilidades de flujo entre pantallas.
-3.2. Personajes
+gráficamente todas las posibilidades de flujo entre pantallas.  
+
+### 3.2. Personajes  
+
 Todos los personajes son animales humanoides y comparten las mismas
 características a nivel jugable. Cada jugador podrá elegir el personaje que quiera
 antes de empezar una partida. Lo único que diferencia un personaje de otro es su
-aspecto.
+aspecto.  
+
 El jugador puede desbloquear nuevos personajes y atuendos a medida que juega
-partidas.
+partidas.  
 
+### 3.3. Tipo de cámara  
 
-### 3.3. Tipo de cámara
 _Animal BOOM Mayhem_ presenta una cámara cenital centrada en el escenario para
 que el jugador pueda ver en todo momento, no solo su personaje sino, también, a
 sus adversarios, el entorno y los objetos con los que puede interactuar, los cuales
-van a ser muy importantes para el desarrollo de la partida.
-### 3.4. Controles
+van a ser muy importantes para el desarrollo de la partida.  
+
+### 3.4. Controles  
+
 A continuación, se puede observar una tabla que recoge los controles
-principales de los jugadores en ​ _Animal BOOM Mayhem_ ​:
-**Jugador 1 Jugador 2
-Movimiento** W, A, S, D^ I, J, K, L^
-**Recoger/Lanzar
-bola**
+principales de los jugadores en ​ _Animal BOOM Mayhem_ ​:  
 
-### E O
+|  |  Jugador 1  |  Jugador 2   |
+| -- | -- | -- |
+| Movimiento | W, A, S, D | I, J, K, L |
+| Recoger/Lanzar bolas| E | O |
+| Agacharse | R | P |
 
-**Agacharse** R^ P^
-### 3.5. Colisiones
+### 3.5. Colisiones  
+
 En ​ _Animal BOOM Mayhem,_ ​el jugador puede moverse por todo el espacio de juego.
 Debido a esto y la dinámica del juego, se necesitarán colisiones para el correcto
 funcionamiento de este. Se han de implementar diferentes colisiones entre
-personajes y elementos del juego.
+personajes y elementos del juego.  
+
 A continuación, se enumeran las colisiones entre objetos que se tiene pensado
-implementar:
-● Personaje - Objeto
-● Personaje - Bordes del estadio
-● Pelota - Bordes del estadio
-● Pelota - Obstáculos
+implementar:  
+
+● Personaje - Objeto  
+
+● Personaje - Bordes del estadio  
+
+● Pelota - Bordes del estadio  
+
+● Pelota - Obstáculos  
+
 ● Personaje - Obstáculos
 
 
-### 3.6. Reglas de interacciones
+### 3.6. Reglas de interacciones  
+
 A continuación se describen las posibilidades de acción de los jugadores durante el
-transcurso de una partida:
-● **Movimiento en las 8 direcciones** ​. No hay sprint ni aguante físico.
+transcurso de una partida:  
+
+● **Movimiento en las 8 direcciones** ​. No hay sprint ni aguante físico.  
+
 ● **Recoger objetos del suelo** ​. Al situarse encima de un objeto en el
-suelo, el jugador puede recogerlo para llevarlo consigo.
+suelo, el jugador puede recogerlo para llevarlo consigo.  
+
 ● **Lanzar objetos** ​. El jugador arroja el objeto que lleva encima en la
-dirección a la que el jugador mira.
+dirección a la que el jugador mira.  
+
 ● **Agacharse** ​. Mientras el jugador mantiene pulsado el botón, el
 personaje del jugador se agacha en el suelo. Esta acción otorga al
 jugador un breve tiempo de inmunidad que le permitirá evitar impactos
-directos de los objetos.
+directos de los objetos.  
+
 Adicionalmente, el jugador puede caer fuera del terreno de juego (en mapas
 abiertos), ya sea accidentalmente o por haber sido empujado.
 Tras recibir daño, el jugador entra en un breve tiempo de inmunidad. Este estado no
-impide que puedas caer fuera del mapa al ser empujado.
+impide que puedas caer fuera del mapa al ser empujado.  
+
 En una partida por equipos, los jugadores eliminados son sacados de la zona de
 combate y llevados al área de los eliminados, que dependerá del mapa. Desde allí,
 los jugadores no podrán moverse ni utilizar objetos. Pero tendrán disponible la
-siguiente acción:
+siguiente acción:  
+
 ● **Animar al equipo** ​. Otorga bonificaciones de distancia y velocidad de
 lanzamiento a los miembros del equipo que queden en pie. Los
 jugadores que queden en pie pueden aturdir temporalmente a los
-jugadores que han sido eliminados mediante objetos.
-**Otras restricciones e interacciones:**
-● Puedes recoger un objeto del suelo mientras te mueves.
-● Puedes lanzar objetos en movimiento.
+jugadores que han sido eliminados mediante objetos.  
+
+**Otras restricciones e interacciones:**  
+
+● Puedes recoger un objeto del suelo mientras te mueves.  
+
+● Puedes lanzar objetos en movimiento.  
+
 ● Todos los objetos que lanza el jugador pueden impactar tanto al propio
-jugador como a sus compañeros de equipo.
-● No puedes moverte o lanzar objetos mientras te agachas.
-● No puedes lanzar ni recoger objetos mientras te agachas.
-● Al ser golpeado, el objeto que llevas encima cae al suelo.
-● Al ser eliminado, el objeto que llevabas encima cae al suelo.
+jugador como a sus compañeros de equipo.  
+
+● No puedes moverte o lanzar objetos mientras te agachas.  
+
+● No puedes lanzar ni recoger objetos mientras te agachas.  
+
+● Al ser golpeado, el objeto que llevas encima cae al suelo.  
+
+● Al ser eliminado, el objeto que llevabas encima cae al suelo.  
 
 
-### 3.7. Niveles
+### 3.7. Niveles  
+
 En el juego, el jugador podrá elegir entre varios escenarios en los que se
-desarrollará la partida, cada uno de ellos con características diferentes:
-● **Estadio:** ​ Nivel básico sin cambios en el terreno.
+desarrollará la partida, cada uno de ellos con características diferentes:  
+
+● **Estadio:** ​ Nivel básico sin cambios en el terreno.  
+
 ● **Glaciar:** El espacio de juego se basa en una isla de hielo que irá
 fragmentado con el paso del tiempo, de manera que poco a poco el
-espacio acabará reduciéndose.
-● **Volcán:** ​ En este escenario van apareciendo charcos de lava.
-### 3.8. Objetos lanzables
+espacio acabará reduciéndose.  
+
+● **Volcán:** ​ En este escenario van apareciendo charcos de lava.  
+
+### 3.8. Objetos lanzables  
+
 El jugador tendrá a su disposición diversos elementos que podrá lanzar para
-eliminar a otros jugadores:
+eliminar a otros jugadores:  
+
 ● **Bola normal** ​: Pelota que rebota al contacto, no desaparece cuando
-choca contra algo. Los jugadores son empujados al impactar.
+choca contra algo. Los jugadores son empujados al impactar.  
+
 ● **Bomba** ​: Explota cuando choca contra algo o cuando cae al suelo tras
 ser lanzada (jugadores, obstáculos, paredes). Daña a los jugadores y
-objetos que se encuentren en el radio de explosión.
+objetos que se encuentren en el radio de explosión.  
+
 ● **Bomba con temporizador** ​: Similar a la ​ _Bomba_ ​, pero con un
 temporizador de 5 a 10 segundos tras ser lanzada. No explota al caer
-al suelo.
+al suelo.  
+
 ● **Bola ígnea** ​: Similar a la ​ _Bola normal_ con el añadido de dejar un rastro
-de llamas en su camino tras ser lanzada.
+de llamas en su camino tras ser lanzada.  
+
 ● **Mini agujero negro** ​: Similar a la ​ _Bomba_ ​, pero atrae y daña a los
-jugadores que permanezcan en su área de efecto.
+jugadores que permanezcan en su área de efecto.  
+
 ● **Pelota boomerang** ​: Similar a la ​ _Bola normal_ ​, con la peculiaridad de
-invertir su dirección después de cierta distancia recorrida.
+invertir su dirección después de cierta distancia recorrida.  
 
+### 3.9. Progresión del jugador  
 
-### 3.9. Progresión del jugador
 A medida que el jugador va jugando partidas, se desbloquean nuevos escenarios
-para jugar y nuevos accesorios para los avatares de los jugadores.
+para jugar y nuevos accesorios para los avatares de los jugadores.  
 
 
 ## 4. Interfaz  
@@ -313,7 +369,7 @@ Aquí se puede observar un boceto de la pantalla de ​ _Menú Principal_ ​:
 Lista y descripción de todos los elementos de la pantalla:  
 
 ● **Logo del juego:** una imagen 2D correspondiente al logo y título del
-juego ​ _Animal BOOM Mayhem_​.  
+juego ​ _Animal BOOM Mayhem_ ​.  
 
 **● Botón de jugar:** ​al pulsarlo lleva a la pantalla de​ _Modo de Conexión_.  
 
@@ -326,7 +382,7 @@ juego ​ _Animal BOOM Mayhem_​.
 
 ### 4.3. Créditos  
 
-La siguiente imagen muestra el interfaz de la pantalla ​ _Créditos._.  
+La siguiente imagen muestra el interfaz de la pantalla ​ _Créditos_.  
 
 ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Cr%C3%A9ditos.PNG)
 
@@ -364,7 +420,7 @@ Conexión_ ​:
 
 Lista y descripción de todos los elementos de la pantalla:  
 
-● **Flecha:** ​ al pulsarla lleva de vuelta al ​ _Menú Principal_​.  
+● **Flecha:** ​ al pulsarla lleva de vuelta al ​ _Menú Principal_ ​.  
 
 ● **Botón de local:** al pulsarlo el jugador activa el modo de conexión local
 y pasa a la pantalla de ​ _Modo de Juego_ .  

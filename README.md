@@ -27,6 +27,11 @@ jdrojo2018
 mariabusto
 YeronMartin
 ```
+
+```
+Link tablero Trello:
+https://trello.com/invite/b/2Tsoctm0/5cae209d5612923d2164bc1ed26971af/juegos-en-red
+```
 ----
 _Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
 toma el control de un animal que competirá en un torneo de balón prisionero para

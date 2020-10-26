@@ -21,17 +21,17 @@ y.martin.2018@alumnos.urjc.es
 ```
 
 ```
-Correo de la universidad:
+Cuenta de github:
 CDAM2020
 jdrojo2018
 mariabusto
 YeronMartin
 ```
-
+----
 _Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
 toma el control de un animal que competirá en un torneo de balón prisionero para
 hacerse con la “​ _corona explosiva_ ​”.
-
+----
 
 ## ÍNDICE
 

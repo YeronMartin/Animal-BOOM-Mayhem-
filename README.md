@@ -389,7 +389,7 @@ Personaje_ ​.
 ● **Botón de en equipo:** al pulsarlo, el jugador activa el modo de juego
 en equipo y pasa a la pantalla de ​ _Selección de Personaje_ ​.  
 
-4.7. Selección de personaje  
+### 4.7. Selección de personaje  
 
 Aquí se puede observar un boceto de la pantalla de ​ _Selección de Personaje_ ​:  
 
@@ -417,7 +417,7 @@ partida
 
 
 
-4.8. Menú de opciones de partida  
+### 4.8. Menú de opciones de partida  
 
 En la siguiente imagen se muestra la pantalla con los ajustes que se podrán hacer
 sobre las partidas.  

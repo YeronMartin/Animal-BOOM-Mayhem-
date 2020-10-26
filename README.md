@@ -13,17 +13,17 @@ Yerón Martín Sánchez
 
 ## ÍNDICE
 
-- Cambios
-- Introducción
-   - Concepto del juego
-   - Características principales
-   - Género
-   - Propósito y público objetivo
-   - Jugabilidad
-   - Estilo visual
-   - Alcance
-- Mecánicas
-   - Flujo de juego
+1. Cambios
+2. Introducción  
+2.1 Concepto del juego  
+2.2 Características principales  
+2.3 Género 
+2.4 Propósito y público objetivo  
+2.5 Jugabilidad  
+2.6 Estilo visual  
+2.7 Alcance  
+3. Mecánicas  
+3.1 Flujo de juego
    - Personajes
    - Tipo de cámara
    - Controles
@@ -248,21 +248,14 @@ lanzamiento a los miembros del equipo que queden en pie. Los
 jugadores que queden en pie pueden aturdir temporalmente a los
 jugadores que han sido eliminados mediante objetos.
 **Otras restricciones e interacciones:**
-  
-  ● Puedes recoger un objeto del suelo mientras te mueves.
-  
-  ● Puedes lanzar objetos en movimiento.
-  
-  ● Todos los objetos que lanza el jugador pueden impactar tanto al propio
+● Puedes recoger un objeto del suelo mientras te mueves.
+● Puedes lanzar objetos en movimiento.
+● Todos los objetos que lanza el jugador pueden impactar tanto al propio
 jugador como a sus compañeros de equipo.
-  
-  ● No puedes moverte o lanzar objetos mientras te agachas.
-  
-  ● No puedes lanzar ni recoger objetos mientras te agachas.
-  
-  ● Al ser golpeado, el objeto que llevas encima cae al suelo.
-  
-  ● Al ser eliminado, el objeto que llevabas encima cae al suelo.
+● No puedes moverte o lanzar objetos mientras te agachas.
+● No puedes lanzar ni recoger objetos mientras te agachas.
+● Al ser golpeado, el objeto que llevas encima cae al suelo.
+● Al ser eliminado, el objeto que llevabas encima cae al suelo.
 
 
 ### 3.7. Niveles

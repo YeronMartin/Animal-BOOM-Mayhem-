@@ -1,30 +1,8 @@
 # Animal-BOOM-Mayhem-
 
-Documento de diseño
-
-
-
-
-
-
-
-
-
+# Documento de diseño
 
 19 de Octubre de 2020
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 Grupo 5:
 Carlos del Águila Mateu

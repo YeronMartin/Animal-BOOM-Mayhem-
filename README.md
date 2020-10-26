@@ -10,42 +10,40 @@ Jesús David Rojo Martín
 Maria Busto Ramos
 Yerón Martín Sánchez
 ```
-
 ## ÍNDICE
 
 1. Cambios
-2. Introducción  
-2.1 Concepto del juego  
-2.2 Características principales  
+2. Introducción
+2.1 Concepto del juego
+2.2 Características principales
 2.3 Género 
-2.4 Propósito y público objetivo  
-2.5 Jugabilidad  
-2.6 Estilo visual  
-2.7 Alcance  
+2.4 Propósito y público objetivo
+2.5 Jugabilidad
+2.6 Estilo visual
+2.7 Alcance
 3. Mecánicas  
-3.1 Flujo de juego
-   - Personajes
-   - Tipo de cámara
-   - Controles
-   - Colisiones
-   - Reglas de interacciones
-   - Niveles
-   - Objetos lanzables
-   - Progresión del jugador
-- Interfaz
-   - Diagrama de flujo
-   - Menú principal
-   - Créditos
-   - Menú de ajustes
-   - Modo de conexión
-   - Modo de juego
-   - Selección de personaje
-   - Menú de opciones de partida
-   - Selección de escenario
-   - Tutorial
-   - Pantalla de batalla
-   - Ventana de victoria
-
+3.1 Flujo de juego  
+3.2 Personajes  
+3.3 Tipo de cámara  
+3.4 Controles  
+3.5 Colisiones  
+3.6 Reglas de interacciones  
+3.7 Niveles  
+3.8 Objetos lanzables  
+3.9 Progresión del jugador  
+4. Interfaz  
+4.1 Diagrama de flujo  
+4.2 Menú principal   
+4.3 Créditos  
+4.4 Menú de ajustes  
+4.5 Modo de conexión  
+4.6 Modo de juego  
+4.7 Selección de personaje  
+4.8 Menú de opciones de partida  
+4.9 Selección de escenario  
+4.10 Tutorial  
+4.11 Pantalla de batalla  
+4.12 Ventana de victoria
 
 ## 1. Cambios
 ​En este apartado se mostrarán las versiones del documento de diseño del juego.

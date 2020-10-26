@@ -248,14 +248,21 @@ lanzamiento a los miembros del equipo que queden en pie. Los
 jugadores que queden en pie pueden aturdir temporalmente a los
 jugadores que han sido eliminados mediante objetos.
 **Otras restricciones e interacciones:**
-● Puedes recoger un objeto del suelo mientras te mueves.
-● Puedes lanzar objetos en movimiento.
-● Todos los objetos que lanza el jugador pueden impactar tanto al propio
+  
+  ● Puedes recoger un objeto del suelo mientras te mueves.
+  
+  ● Puedes lanzar objetos en movimiento.
+  
+  ● Todos los objetos que lanza el jugador pueden impactar tanto al propio
 jugador como a sus compañeros de equipo.
-● No puedes moverte o lanzar objetos mientras te agachas.
-● No puedes lanzar ni recoger objetos mientras te agachas.
-● Al ser golpeado, el objeto que llevas encima cae al suelo.
-● Al ser eliminado, el objeto que llevabas encima cae al suelo.
+  
+  ● No puedes moverte o lanzar objetos mientras te agachas.
+  
+  ● No puedes lanzar ni recoger objetos mientras te agachas.
+  
+  ● Al ser golpeado, el objeto que llevas encima cae al suelo.
+  
+  ● Al ser eliminado, el objeto que llevabas encima cae al suelo.
 
 
 ### 3.7. Niveles

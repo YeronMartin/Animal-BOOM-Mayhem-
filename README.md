@@ -266,7 +266,7 @@ desarrollará la partida, cada uno de ellos con características diferentes:
 fragmentado con el paso del tiempo, de manera que poco a poco el
 espacio acabará reduciéndose.
 ● **Volcán:** ​ En este escenario van apareciendo charcos de lava.
-3.8. Objetos lanzables
+### 3.8. Objetos lanzables
 El jugador tendrá a su disposición diversos elementos que podrá lanzar para
 eliminar a otros jugadores:
 ● **Bola normal** ​: Pelota que rebota al contacto, no desaparece cuando

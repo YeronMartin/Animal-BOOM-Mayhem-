@@ -76,7 +76,7 @@ un modo muerte súbita para decidir al ganador.
 que enfrentarse a una serie de retos distintos en cada uno de ellos.
 
 
-2.3. Género
+### 2.3. Género
 _Animal BOOM Mayhem_ es un videojuego que presenta características de varios
 géneros. Estos serían los siguientes:
 ● **Casual** ​: Son juegos con reglas simples que no requieren dedicación de
@@ -91,7 +91,7 @@ aspecto de la competición con un movimiento libre.
 ● **Acción** ​: Juegos que requieren que el jugador haga uso de sus reflejos,
 puntería y habilidad, generalmente en un contexto de combate o superación
 de peligros.
-2.4. Propósito y público objetivo
+### 2.4. Propósito y público objetivo
 El propósito principal de ​ _Animal BOOM Mayhem_ es ofrecer a los jugadores un
 videojuego multijugador en línea frenético y sencillo con el que puedan entretenerse
 al estilo de los juegos arcade.
@@ -102,7 +102,7 @@ básica, los usuarios pueden jugar ​ _Animal BOOM Mayhem_ en cualquier momento
 libre que tengan.
 
 
-2.5. Jugabilidad
+### 2.5. Jugabilidad
 Cada partida se basará en una competición de animales jugando al balón prisionero
 en el que el jugador tratará de quedar el último para acabar victorioso. Para lograr
 esto, los jugadores deben aprovechar una serie de power-ups y habilidades de los
@@ -114,24 +114,24 @@ esquivarlas agachándose.
 ● **Variedad:** El jugador podrá elegir entre varios animales y atuendos
 adicionales para tener una experiencia más personalizada, además de
 diversos escenarios con dinámicas diferentes.
-2.6. Estilo visual
+### 2.6. Estilo visual
 _Animal BOOM Mayhem_ se caracteriza por tener un estilo visual muy simple y con
 estética cartoon ya que, al tratarse de un juego desenfadado, se ha preferido optar
 por una opción visual menos detallada y compleja.
 Por lo tanto, en el diseño de tanto los personajes como de los escenarios,
 emplearemos colores saturados y diseños divertidos. En cuanto a sombreado
 emplea la técnica “cell-shading”, por seguir la línea estética del juego.
-2.7. Alcance
+### 2.7. Alcance
 Así mismo el objetivo es crear un juego en línea multijugador. En las primeras
 etapas de su desarrollo se le dotará de las mecánicas básicas con variedad de
 recursos.
 
 
-3. Mecánicas
+## 3. Mecánicas
 En esta parte del documento se profundizará y se describirán las mecánicas que
 definen a ​ _Animal BOOM Mayhem_ ​. Por una parte se definirá el desarrollo del juego,
 que reunirá las acciones del jugador durante el gameplay.
-3.1. Flujo de juego
+### 3.1. Flujo de juego
 A lo largo de este punto, se describirá de principio a fin cómo es una partida de
 _Animal BOOM Mayhem_ ​, desde el momento en el que el jugador entra en el juego
 hasta que uno de los jugadores se hace con la victoria eliminando a todos sus
@@ -193,12 +193,12 @@ El jugador puede desbloquear nuevos personajes y atuendos a medida que juega
 partidas.
 
 
-3.3. Tipo de cámara
+### 3.3. Tipo de cámara
 _Animal BOOM Mayhem_ presenta una cámara cenital centrada en el escenario para
 que el jugador pueda ver en todo momento, no solo su personaje sino, también, a
 sus adversarios, el entorno y los objetos con los que puede interactuar, los cuales
 van a ser muy importantes para el desarrollo de la partida.
-3.4. Controles
+### 3.4. Controles
 A continuación, se puede observar una tabla que recoge los controles
 principales de los jugadores en ​ _Animal BOOM Mayhem_ ​:
 **Jugador 1 Jugador 2
@@ -209,7 +209,7 @@ bola**
 ### E O
 
 **Agacharse** R^ P^
-3.5. Colisiones
+### 3.5. Colisiones
 En ​ _Animal BOOM Mayhem,_ ​el jugador puede moverse por todo el espacio de juego.
 Debido a esto y la dinámica del juego, se necesitarán colisiones para el correcto
 funcionamiento de este. Se han de implementar diferentes colisiones entre
@@ -223,7 +223,7 @@ implementar:
 ● Personaje - Obstáculos
 
 
-3.6. Reglas de interacciones
+### 3.6. Reglas de interacciones
 A continuación se describen las posibilidades de acción de los jugadores durante el
 transcurso de una partida:
 ● **Movimiento en las 8 direcciones** ​. No hay sprint ni aguante físico.
@@ -258,7 +258,7 @@ jugador como a sus compañeros de equipo.
 ● Al ser eliminado, el objeto que llevabas encima cae al suelo.
 
 
-3.7. Niveles
+### 3.7. Niveles
 En el juego, el jugador podrá elegir entre varios escenarios en los que se
 desarrollará la partida, cada uno de ellos con características diferentes:
 ● **Estadio:** ​ Nivel básico sin cambios en el terreno.
@@ -285,21 +285,21 @@ jugadores que permanezcan en su área de efecto.
 invertir su dirección después de cierta distancia recorrida.
 
 
-3.9. Progresión del jugador
+### 3.9. Progresión del jugador
 A medida que el jugador va jugando partidas, se desbloquean nuevos escenarios
 para jugar y nuevos accesorios para los avatares de los jugadores.
 
 
-4. Interfaz
+## 4. Interfaz
 En este apartado se mostrarán las interfaces de ​ _Animal BOOM Mayhem_ ​, además de
 mostrar un diagrama de flujo de los interfaces. Por cada una de las interfaces se
 explicarán brevemente su función.
-4.1. Diagrama de flujo
+### 4.1. Diagrama de flujo
 A continuación, se puede observar el diagrama de flujo de ​ _Animal BOOM Mayhem_
 que muestra las pantallas del juego y la relación entre estas.
 
 
-4.2. Menú principal
+### 4.2. Menú principal
 Aquí se puede observar un boceto de la pantalla de ​ _Menú Principal_ ​:
 Lista y descripción de todos los elementos de la pantalla:
 ● **Logo del juego:** una imagen 2D correspondiente al logo y título del
@@ -310,12 +310,12 @@ juego ​ _Animal BOOM Mayhem_ ​.
 **● Botón de salir:** ​al pulsarlo lleva de vuelta al Sistema Operativo.
 
 
-4.3. Créditos
+### 4.3. Créditos
 La siguiente imagen muestra el interfaz de la pantalla ​ _Créditos._
 Lista y descripción de todos los elementos de la pantalla:
 ● **Nombres del equipo:** panel que muestra el nombre de cada
 uno de los integrantes del equipo desarrollador del juego.
-4.4. Menú de ajustes
+### 4.4. Menú de ajustes
 La siguiente imagen es un prototipo del interfaz de la pantalla de ajustes del juego.
 
 
@@ -330,7 +330,7 @@ vienen descritas en la imagen, en este caso se habría pulsado
 sobre el botón ​ _Interfaz._
 
 
-4.5. Modo de conexión
+### 4.5. Modo de conexión
 Aquí se puede observar un boceto de la pantalla de selección del ​ _Modo de
 Conexión_ ​:
 Lista y descripción de todos los elementos de la pantalla:
@@ -339,7 +339,7 @@ Lista y descripción de todos los elementos de la pantalla:
 y pasa a la pantalla de ​ _Modo de Juego_ ​.
 ● **Botón de en línea:** al pulsarlo el jugador activa el modo de conexión
 online y pasa a la pantalla de ​ _Modo de Juego_ ​.
-4.6. Modo de juego
+### 4.6. Modo de juego
 Aquí se puede observar un boceto de la pantalla de selección del ​ _Modo de Juego_ ​:
 
 
@@ -383,7 +383,7 @@ escoger cuánta vida tendrá por cada ronda.
 puede seleccionar cuantos miembros formarán parte de ella.
 
 
-4.9. Selección de escenario
+### 4.9. Selección de escenario
 Aquí se puede observar un boceto de la pantalla de ​ _Selección de Escenario_ ​:
 Lista y descripción de todos los elementos de la pantalla:
 ● **Flecha:** al pulsarla lleva de vuelta a la pantalla de ​ _Selección de
@@ -398,7 +398,7 @@ escenario 2 como escenario principal de la partida.
 escenario 3 como escenario principal de la partida.
 
 
-4.10. Tutorial
+### 4.10. Tutorial
 La siguiente imagen muestra el interfaz de la pantalla ​ _Tutorial._
 Lista y descripción de todos los elementos de la pantalla:
 ● **Maniquí:** es el objeto sobre el que el jugador lanzará sus
@@ -408,7 +408,7 @@ ataques y sobre el que ensayarán durante el tutorial del juego.
 instrucciones del juego, cómo moverse, esquivar, lanzar..
 
 
-4.11. Pantalla de batalla
+### 4.11. Pantalla de batalla
 Sirva la siguiente imagen para ilustrar la pantalla ​ _Partida._
 Lista y descripción de todos los elementos de la pantalla:
 ● **Tiempo:** muestra el tiempo restante que queda para terminar la
@@ -420,7 +420,7 @@ que se haya elegido antes de empezar la vida. Representa la
 cantidad de puntos de vida que tiene el jugador
 
 
-4.12. Ventana de victoria
+### 4.12. Ventana de victoria
 Aquí se puede observar un boceto de la ​ _Ventana de Victoria_ ​:
 Lista y descripción de todos los elementos de la pantalla:
 ● **Ganador:** panel que muestra el nombre del jugador o equipo

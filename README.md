@@ -427,7 +427,7 @@ juego ​ _Animal BOOM Mayhem_ ​.
 
 La siguiente imagen muestra el interfaz de la pantalla ​ _Créditos_.  
 
-![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Cr%C3%A9ditos.PNG)
+![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Cr%C3%A9ditos.png)
 
 Lista y descripción de todos los elementos de la pantalla:  
 

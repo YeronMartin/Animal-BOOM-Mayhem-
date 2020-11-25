@@ -4,10 +4,10 @@ class Scene1 extends Phaser.Scene {
     }
 
     preload(){
-        this.load.image("background", "img/space.png");
+        this.load.image("background", "././resources/img/space.png");
 
-        this.load.image("cerdete", "img/cerdete.png");
-        this.load.image("bomba", "img/bomba.png");
+        this.load.image("cerdete", "././resources/img/cerdete.png");
+        this.load.image("bomba", "././resources/img/bomba.png");
     }
 
     create(){

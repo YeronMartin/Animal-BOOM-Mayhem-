@@ -1,5 +1,4 @@
-# ANIMAL-BOOM-MAYHEM
-
+# Animal BOOM Mayhem
 
 # Documento de diseño
 

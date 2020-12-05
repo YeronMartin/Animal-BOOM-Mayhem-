@@ -14,15 +14,17 @@ class Scene1 extends Phaser.Scene {
         this.add.text(20, 20, "Presiona E para jugar");
         //this.scene.start("playGame");
 
-        this.key_E = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+        //this.key_E = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
 
+        //this.input.keyboard.on('keyup_E', this.toNextScene, this);
+        this.input.keyboard.on('keydown_E', this.toNextScene, this);
     }
 
     update(){
-        if(Phaser.Input.Keyboard.JustDown(this.key_E)){
-            this.toNextScene();
-        }
+        //if(Phaser.Input.Keyboard.JustDown(this.key_E)){
+        //    this.toNextScene();
+        //}
 
     }
 

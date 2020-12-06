@@ -23,48 +23,34 @@ class Scene2 extends Phaser.Scene {
         this.physics.world.setBoundsCollision();
 
         this.players = this.add.group();
-        this.player = new Player(this);
-
+        this.player = new Player(this, config.width / 2, config.height / 2);
 
         this.ballsList = [];
+        for (var i = 0; i < 5; i++) {
+            this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
+        }
 
         this.ballsGroup = this.add.group();
 
-        console.log(this.ballsGroup);
         this.physics.add.collider(this.players, this.ballsGroup, this.colisionPlayerBall);
     }
 
 
+
     //Se llama a esto cada vez que un boloncio choque contra un jugador
     colisionPlayerBall(player, ball){
-        //¿Qué quiero hacer aquí?
-        //Quiero tan solo eliminar o al menos parar la bola con la que ha colisionado el jugador para hacer pruebas y eso)
-
-
-        //Aquí estoy intentando eliminar la bola del array, pero por algún motivo no funciona
-        //this.ballsList.splice(this.ballsList.lastIndexOf(ball), 1);
-        
-        //ball.destroy();
-
-       
-        //Por algún motivo, en este punto concreto, ballsGroup es undefined BECAUSE OF YES
-        //console.log(this.ballsGroup);
-        //this.ballsGroup.remove(ball);
+        ball.impact();
     }
 
     update(time, delta){
 
         this.background.tilePositionY -= 0.5;
 
-        //console.log(delta);
-
         this.player.update(delta);
         
-        //console.log(this.ballsGroup);
-
         for (var i = this.ballsList.length - 1; i >= 0; i--) {
             this.ballsList[i].update(delta);
         }
-       
+
     }
 }

@@ -1,6 +1,5 @@
 class Player extends Phaser.GameObjects.Sprite{
 
-    
     speed = 500;
     aiming = false;
 
@@ -9,14 +8,13 @@ class Player extends Phaser.GameObjects.Sprite{
     pressingLeft = false;
     pressingRight = false;
 
-    constructor(scene) {
-        var x = config.width / 2;
-        var y = config.height / 2;
+    dirX = 0;
+    dirY = 0;
 
-        var dirX = 0;
-        var dirY = 1;
-        
-        //Constructor de Sprite
+    ball;
+
+
+    constructor(scene, x, y) {
         super(scene, x, y, "cerdete");
 
         //Añadir elemento a la escena
@@ -81,6 +79,13 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.body.velocity.x = newVelocityX;
         this.body.velocity.y = newVelocityY;
+
+
+        if (this.ball != null) {
+            this.ball.x = this.x;
+            this.ball.y = this.y;
+        }
+
     }
 
     pickBombs(){
@@ -151,39 +156,71 @@ class Player extends Phaser.GameObjects.Sprite{
 
     inputGrabOrThrow(){
 
-        /*
-        if (this.bomb === null) {
-            //Buscamos bombas para recoger del suelo
-            console.log("No tengo bombas");
-
+        if(this.ball == null){
+            console.log("A buscar bombas");
             this.pickBombs();
-        } else {
-            //Lanzamos la que ya llevamos
-            console.log("Tengo una bomba");
-
+        }else{
+            console.log("A lanzar bombas... ¡APUNTA!");
 
             this.aiming = true;
-            //this.throwBomb();
+
+            this.body.velocity.x = 0;
+            this.body.velocity.y = 0;
         }
-        */
+    }
 
-        this.aiming = true;
+    pickUpRadius = 80;
 
-        this.body.velocity.x = 0;
-        this.body.velocity.y = 0;
+    pickBombs() {
+        //Buscamos una bomba en el suelo cerca nuestra
+        var b = this.getClosestBallInRange();
+
+        if (b != null) {
+            this.ball = b;
+
+            this.ball.heldByPlayer;
+        }
+    }
+
+    getClosestBallInRange() {
+
+        for (var i = this.scene.ballsList.length - 1; i >= 0; i--) {
+            if (this.scene.ballsList[i].onGround && !this.scene.ballsList[i].heldByPlayer) {
+                var ball = this.scene.ballsList[i];
+
+                if (this.isPointInsideArea(ball.x, ball.y, this.x, this.y, this.pickUpRadius)) {
+                    console.log("COINCIDE!");
+                    return ball;
+                }
+
+            }
+        }
+
+        return null;
+    }
+
+    isPointInsideArea(pX, pY, posX, posY, radius) {
+        return this.getDistanceBetweenPoints(pX, pY, posX, posY) < radius;
+    }
+
+    getDistanceBetweenPoints(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     releaseGrabOrThrow() {
 
         if (this.aiming) {
+            console.log("A lanzar bombas... ¡DISPARA!");
+
             this.aiming = false;
 
             if(this.dirX == 0 && this.dirY == 0){
-                this.dirX = 1;
+                this.ball.launch(1, 0);
+            }else{
+                this.ball.launch(this.dirX, this.dirY);
             }
 
-              //Generamos una bomba de prank
-            var bomba = new Ball(this.scene, this.x, this.y, this.dirX, this.dirY);
+            this.ball = null;
         }
     }
 

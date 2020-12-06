@@ -4,13 +4,22 @@ class Ball extends Phaser.GameObjects.Sprite{
     dirY = 0;
     speed = 500;
 
-    onGround = false;
+    onGround = true;
     heldByPlayer = false;
 
     distanceToTravel = 1500000;
 
-    constructor(scene, posX, posY, dirX, dirY) {
+    constructor(scene, posX, posY){
+        super(scene, posX, posY, "bomba");
 
+        this.setScale(0.3);
+        this.setupPhysics(scene);
+
+        var scene = scene;
+        scene.add.existing(this);
+    }
+/*
+    constructor(scene, posX, posY, dirX, dirY) {
         super(scene, posX, posY, "bomba");
 
         this.x = posX;
@@ -19,16 +28,18 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.dirY = dirY;
 
         this.setScale(0.3);
-
         this.setupPhysics(scene);
 
         var scene = scene;
 
-        var timedEvent = scene.time.addEvent({ delay: 500, callback: this.addToList, callbackScope: this, loop: false });
+        var timedEvent = scene.time.addEvent({ delay: 500, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
 
         scene.add.existing(this);
-    }
+        this.scene.ballsList[this.scene.ballsList.length] = this;
 
+        console.log(this.scene.ballsList.length);
+    }
+*/
     setupPhysics(scene)
     {
         scene.physics.world.enableBody(this);
@@ -38,10 +49,9 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
     }
 
-    addToList ()
+    addToPhysicsGroup ()
     {
         this.scene.ballsGroup.add(this, true);
-        this.scene.ballsList[this.scene.ballsList.length] = this;
     }
 
     update(elapsed){
@@ -51,12 +61,47 @@ class Ball extends Phaser.GameObjects.Sprite{
         
 
         this.distanceToTravel -= this.speed * elapsed;
-        if(this.distanceToTravel < 0){
-            this.onGround = true;
 
-            this.body.velocity.x = 0;
-            this.body.velocity.y = 0;
+        if(this.distanceToTravel < 0){
+            this.setBallOnGround();            
         }
-        
+    }
+
+    setBallOnGround(){
+        this.onGround = true;
+        this.scene.ballsGroup.remove(this);
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
+    }
+
+    launch(dirX, dirY){
+        this.dirX = dirX;
+        this.dirY = dirY;
+
+        this.onGround = false;
+        this.heldByPlayer = false;
+        this.distanceToTravel = 1500000;
+
+        this.setupPhysics(this.scene);
+
+        var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
+
+        console.log("INDICIÓN");
+    }
+
+    impact(){
+        console.log("OH NO!");
+
+        this.setBallOnGround();
+    }
+
+    destroyFromScene(){
+        //Eliminar de la lista de bolas
+        this.scene.ballsList.splice(this.scene.ballsList.lastIndexOf(this), 1);
+
+        console.log(this.scene.ballsList.length);
+
+        //Destruir objeto en general
+        this.destroy();
     }
 }

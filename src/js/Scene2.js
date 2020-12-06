@@ -3,10 +3,12 @@ class Scene2 extends Phaser.Scene {
         super("playGame");
     }
 
+    //No hace falta que estén aquí las variables, pero me gusta saber que tengo aquí.
+    playersGroup;
+    player;
 
+    ballsList;
     ballsGroup;
-
-
 
     create() {
         this.background = this.add.tileSprite(0,0, config.width, config.height,"background");
@@ -22,24 +24,29 @@ class Scene2 extends Phaser.Scene {
 
         this.physics.world.setBoundsCollision();
 
-        this.players = this.add.group();
-        this.player = new Player(this, config.width / 2, config.height / 2);
+        this.setupPlayers();
+        this.setupInitialBalls();
+    }
 
+    setupPlayers(){
+        this.playersGroup = this.add.group();
+        this.player = new Player(this, config.width / 2, config.height / 2);
+    }
+
+    setupInitialBalls(){
         this.ballsList = [];
         for (var i = 0; i < 5; i++) {
             this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
         }
 
         this.ballsGroup = this.add.group();
-
         this.physics.add.collider(this.players, this.ballsGroup, this.colisionPlayerBall);
     }
 
-
-
-    //Se llama a esto cada vez que un boloncio choque contra un jugador
+    //Cuando un boloncio choqua contra un jugador
     colisionPlayerBall(player, ball){
         ball.impact();
+        //Hostiar al afortunado
     }
 
     update(time, delta){
@@ -51,6 +58,5 @@ class Scene2 extends Phaser.Scene {
         for (var i = this.ballsList.length - 1; i >= 0; i--) {
             this.ballsList[i].update(delta);
         }
-
     }
 }

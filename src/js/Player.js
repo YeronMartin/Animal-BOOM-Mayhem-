@@ -2,6 +2,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
     speed = 500;
     aiming = false;
+    pickUpRadius = 80;
 
     pressingUp = false;
     pressingDown = false;
@@ -12,7 +13,6 @@ class Player extends Phaser.GameObjects.Sprite{
     dirY = 0;
 
     ball;
-
 
     constructor(scene, x, y) {
         super(scene, x, y, "cerdete");
@@ -80,7 +80,7 @@ class Player extends Phaser.GameObjects.Sprite{
         this.body.velocity.x = newVelocityX;
         this.body.velocity.y = newVelocityY;
 
-
+        //En caso de llevar una bola encima
         if (this.ball != null) {
             this.ball.x = this.x;
             this.ball.y = this.y;
@@ -88,23 +88,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
     }
 
-    pickBombs(){
-        //Buscamos una bomba en el suelo cerca nuestra
-        
-        //var b = mundo.getClosestBombInRange(this.x, this.y, pickUpRadius);
-
-        if (b !== null) {
-            bomb = b;
-
-            bomb.setHeldByPlayer(true);
-        }
-    }
-
-    throwBomb(){
-
-    }
-
-    //Metodiños para gestionar las entradas y salidas
+    //Metodiños para gestionar las entradas y salidas de movimiento
 
     inputUp(){
         this.pressingUp = true;
@@ -154,6 +138,8 @@ class Player extends Phaser.GameObjects.Sprite{
         this.dirX = 0;
     }
 
+     //Metodiños para gestionar la recogida o lanzamiento de bolindres
+
     inputGrabOrThrow(){
 
         if(this.ball == null){
@@ -169,15 +155,12 @@ class Player extends Phaser.GameObjects.Sprite{
         }
     }
 
-    pickUpRadius = 80;
-
     pickBombs() {
         //Buscamos una bomba en el suelo cerca nuestra
         var b = this.getClosestBallInRange();
 
         if (b != null) {
             this.ball = b;
-
             this.ball.heldByPlayer;
         }
     }
@@ -210,10 +193,11 @@ class Player extends Phaser.GameObjects.Sprite{
     releaseGrabOrThrow() {
 
         if (this.aiming) {
-            console.log("A lanzar bombas... ¡DISPARA!");
+            console.log("¡DISPARA!");
 
             this.aiming = false;
 
+            //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
             if(this.dirX == 0 && this.dirY == 0){
                 this.ball.launch(1, 0);
             }else{

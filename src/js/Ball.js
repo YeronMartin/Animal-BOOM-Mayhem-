@@ -18,40 +18,12 @@ class Ball extends Phaser.GameObjects.Sprite{
         var scene = scene;
         scene.add.existing(this);
     }
-/*
-    constructor(scene, posX, posY, dirX, dirY) {
-        super(scene, posX, posY, "bomba");
 
-        this.x = posX;
-        this.y = posY;
-        this.dirX = dirX;
-        this.dirY = dirY;
-
-        this.setScale(0.3);
-        this.setupPhysics(scene);
-
-        var scene = scene;
-
-        var timedEvent = scene.time.addEvent({ delay: 500, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
-
-        scene.add.existing(this);
-        this.scene.ballsList[this.scene.ballsList.length] = this;
-
-        console.log(this.scene.ballsList.length);
-    }
-*/
     setupPhysics(scene)
     {
         scene.physics.world.enableBody(this);
         this.body.collideWorldBounds = true;
         this.body.bounce.set(1);
-
-        this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
-    }
-
-    addToPhysicsGroup ()
-    {
-        this.scene.ballsGroup.add(this, true);
     }
 
     update(elapsed){
@@ -59,7 +31,7 @@ class Ball extends Phaser.GameObjects.Sprite{
         if (this.onGround || this.heldByPlayer)
             return;
         
-
+        //Después de recorrer cierta distancia, que la bola quede en el suelo
         this.distanceToTravel -= this.speed * elapsed;
 
         if(this.distanceToTravel < 0){
@@ -74,6 +46,7 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.body.velocity.y = 0;
     }
 
+    //Llamado cuando el jugador lanza la bola
     launch(dirX, dirY){
         this.dirX = dirX;
         this.dirY = dirY;
@@ -82,26 +55,37 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.heldByPlayer = false;
         this.distanceToTravel = 1500000;
 
-        this.setupPhysics(this.scene);
+        this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
 
+        //Después de un pequeño retardo, añadimos la bola al grupo de bolas para colisiones
         var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
 
         console.log("INDICIÓN");
     }
 
+    addToPhysicsGroup ()
+    {
+        this.scene.ballsGroup.add(this, true);
+    }
+
+    //Llamado cuando la bola ha impactado contra un jugador
     impact(){
         console.log("OH NO!");
 
         this.setBallOnGround();
+
+        //this.destroyFromScene()
     }
 
+    //En caso de querer destruir por completo el objeto
     destroyFromScene(){
         //Eliminar de la lista de bolas
         this.scene.ballsList.splice(this.scene.ballsList.lastIndexOf(this), 1);
+        this.scene.ballsGroup.remove(this);
 
         console.log(this.scene.ballsList.length);
 
-        //Destruir objeto en general
+        //Destruir objeto de la escena
         this.destroy();
     }
 }

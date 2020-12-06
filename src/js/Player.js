@@ -22,7 +22,7 @@ class Player extends Phaser.GameObjects.Sprite{
         this.setupPhysics(scene);
 
         //Añadir elemento a una lista en la escena
-        scene.players.add(this);
+        scene.playersGroup.add(this);
 
         this.setupInputEvents(scene);
     }

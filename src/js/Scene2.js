@@ -40,7 +40,7 @@ class Scene2 extends Phaser.Scene {
         }
 
         this.ballsGroup = this.add.group();
-        this.physics.add.collider(this.players, this.ballsGroup, this.colisionPlayerBall);
+        this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
     }
 
     //Cuando un boloncio choqua contra un jugador

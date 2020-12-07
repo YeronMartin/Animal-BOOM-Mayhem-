@@ -7,7 +7,13 @@ class Scene1 extends Phaser.Scene {
         this.load.image("background", "././resources/img/space.png");
 
         this.load.image("cerdete", "././resources/img/cerdete.png");
+
+        this.load.spritesheet('cerdete_sheet', '././resources/img/cerdete_sheet.png', { frameWidth: 100, frameHeight: 97 } );
+        //this.load.spritesheet('mummy', 'assets/animations/mummy37x45.png', { frameWidth: 37, frameHeight: 45 });
+
+
         this.load.image("bomba", "././resources/img/bomba.png");
+        this.load.image("bomba2", "././resources/img/bomba2.png");
     }
 
     create(){

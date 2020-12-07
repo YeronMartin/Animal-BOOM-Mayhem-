@@ -36,8 +36,9 @@ class Scene2 extends Phaser.Scene {
     setupInitialBalls(){
         this.ballsList = [];
         for (var i = 0; i < 5; i++) {
-            this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
+            this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height), "bomba");
         }
+        this.ballsList[0] = new BallTal(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
 
         this.ballsGroup = this.add.group();
         this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
@@ -47,6 +48,7 @@ class Scene2 extends Phaser.Scene {
     colisionPlayerBall(player, ball){
         ball.impact();
         //Hostiar al afortunado
+        player.takeDamage();
     }
 
     update(time, delta){

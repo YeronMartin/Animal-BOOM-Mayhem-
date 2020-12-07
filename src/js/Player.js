@@ -14,8 +14,10 @@ class Player extends Phaser.GameObjects.Sprite{
 
     ball;
 
+    stunned = false;
+
     constructor(scene, x, y) {
-        super(scene, x, y, "cerdete");
+        super(scene, x, y, "cerdete_sheet");
 
         //Añadir elemento a la escena
         scene.add.existing(this);
@@ -23,6 +25,31 @@ class Player extends Phaser.GameObjects.Sprite{
 
         //Añadir elemento a una lista en la escena
         scene.playersGroup.add(this);
+
+        this.anim1 = this.scene.anims.create({
+            key: 'walk',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [0]}),
+            frameRate: 0,
+            repeat: -1
+        });
+
+        this.anim2 = this.scene.anims.create({
+            key: 'crouch',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [1]}),
+            frameRate: 0,
+            repeat: -1
+        });
+
+        this.anim3 = this.scene.anims.create({
+            key: 'hurt',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [2]}),
+            frameRate: 0,
+            repeat: -1
+        });
+    
+        //sprite = this.add.sprite(400, 250, 'mummy').setScale(4);
+
+        this.play('walk');
 
         this.setupInputEvents(scene);
     }
@@ -59,7 +86,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
     updatePosition(){
 
-        if (this.aiming)
+        if (this.aiming || this.stunned)
             return;
 
         var newVelocityX = 0;
@@ -192,10 +219,10 @@ class Player extends Phaser.GameObjects.Sprite{
 
     releaseGrabOrThrow() {
 
-        if (this.aiming) {
+        if (this.aiming && this.ball != null) {
             console.log("¡DISPARA!");
 
-            this.aiming = false;
+            //this.aiming = false;
 
             //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
             if(this.dirX == 0 && this.dirY == 0){
@@ -205,7 +232,31 @@ class Player extends Phaser.GameObjects.Sprite{
             }
 
             this.ball = null;
+
+            //Activar animación de lanzar.
+            //Esperar mientras se ejecuta la animación
+            var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
         }
+    }
+
+    takeDamage(){
+        this.play('hurt');
+        console.log("Has ido a dar");
+
+        var timedEvent = this.scene.time.addEvent({ delay: 300, callback: this.endHurtAnimation, callbackScope: this, loop: false });
+        this.stunned = true;
+    }
+
+    endHurtAnimation(){
+        console.log("me va a oir ese");
+        this.play('walk');
+
+        this.stunned = false;
+    }
+
+    throwAnimationFinished(){
+        this.aiming = false;
+        console.log("Ahora sí");
     }
 
     inputCrouch(){

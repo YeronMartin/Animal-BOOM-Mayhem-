@@ -9,8 +9,8 @@ class Ball extends Phaser.GameObjects.Sprite{
 
     distanceToTravel = 1500000;
 
-    constructor(scene, posX, posY){
-        super(scene, posX, posY, "bomba");
+    constructor(scene, posX, posY, keyname){
+        super(scene, posX, posY, keyname);
 
         this.setScale(0.3);
         this.setupPhysics(scene);
@@ -58,7 +58,7 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
 
         //Después de un pequeño retardo, añadimos la bola al grupo de bolas para colisiones
-        var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
+        var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
 
         console.log("INDICIÓN");
     }

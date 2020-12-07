@@ -6,10 +6,13 @@ class Scene2 extends Phaser.Scene {
     //No hace falta que estén aquí las variables, pero me gusta saber que tengo aquí.
     playersGroup;
     player;
+    
+    explosion;
+    explosionGroup;
 
     ballsList;
     ballsGroup;
-
+    
     create() {
         this.background = this.add.tileSprite(0,0, config.width, config.height,"background");
         this.background.setOrigin(0,0);
@@ -26,6 +29,7 @@ class Scene2 extends Phaser.Scene {
 
         this.setupPlayers();
         this.setupInitialBalls();
+        this.setupInitialExplosion();
     }
 
     setupPlayers(){
@@ -38,20 +42,34 @@ class Scene2 extends Phaser.Scene {
         for (var i = 0; i < 5; i++) {
             if(Phaser.Math.Between(0, 10) > 5){
                 this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height), "bomba");
-            }else{
+            }else if(Phaser.Math.Between(0, 10) > 8){
                 this.ballsList[i] = new BallTal(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
+            } else {
+               this.ballsList[i] = new BallBomb (this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
             }
-            
         }
-    
+            
         this.ballsGroup = this.add.group();
         this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
+    }
+    setupInitialExplosion(){
+        this.explosionGroup = this.add.group();
+        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion);  
     }
 
     //Cuando un boloncio choqua contra un jugador
     colisionPlayerBall(player, ball){
-        ball.impact();
-        //Hostiar al afortunado
+        if(ball.id == "BallBomb"){
+            ball.impact(player);   
+        } else  {
+            ball.impact();
+            //Hostiar al afortunado
+            player.takeDamage();  
+        }
+        
+    }
+    colisionPlayerExplosion(){
+        console.log("Has hecho colisi")
         player.takeDamage();
     }
 

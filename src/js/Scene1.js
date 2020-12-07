@@ -14,6 +14,8 @@ class Scene1 extends Phaser.Scene {
 
         this.load.image("bomba", "././resources/img/bomba.png");
         this.load.image("bomba2", "././resources/img/bomba2.png");
+        this.load.image("bomba3", "././resources/img/bomba3.png");
+        this.load.image("particula1", "././resources/img/particle.png");
     }
 
     create(){

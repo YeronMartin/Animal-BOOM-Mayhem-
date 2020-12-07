@@ -1,5 +1,6 @@
 class BallTal extends Ball{
 
+    id = "BallTal"
     speed = 1000;
     distanceToTravel = 2000000;
 

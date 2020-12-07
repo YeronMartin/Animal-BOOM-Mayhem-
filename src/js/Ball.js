@@ -3,6 +3,7 @@ class Ball extends Phaser.GameObjects.Sprite{
     dirX = 0;
     dirY = 0;
     speed = 500;
+    id = "ball"
 
     onGround = true;
     heldByPlayer = false;

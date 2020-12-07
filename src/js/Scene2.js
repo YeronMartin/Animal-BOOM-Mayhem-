@@ -36,10 +36,14 @@ class Scene2 extends Phaser.Scene {
     setupInitialBalls(){
         this.ballsList = [];
         for (var i = 0; i < 5; i++) {
-            this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height), "bomba");
+            if(Phaser.Math.Between(0, 10) > 5){
+                this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height), "bomba");
+            }else{
+                this.ballsList[i] = new BallTal(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
+            }
+            
         }
-        this.ballsList[0] = new BallTal(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
-
+    
         this.ballsGroup = this.add.group();
         this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
     }

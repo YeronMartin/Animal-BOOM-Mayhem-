@@ -15,6 +15,7 @@ class Player extends Phaser.GameObjects.Sprite{
     ball;
 
     stunned = false;
+    crouching = false;
 
     constructor(scene, x, y) {
         super(scene, x, y, "cerdete_sheet");
@@ -26,6 +27,15 @@ class Player extends Phaser.GameObjects.Sprite{
         //Añadir elemento a una lista en la escena
         scene.playersGroup.add(this);
 
+        this.setupAnimations(scene);
+
+
+        this.play('walk');
+
+        this.setupInputEvents(scene);
+    }
+
+    setupAnimations(scene){
         this.anim1 = this.scene.anims.create({
             key: 'walk',
             frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [0]}),
@@ -46,12 +56,6 @@ class Player extends Phaser.GameObjects.Sprite{
             frameRate: 0,
             repeat: -1
         });
-    
-        //sprite = this.add.sprite(400, 250, 'mummy').setScale(4);
-
-        this.play('walk');
-
-        this.setupInputEvents(scene);
     }
 
     setupPhysics(scene){
@@ -75,18 +79,22 @@ class Player extends Phaser.GameObjects.Sprite{
 
         scene.input.keyboard.on('keydown_R', this.inputGrabOrThrow, this);
         scene.input.keyboard.on('keyup_R', this.releaseGrabOrThrow, this);
+
+        scene.input.keyboard.on('keydown_T', this.inputCrouch, this);
+        scene.input.keyboard.on('keyup_T', this.releaseCrouch, this);
     }
     
     update(){
 
         this.updatePosition();
 
+        this.updateBallPosition();
         //...
     }
 
     updatePosition(){
 
-        if (this.aiming || this.stunned)
+        if (this.aiming || this.stunned || this.crouching)
             return;
 
         var newVelocityX = 0;
@@ -106,13 +114,14 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.body.velocity.x = newVelocityX;
         this.body.velocity.y = newVelocityY;
+    }
 
+    updateBallPosition(){
         //En caso de llevar una bola encima
         if (this.ball != null) {
             this.ball.x = this.x;
             this.ball.y = this.y;
         }
-
     }
 
     //Metodiños para gestionar las entradas y salidas de movimiento
@@ -177,9 +186,13 @@ class Player extends Phaser.GameObjects.Sprite{
 
             this.aiming = true;
 
-            this.body.velocity.x = 0;
-            this.body.velocity.y = 0;
+            this.setBodyVelocityToCero();
         }
+    }
+
+    setBodyVelocityToCero(){
+        this.body.velocity.x = 0;
+        this.body.velocity.y = 0;
     }
 
     pickBombs() {
@@ -241,14 +254,12 @@ class Player extends Phaser.GameObjects.Sprite{
 
     takeDamage(){
         this.play('hurt');
-        console.log("Has ido a dar");
 
         var timedEvent = this.scene.time.addEvent({ delay: 300, callback: this.endHurtAnimation, callbackScope: this, loop: false });
         this.stunned = true;
     }
 
     endHurtAnimation(){
-        console.log("me va a oir ese");
         this.play('walk');
 
         this.stunned = false;
@@ -256,15 +267,46 @@ class Player extends Phaser.GameObjects.Sprite{
 
     throwAnimationFinished(){
         this.aiming = false;
-        console.log("Ahora sí");
     }
 
-    inputCrouch(){
 
+
+    inputCrouch(){
+        if(this.crouching || this.stunned)
+            return;
+        
+        console.log("Magacho");
+
+        this.crouching = true;
+        this.invulnerable = true;
+        this.play('crouch');
+
+
+        this.setBodyVelocityToCero();
+
+        this.scene.playersGroup.remove(this);
+        var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.endCrouchInvulnerability, callbackScope: this, loop: false });
+    }
+
+    endCrouchInvulnerability(){
+        this.invulnerable = false;
+        this.addToGroupIfIsNotAddedYet();
+        console.log("Se acabó lo que se daba")
+    }
+
+    addToGroupIfIsNotAddedYet(){
+        if(!this.scene.playersGroup.contains(this)){
+            this.scene.playersGroup.add(this, true);
+        }
     }
 
     releaseCrouch(){
+        console.log("Ya no magacho");
+    
+        this.crouching = false;
+        this.play('walk');
 
+        this.addToGroupIfIsNotAddedYet();
     }
 
 }

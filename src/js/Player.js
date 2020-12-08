@@ -17,7 +17,9 @@ class Player extends Phaser.GameObjects.Sprite{
     stunned = false;
     crouching = false;
 
-    constructor(scene, x, y) {
+    health = 3;
+
+    constructor(scene, x, y, id) {
         super(scene, x, y, "cerdete_sheet");
 
         //Añadir elemento a la escena
@@ -32,7 +34,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.play('walk');
 
-        this.setupInputEvents(scene);
+        this.setupInputEvents(scene, id);
     }
 
     setupAnimations(scene){
@@ -64,24 +66,53 @@ class Player extends Phaser.GameObjects.Sprite{
         this.body.bounce.set(false);
     }
 
-    setupInputEvents(scene){
-        scene.input.keyboard.on('keydown_W', this.inputUp, this);
-        scene.input.keyboard.on('keyup_W', this.releaseUp, this);
+    
+    keyUp = 'W';
+    keyLeft = 'A';
+    keyDown = 'S';
+    keyRight = 'D';
+    keyThrow = 'R';
+    keyCrouch = 'T';
 
-        scene.input.keyboard.on('keydown_A', this.inputLeft, this);
-        scene.input.keyboard.on('keyup_A', this.releaseLeft, this);
+    setupInputEvents(scene, id){
+        switch(id){
+            case 0:
+                this.keyUp = 'W';
+                this.keyLeft = 'A';
+                this.keyDown = 'S';
+                this.keyRight = 'D';
+                this.keyThrow = 'R';
+                this.keyCrouch = 'T';
+                break;
+            case 1:
+                this.keyUp = 'U';
+                this.keyLeft = 'H';
+                this.keyDown = 'J';
+                this.keyRight = 'K';
+                this.keyThrow = 'O';
+                this.keyCrouch = 'P';
+                break;
+        }
 
-        scene.input.keyboard.on('keydown_S', this.inputDown, this);
-        scene.input.keyboard.on('keyup_S', this.releaseDown, this);
+        scene.input.keyboard.on('keydown_'+this.keyUp, this.inputUp, this);
+        scene.input.keyboard.on('keyup_'+this.keyUp, this.releaseUp, this);
 
-        scene.input.keyboard.on('keydown_D', this.inputRight, this);
-        scene.input.keyboard.on('keyup_D', this.releaseRight, this);
+        scene.input.keyboard.on('keydown_'+this.keyLeft, this.inputLeft, this);
+        scene.input.keyboard.on('keyup_'+this.keyLeft, this.releaseLeft, this);
 
-        scene.input.keyboard.on('keydown_R', this.inputGrabOrThrow, this);
-        scene.input.keyboard.on('keyup_R', this.releaseGrabOrThrow, this);
+        scene.input.keyboard.on('keydown_'+this.keyDown, this.inputDown, this);
+        scene.input.keyboard.on('keyup_'+this.keyDown, this.releaseDown, this);
 
-        scene.input.keyboard.on('keydown_T', this.inputCrouch, this);
-        scene.input.keyboard.on('keyup_T', this.releaseCrouch, this);
+        scene.input.keyboard.on('keydown_'+this.keyRight, this.inputRight, this);
+        scene.input.keyboard.on('keyup_'+this.keyRight, this.releaseRight, this);
+
+        scene.input.keyboard.on('keydown_'+this.keyThrow, this.inputGrabOrThrow, this);
+        scene.input.keyboard.on('keyup_'+this.keyThrow, this.releaseGrabOrThrow, this);
+
+        scene.input.keyboard.on('keydown_'+this.keyCrouch, this.inputCrouch, this);
+        scene.input.keyboard.on('keyup_'+this.keyCrouch, this.releaseCrouch, this);
+
+        
     }
     
     update(){
@@ -257,9 +288,58 @@ class Player extends Phaser.GameObjects.Sprite{
 
         var timedEvent = this.scene.time.addEvent({ delay: 300, callback: this.endHurtAnimation, callbackScope: this, loop: false });
         this.stunned = true;
+
+        this.health --;
+        this.checkEliminated();
     }
 
+    checkEliminated(){
+        if(this.health <= 0){
+            console.log("¡OHHH, MAMMA MIA!")
+
+            this.destroyFromScene();
+        }
+    }
+
+
+    destroyFromScene(){
+
+        this.disableInputs();
+
+        //Eliminar de la lista de bolas
+        this.scene.playersList.splice(this.scene.playersList.lastIndexOf(this), 1);
+        this.scene.playersGroup.remove(this);
+
+        //Destruir objeto de la escena
+        this.destroy();
+    }
+
+    disableInputs(){
+        this.scene.input.keyboard.off('keydown_'+this.keyUp);
+        this.scene.input.keyboard.off('keyup_'+this.keyUp);
+
+        this.scene.input.keyboard.off('keydown_'+this.keyLeft);
+        this.scene.input.keyboard.off('keyup_'+this.keyLeft);
+
+        this.scene.input.keyboard.off('keydown_'+this.keyDown);
+        this.scene.input.keyboard.off('keyup_'+this.keyDown);
+
+        this.scene.input.keyboard.off('keydown_'+this.keyRight);
+        this.scene.input.keyboard.off('keyup_'+this.keyRight);
+
+        this.scene.input.keyboard.off('keydown_'+this.keyThrow);
+        this.scene.input.keyboard.off('keyup_'+this.keyThrow);
+
+        this.scene.input.keyboard.off('keydown_'+this.keyCrouch);
+        this.scene.input.keyboard.off('keyup_'+this.keyCrouch);
+    }
+
+
     endHurtAnimation(){
+        if(this.health <= 0){
+            return;
+        }
+        
         this.play('walk');
 
         this.stunned = false;

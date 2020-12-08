@@ -12,9 +12,8 @@ class Scene2 extends Phaser.Scene {
 
     maxBallsInScene = 10;
 
-
     minutesRemaining = 2;
-    secondsRemaining = 30;
+    secondsRemaining = 0;
 
     create() {
         this.background = this.add.tileSprite(0,0, config.width, config.height,"background");
@@ -39,7 +38,8 @@ class Scene2 extends Phaser.Scene {
 
         this.playersList = [];
 
-        this.playersList[0] = new Player(this, config.width / 2, config.height / 2);
+        this.playersList[0] = new Player(this, (config.width / 2) - 100, config.height / 2, 0);
+        this.playersList[1] = new Player(this, (config.width / 2) + 100, config.height / 2, 1);
     }
 
     setupInitialBalls(){
@@ -61,14 +61,50 @@ class Scene2 extends Phaser.Scene {
         }
     }
 
-    generateNewBall(){
-        var i = this.ballsList.length;
+    getDistanceBetweenPoints(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
 
+    generateNewBall(){
+       
+        var ballPosition = this.generateValidBallPosition();
+
+        var i = this.ballsList.length;
         if(Phaser.Math.Between(0, 10) > 4){
-            this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height), "bomba");
+            this.ballsList[i] = new Ball(this, ballPosition.x, ballPosition.y, "bomba");
         }else{
-            this.ballsList[i] = new BallTal(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
+            this.ballsList[i] = new BallTal(this, ballPosition.x, ballPosition.y);
         }
+    }
+
+    generateValidBallPosition(){
+        var minDistance = 200;
+        var validPosition = false;
+        var tries = 10;
+        var ballPosition = new Phaser.Math.Vector2(0, 0);
+
+        do{
+            while(tries > 0 && !validPosition){
+                validPosition = true;
+
+                ballPosition.x = Phaser.Math.Between(0, config.width);
+                ballPosition.y = Phaser.Math.Between(0, config.height);
+
+                for (var i = 0; i < this.ballsList.length; i++) {
+                    if(this.getDistanceBetweenPoints(ballPosition.x, ballPosition.y, this.ballsList[i].x, this.ballsList[i].y) < minDistance){
+                        validPosition = false;
+                        break;
+                    }
+                }
+    
+                tries--;
+            }
+
+            minDistance -= 10;
+            tries = 10;
+        }while(!validPosition);
+
+        return ballPosition;
     }
 
     //Cuando un boloncio choqua contra un jugador
@@ -98,7 +134,7 @@ class Scene2 extends Phaser.Scene {
         
         this.acumulatedDelta += delta;
 
-        if(this.acumulatedDelta >= 200){
+        if(this.acumulatedDelta >= 1000){
             this.secondsRemaining -= 1;
 
 
@@ -110,6 +146,7 @@ class Scene2 extends Phaser.Scene {
             if(this.secondsRemaining == 0 && this.minutesRemaining == 0){
                 this.timeEnded = true;
                 console.log("EL FINAL DE TODOOOOOOOOOOOOO");
+                this.activateSuddenDeath();
             }
             if(this.secondsRemaining < 10){
                 this.matchTimer.setText(this.minutesRemaining+":0"+this.secondsRemaining);
@@ -117,10 +154,8 @@ class Scene2 extends Phaser.Scene {
                 this.matchTimer.setText(this.minutesRemaining+":"+this.secondsRemaining);
             }
             
-
             this.acumulatedDelta = 0;
         }
-       
     }
 
     updatePlayers(delta){
@@ -132,6 +167,12 @@ class Scene2 extends Phaser.Scene {
     updateBalls(delta){
         for (var i = this.ballsList.length - 1; i >= 0; i--) {
             this.ballsList[i].update(delta);
+        }
+    }
+
+    activateSuddenDeath(){
+        for (var i = this.ballsList.length - 1; i >= 0; i--) {
+            this.ballsList[i].enterSuddenDeathMode();
         }
     }
 }

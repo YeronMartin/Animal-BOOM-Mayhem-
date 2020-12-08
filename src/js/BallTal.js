@@ -1,6 +1,6 @@
 class BallTal extends Ball{
 
-    speed = 1000;
+    speed = 900;
     distanceToTravel = 2000000;
 
     constructor(scene, posX, posY){
@@ -11,6 +11,12 @@ class BallTal extends Ball{
 
         var scene = scene;
         scene.add.existing(this);
+
+        if(scene.timeEnded){
+            this.setScale(0.6);
+            this.speed = 1000;
+        }
+
     }
 
     update(elapsed){
@@ -48,5 +54,9 @@ class BallTal extends Ball{
         this.destroyFromScene()
     }
 
+    enterSuddenDeathMode(){
+        this.setScale(0.6);
+        this.speed = 1000;
+    }
 
 }

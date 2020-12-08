@@ -2,7 +2,7 @@ class Ball extends Phaser.GameObjects.Sprite{
 
     dirX = 0;
     dirY = 0;
-    speed = 500;
+    speed = 700;
 
     onGround = true;
     heldByPlayer = false;
@@ -17,6 +17,11 @@ class Ball extends Phaser.GameObjects.Sprite{
 
         var scene = scene;
         scene.add.existing(this);
+
+        if(scene.timeEnded){
+            this.setScale(0.6);
+            this.speed = 800;
+        }
     }
 
     setupPhysics(scene)
@@ -87,5 +92,10 @@ class Ball extends Phaser.GameObjects.Sprite{
 
         //Destruir objeto de la escena
         this.destroy();
+    }
+
+    enterSuddenDeathMode(){
+        this.setScale(0.6);
+        this.speed = 800;
     }
 }

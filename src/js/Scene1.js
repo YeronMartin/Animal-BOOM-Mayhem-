@@ -15,7 +15,8 @@ class Scene1 extends Phaser.Scene {
         //this.scene.start("playGame");
 
         this.key_E = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
-
+        
+        
 
     }
 

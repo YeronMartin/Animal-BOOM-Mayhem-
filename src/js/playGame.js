@@ -1,6 +1,14 @@
-class Scene2 extends Phaser.Scene {
+class playGame extends Phaser.Scene {
     constructor(){
         super("playGame");
+        
+    }
+    
+    preload(){
+        this.load.image("background", "././resources/img/space.png");
+
+        this.load.image("cerdete", "././resources/img/cerdete.png");
+        this.load.image("bomba", "././resources/img/bomba.png");
     }
 
     create() {

@@ -6,8 +6,10 @@ class Explosion extends Phaser.GameObjects.Sprite {
         this.setScale(0.3);
         this.setupPhysics(scene);
 
-        var scene = scene;
-        scene.add.existing(this);
+        this.scene = scene;
+        this.scene.add.existing(this);
+
+        this.scene.explosionGroup.add(this, true);
     }
     
     setupPhysics(scene)

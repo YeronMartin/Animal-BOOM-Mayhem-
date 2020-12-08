@@ -27,7 +27,8 @@ class BallBomb extends Ball{
     }
 
     explode(player){
-        this.scene.explosion = new Explosion(this.scene, this.x, this.y);
+        //No hace falta hacer nada más con la explosión, se va a configurar ella sola nada mas crearse
+        var explosion = new Explosion(this.scene, this.x, this.y);
         
         /*this.explosionGroup = this.scene.add.group();
         

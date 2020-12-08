@@ -68,7 +68,7 @@ class Scene2 extends Phaser.Scene {
         }
         
     }
-    colisionPlayerExplosion(){
+    colisionPlayerExplosion(player, explosion){
         console.log("Has hecho colisi")
         player.takeDamage();
     }

@@ -65,7 +65,6 @@ class Ball extends Phaser.GameObjects.Sprite{
 
     addToPhysicsGroup ()
     {
-        console.log(this.scene.ballsGroup);
         this.scene.ballsGroup.add(this, true);
     }
 

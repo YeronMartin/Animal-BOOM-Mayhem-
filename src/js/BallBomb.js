@@ -27,24 +27,10 @@ class BallBomb extends Ball{
     }
 
     explode(player){
-        //No hace falta hacer nada más con la explosión, se va a configurar ella sola nada mas crearse
         var explosion = new Explosion(this.scene, this.x, this.y);
         
-        //explosion.prueba();
-        //var timedEvent = this.scene.time.addEvent({ delay: 400, callback: this.destroyExplosion, callbackScope: this, loop: false });
-        this.destroyExplosion(this.explosion);
-        
     }
     
-
-    destroyExplosion(explosion){
-        
-        //this.scene.explosionGroup.remove(this);
-        console.log(this.explosion);
-        //this.explosion.Destroy();
-    }
-    
-
     update(elapsed){
         
         if (this.onGround || this.heldByPlayer)

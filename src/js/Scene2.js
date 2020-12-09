@@ -12,7 +12,7 @@ class Scene2 extends Phaser.Scene {
 
     maxBallsInScene = 10;
 
-    minutesRemaining = 2;
+    minutesRemaining = 1;
     secondsRemaining = 0;
 
     create() {

@@ -31,6 +31,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.setupAnimations(scene);
 
+        //this.body.setImmovable(true);
 
         this.play('walk');
 
@@ -266,8 +267,6 @@ class Player extends Phaser.GameObjects.Sprite{
         if (this.aiming && this.ball != null) {
             console.log("¡DISPARA!");
 
-            //this.aiming = false;
-
             //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
             if(this.dirX == 0 && this.dirY == 0){
                 this.ball.launch(1, 0);
@@ -286,11 +285,46 @@ class Player extends Phaser.GameObjects.Sprite{
     takeDamage(){
         this.play('hurt');
 
-        var timedEvent = this.scene.time.addEvent({ delay: 300, callback: this.endHurtAnimation, callbackScope: this, loop: false });
+        var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.endHurtAnimation, callbackScope: this, loop: false });
         this.stunned = true;
 
         this.health --;
+
+        this.flickeringEnded = false;
+        var timedEvent2 = this.scene.time.addEvent({ delay: 25, callback: this.flickeringCicle, callbackScope: this, loop: false });
+        
+        var timedEvent3 = this.scene.time.addEvent({ delay: 2000, callback: this.endFlickeringCicle, callbackScope: this, loop: false });
+
+        this.scene.playersGroup.remove(this);
+
         this.checkEliminated();
+    }
+
+    flickeringEnded = false;
+
+    flickeringCicle(){
+
+        if(this.health <= 0){
+            return;
+        }
+
+        this.visible = !this.visible;
+
+        if(!this.flickeringEnded){
+            var timedEvent = this.scene.time.addEvent({ delay: 25, callback: this.flickeringCicle, callbackScope: this, loop: false });
+        }else{
+            this.visible = true;
+            this.scene.playersGroup.add(this, true);
+        }
+       
+    }
+
+    endFlickeringCicle(){
+        if(this.health <= 0){
+            return;
+        }
+
+        this.flickeringEnded = true;
     }
 
     checkEliminated(){
@@ -300,7 +334,6 @@ class Player extends Phaser.GameObjects.Sprite{
             this.destroyFromScene();
         }
     }
-
 
     destroyFromScene(){
 
@@ -348,8 +381,6 @@ class Player extends Phaser.GameObjects.Sprite{
     throwAnimationFinished(){
         this.aiming = false;
     }
-
-
 
     inputCrouch(){
         if(this.crouching || this.stunned)

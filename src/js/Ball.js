@@ -51,7 +51,6 @@ class Ball extends Phaser.GameObjects.Sprite{
     launch(dirX, dirY){
         this.dirX = dirX;
         this.dirY = dirY;
-
         this.onGround = false;
         this.heldByPlayer = false;
         this.distanceToTravel = 1500000;
@@ -66,6 +65,7 @@ class Ball extends Phaser.GameObjects.Sprite{
 
     addToPhysicsGroup ()
     {
+        console.log(this.scene.ballsGroup);
         this.scene.ballsGroup.add(this, true);
     }
 

@@ -19,6 +19,10 @@ class Explosion extends Phaser.GameObjects.Sprite {
         this.body.bounce.set(0);
     }
     
+    prueba(){
+        this.scene.explosionGroup.remove(this);
+    }
+    
     Destroy(){
         this.destroy();
     }

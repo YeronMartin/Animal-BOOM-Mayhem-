@@ -1,5 +1,7 @@
 class Explosion extends Phaser.GameObjects.Sprite {
     
+    ball
+    
     constructor(scene, posX, posY, keyname){
         super(scene, posX, posY, "particula1");
 
@@ -11,7 +13,7 @@ class Explosion extends Phaser.GameObjects.Sprite {
 
         this.scene.explosionGroup.add(this, true);
         
-        var timedEvent = this.scene.time.addEvent({ delay: 1000, callback: this.prueba, callbackScope: this, loop: false });
+        var timedEvent = this.scene.time.addEvent({ delay: 1000, callback: this.removeExplosion, callbackScope: this, loop: false });
     }
     
     setupPhysics(scene)
@@ -22,7 +24,7 @@ class Explosion extends Phaser.GameObjects.Sprite {
         this.body.setImmovable(true);
     }
     
-    prueba(){
+    removeExplosion(){
         this.scene.explosionGroup.remove(this);
         this.Destroy();
     }

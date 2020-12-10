@@ -40,18 +40,19 @@ class Scene2 extends Phaser.Scene {
     setupInitialBalls(){
         this.ballsList = [];
         for (var i = 0; i < 5; i++) {
-            if(Phaser.Math.Between(0, 10) > 5){
-                this.ballsList[i] = new Ball(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height), "bomba");
-            }else if(Phaser.Math.Between(0, 10) > 8){
-                this.ballsList[i] = new BallTal(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
+            if(Phaser.Math.Between(0, 10) > 8){
+                this.ballsList[i] = new BallBasket(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height), "bomba");
+            }else if(Phaser.Math.Between(0, 10) > 5){
+                this.ballsList[i] = new BallTemporizedBomb(this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
             } else {
                this.ballsList[i] = new BallBomb (this, Phaser.Math.Between(0, config.width), Phaser.Math.Between(0, config.height));
             }
         }
-            
+                
         this.ballsGroup = this.add.group();
         this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
     }
+    
     setupInitialExplosion(){
         this.explosionGroup = this.add.group();
         this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion);  

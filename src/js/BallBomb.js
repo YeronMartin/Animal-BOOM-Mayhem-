@@ -1,18 +1,14 @@
 class BallBomb extends Ball{
 
     id = "BallBomb"
-    speed = 1000;
+    speed = 800;
     distanceToTravel = 2000000;
 
-    /*
-    explosion;
-    explosionGroup;
-    */
 
     constructor(scene, posX, posY){
         super(scene, posX, posY, "bomba3");
 
-        this.setScale(0.1);
+        this.setScale(0.7);
         this.setupPhysics(scene);
 
         var scene = scene;

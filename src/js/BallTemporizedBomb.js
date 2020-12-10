@@ -4,8 +4,7 @@ class BallTemporizedBomb extends Ball{
     speed = 700;
     distanceToTravel = 2000000;
     activated = false;
-    time = 5000000;
-    timeReduction = 700;
+    activationTime = 5000;
 
     constructor(scene, posX, posY){
         super(scene, posX, posY, "bomba4");
@@ -30,8 +29,6 @@ class BallTemporizedBomb extends Ball{
         this.dirY = dirY;
         this.onGround = false;
         this.heldByPlayer = false;
-        this.activation();
-        this.activated = true;
         this.distanceToTravel = 1500000;
 
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
@@ -40,65 +37,47 @@ class BallTemporizedBomb extends Ball{
         var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
 
 
-        console.log("INDICIÓN");
+        if(!this.activated)
+            this.activated = true;
     }
 
     update(elapsed){
         
-        if(this.activated = true){
-            this.time -= this.timeReduction * elapsed;
-            
+        this.updateActivationTimer(elapsed);
+
         if (this.onGround || this.heldByPlayer){
             return;
         }
         
         //Después de recorrer cierta distancia, que la bola quede en el suelo
         this.distanceToTravel -= this.speed * elapsed;
-        console.log(this.time);
+        
         
         if(this.distanceToTravel < 0){
             this.setBallOnGround();
         }
-        
-        if(this.time < 0){
-            this.timedExplode();
-        }
-            
-            
-            
-        }
-        
-       
-        
-    }
-    setter(prueba){
-        var prueba = this.prueba;
-    }
-    getter(){
-        
     }
 
-    activation(){
-        console.log("estoy en activación")
-        if(this.activated == false){
-            this.activated = true;
-            //var timedExplosion = this.scene.time.addEvent({ delay: 9000, callback: this.timedExplode, callbackScope: this, loop: false });
-            console.log("He creado el evento de explosión.")
-        } else {
-            return;
+    updateActivationTimer(elapsed){
+        if(this.activated && this.activationTime > 0){
+            this.activationTime -= elapsed;
+
+            if(this.activationTime < 0){
+                this.activationTime = 0;
+                this.timedExplode();
+            }
         }
+
+        console.log(this.activationTime);
     }
 
-    timedExplode(player){
+    timedExplode(){
         //this.activated = false;
         var explosion2 = new Explosion(this.scene, this.x, this.y);
         this.destroyFromScene();
-        
     }
 
     impact(player){
-        //console.log(this.scene)
         this.timedExplode();
-        this.destroyFromScene();
     }
 }

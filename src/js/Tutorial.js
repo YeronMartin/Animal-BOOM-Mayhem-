@@ -151,25 +151,30 @@ class Tutorial extends Phaser.Scene {
                 if(this.playersList[1] == null){
                     this.messageBox.setText("¡Muy bien! Ahora la última lección. Puedes evadir balonazos agachándote manteniendo la tecla T. Ten cuidado porque solo serás invulnerable por unos instantes. Pulsa ENTER cuando estés preparado.");
                     this.tutorialPhase++;
-                    //Posicionamos al jugador en el centro
 
+
+                    //En caso de que el jugador tenga una pelota, se la quitamos
                     if(this.playersList[0].ball){
                         this.playersList[0].ball.setBallOnGround();
                         this.playersList[0].ball = null;
                     }
 
+                    //Eliminamos todos los boloncios menos el primero
+                    for (var i = this.ballsList.length - 1; i > 0; i--) {
+                        this.ballsList[i].destroyFromScene();
+                    }
+
+                    //Colocamos al jugador casi en el centro
                     this.playersList[0].setBodyVelocityToCero();
                     this.playersList[0].x = (config.width / 2) - 100;
                     this.playersList[0].y = config.height / 2;
                     this.playersList[0].body.immovable = true;
 
-                    //Colocamos un dummy en el borde derecho del mapa
+                    //Colocamos un dummy en el borde derecho del mapa y le damos una pelota
                     this.playersList[1] = new Dummy(this, config.width - 100, config.height / 2);
                     this.playersGroup.add(this.playersList[1], true);
-
                     this.placeBallOnDummy();
                     
-                    //tiempo de espera hasta que el dummy lance la bola
                     this.input.keyboard.on('keydown_ENTER', this.enterPressed, this);
                 }
                 break;

@@ -124,7 +124,22 @@ class Scene2 extends Phaser.Scene {
     }
 
     playerEliminated(){
-        this.scene.restart();
+        this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "Victoria Royale", {
+            font: "50px Arial", 
+            fill: "white",
+        });
+
+        this.victoryText.setOrigin(0.5, 0.5);
+        this.victoryText.setDepth(5);
+
+        this.exitText = this.add.text(config.width / 2, (config.height / 2), "Pulsa ESCAPE para salir", {
+            font: "35px Arial", 
+            fill: "white",
+        });
+        this.exitText.setOrigin(0.5, 0.5);
+        this.exitText.setDepth(5);
+
+        //this.scene.restart();
         //this.scene.start("bootGame");
     }
 

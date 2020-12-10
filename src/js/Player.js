@@ -22,7 +22,8 @@ class Player extends Phaser.GameObjects.Sprite{
     throwAnimationDelay = 200;
     hurtAnimationDelay = 200;
     timeBetweenFlickeringCycles = 25;
-    invulnerabilityDuration = 1000;
+    hurtInvulnerabilityDuration = 1000;
+    crouchInvulnerabilityDuration = 500;
 
     flickeringEnded = false;
 
@@ -79,6 +80,34 @@ class Player extends Phaser.GameObjects.Sprite{
             frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [4]}),
             frameRate: 0,
             repeat: -1
+        });
+
+        this.anim5 = this.scene.anims.create({
+            key: 'aim_left',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [5]}),
+            frameRate: 0,
+            repeat: -1
+        });
+
+        this.anim6 = this.scene.anims.create({
+            key: 'throw_left',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [5, 4, 1]}),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        this.anim7 = this.scene.anims.create({
+            key: 'aim_right',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [6]}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anim8 = this.scene.anims.create({
+            key: 'throw_right',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [6, 4, 1]}),
+            frameRate: 10,
+            repeat: 0
         });
     }
 
@@ -166,6 +195,16 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     updateAnimations(){
+
+        //CAMBIAR A TENER EN CUENTA LA DIRECCIÓN Y LA BOLA EN MANO
+        if(this.aiming){
+            if(this.dirX < 0)
+                this.play('aim_left');
+            else{
+                this.play('aim_right');
+            }
+        }
+
         if(this.aiming || this.stunned || this.crouching)
             return;
 
@@ -279,6 +318,11 @@ class Player extends Phaser.GameObjects.Sprite{
         }else{
             this.normaliceThrowDirection();
             this.ball.launch(this.dirX, this.dirY);
+
+
+            this.playThrowAnimation();
+
+            
         }
 
         this.ball = null;
@@ -287,6 +331,17 @@ class Player extends Phaser.GameObjects.Sprite{
         //Esperar mientras se ejecuta la animación
         //this.play("throw");
         var throwAnimTimer = this.scene.time.addEvent({ delay: this.throwAnimationDelay, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
+    }
+
+    playThrowAnimation(){
+        if(this.dirX > 0){
+            this.play('throw_right');
+        }else{
+            this.play('throw_left');
+        }
+
+
+        //SELECCIONAR ANIMACIÓN EN FUNCIÓN DE LA DIRECCIÓN Y DE LA BOLA EN MANO
     }
 
     normaliceThrowDirection(){
@@ -304,20 +359,26 @@ class Player extends Phaser.GameObjects.Sprite{
         this.health --;
 
         if(this.health <= 0){
-            this.destroyFromScene();
+           // this.destroyFromScene();
+           this.play('hurt');
+           this.removeFromSceneLists();
+           this.scene.playerEliminated();
         }else{
             this.enterHurtState();
         }
     }
 
-    destroyFromScene(){
-
+    removeFromSceneLists(){
         this.disableInputs();
-
-        //Eliminar de la lista de bolas
         this.scene.playersList.splice(this.scene.playersList.lastIndexOf(this), 1);
         this.scene.playersGroup.remove(this);
+    }
 
+    destroyFromScene(){
+
+        //Eliminar de la lista de bolas
+        
+        this.removeFromSceneLists();
         this.scene.playerEliminated();
 
         //Destruir objeto de la escena
@@ -349,13 +410,13 @@ class Player extends Phaser.GameObjects.Sprite{
         var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
         this.stunned = true;
 
-        this.startHurtInvulnerableFrames();
+        this.startInvulnerableFrames(this.hurtInvulnerabilityDuration);
     }
 
-    startHurtInvulnerableFrames(){
+    startInvulnerableFrames(duration){
         this.flickeringEnded = false;
         var flickeringCicleTimer = this.scene.time.addEvent({ delay: this.timeBetweenFlickeringCycles, callback: this.flickeringCicle, callbackScope: this, loop: false });
-        var flickeringEndTimer = this.scene.time.addEvent({ delay: this.invulnerabilityDuration, callback: this.endFlickeringCicle, callbackScope: this, loop: false });
+        var flickeringEndTimer = this.scene.time.addEvent({ delay: duration, callback: this.endFlickeringCicle, callbackScope: this, loop: false });
     }
 
     flickeringCicle(){
@@ -365,7 +426,8 @@ class Player extends Phaser.GameObjects.Sprite{
             var timedEvent = this.scene.time.addEvent({ delay: this.timeBetweenFlickeringCycles, callback: this.flickeringCicle, callbackScope: this, loop: false });
         }else{
             this.visible = true;
-            this.scene.playersGroup.add(this, true);
+            this.addToGroupIfIsNotAddedYet();
+            //this.scene.playersGroup.add(this, true);
         }  
     }
 
@@ -388,7 +450,8 @@ class Player extends Phaser.GameObjects.Sprite{
         this.setBodyVelocityToCero();
 
         this.scene.playersGroup.remove(this);
-        var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.endCrouchInvulnerability, callbackScope: this, loop: false });
+        this.startInvulnerableFrames(this.crouchInvulnerabilityDuration);
+        //var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.endCrouchInvulnerability, callbackScope: this, loop: false });
     }
 
     endCrouchInvulnerability(){

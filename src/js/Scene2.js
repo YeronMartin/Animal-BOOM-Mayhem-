@@ -29,8 +29,17 @@ class Scene2 extends Phaser.Scene {
 
         this.physics.world.setBoundsCollision();
 
+        this.minutesRemaining = 1;
+        this.secondsRemaining = 0;
+
         this.setupPlayers();
         this.setupInitialBalls();
+
+        this.input.keyboard.on('keydown_ESC', this.escapePressed, this);
+    }
+
+    escapePressed(){
+        this.scene.start("bootGame");
     }
 
     setupPlayers(){
@@ -114,6 +123,11 @@ class Scene2 extends Phaser.Scene {
         player.takeDamage();
     }
 
+    playerEliminated(){
+        this.scene.restart();
+        //this.scene.start("bootGame");
+    }
+
     update(time, delta){
 
         this.background.tilePositionY -= 0.5;
@@ -136,7 +150,6 @@ class Scene2 extends Phaser.Scene {
 
         if(this.acumulatedDelta >= 1000){
             this.secondsRemaining -= 1;
-
 
             if(this.secondsRemaining == -1 && this.minutesRemaining > 0){
                 this.secondsRemaining = 59;

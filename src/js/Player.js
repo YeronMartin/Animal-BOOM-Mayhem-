@@ -19,8 +19,17 @@ class Player extends Phaser.GameObjects.Sprite{
 
     health = 3;
 
+    throwAnimationDelay = 200;
+    hurtAnimationDelay = 200;
+    timeBetweenFlickeringCycles = 25;
+    invulnerabilityDuration = 1000;
+
+    flickeringEnded = false;
+
     constructor(scene, x, y, id) {
         super(scene, x, y, "cerdete_sheet");
+
+        this.setDepth(1);
 
         //Añadir elemento a la escena
         scene.add.existing(this);
@@ -31,31 +40,43 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.setupAnimations(scene);
 
-        //this.body.setImmovable(true);
-
-        this.play('walk');
+        this.play('idle');
 
         this.setupInputEvents(scene, id);
     }
 
     setupAnimations(scene){
         this.anim1 = this.scene.anims.create({
-            key: 'walk',
+            key: 'idle',
             frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [0]}),
             frameRate: 0,
             repeat: -1
         });
 
-        this.anim2 = this.scene.anims.create({
-            key: 'crouch',
+        this.anim1 = this.scene.anims.create({
+            key: 'walk_left',
             frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [1]}),
             frameRate: 0,
             repeat: -1
         });
 
-        this.anim3 = this.scene.anims.create({
-            key: 'hurt',
+        this.anim2 = this.scene.anims.create({
+            key: 'walk_right',
             frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [2]}),
+            frameRate: 0,
+            repeat: -1
+        });
+
+        this.anim3 = this.scene.anims.create({
+            key: 'crouch',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [3]}),
+            frameRate: 0,
+            repeat: -1
+        });
+
+        this.anim4 = this.scene.anims.create({
+            key: 'hurt',
+            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [4]}),
             frameRate: 0,
             repeat: -1
         });
@@ -66,14 +87,6 @@ class Player extends Phaser.GameObjects.Sprite{
         this.body.collideWorldBounds = true;
         this.body.bounce.set(false);
     }
-
-    
-    keyUp = 'W';
-    keyLeft = 'A';
-    keyDown = 'S';
-    keyRight = 'D';
-    keyThrow = 'R';
-    keyCrouch = 'T';
 
     setupInputEvents(scene, id){
         switch(id){
@@ -112,16 +125,12 @@ class Player extends Phaser.GameObjects.Sprite{
 
         scene.input.keyboard.on('keydown_'+this.keyCrouch, this.inputCrouch, this);
         scene.input.keyboard.on('keyup_'+this.keyCrouch, this.releaseCrouch, this);
-
-        
     }
     
     update(){
-
         this.updatePosition();
-
         this.updateBallPosition();
-        //...
+        this.updateAnimations();
     }
 
     updatePosition(){
@@ -156,53 +165,59 @@ class Player extends Phaser.GameObjects.Sprite{
         }
     }
 
-    //Metodiños para gestionar las entradas y salidas de movimiento
+    updateAnimations(){
+        if(this.aiming || this.stunned || this.crouching)
+            return;
 
+        if(this.body.velocity.x > 0){
+            this.play('walk_right');
+        }else if(this.body.velocity.x < 0){
+            this.play('walk_left');
+        }else if(this.body.velocity.y != 0){
+            this.play('walk_right');
+        }else if(this.body.velocity.x == 0 && this.body.velocity.y == 0){
+            this.play('idle');
+        }
+    }
+
+    //Metodiños para gestionar las entradas y salidas de movimiento
     inputUp(){
         this.pressingUp = true;
-
         this.dirY = -1;
     }
 
     releaseUp(){
         this.pressingUp = false;
-
         this.dirY = 0;
     }
 
     inputDown(){
         this.pressingDown = true;
-
         this.dirY = 1;
     }
 
     releaseDown(){
         this.pressingDown = false;
-
         this.dirY = 0;
     }
 
     inputLeft(){
         this.pressingLeft = true;
-
         this.dirX = -1;
     }
 
     releaseLeft(){
         this.pressingLeft = false;
-
         this.dirX = 0;
     }
 
     inputRight(){
        this.pressingRight = true;
-
        this.dirX = 1;
     }
 
     releaseRight(){
         this.pressingRight = false;
-
         this.dirX = 0;
     }
 
@@ -211,13 +226,9 @@ class Player extends Phaser.GameObjects.Sprite{
     inputGrabOrThrow(){
 
         if(this.ball == null){
-            console.log("A buscar bombas");
             this.pickBombs();
         }else{
-            console.log("A lanzar bombas... ¡APUNTA!");
-
             this.aiming = true;
-
             this.setBodyVelocityToCero();
         }
     }
@@ -228,26 +239,22 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     pickBombs() {
-        //Buscamos una bomba en el suelo cerca nuestra
         var b = this.getClosestBallInRange();
 
         if (b != null) {
             this.ball = b;
-            this.ball.heldByPlayer;
+            this.ball.heldByPlayer = true;
         }
     }
 
     getClosestBallInRange() {
-
         for (var i = this.scene.ballsList.length - 1; i >= 0; i--) {
             if (this.scene.ballsList[i].onGround && !this.scene.ballsList[i].heldByPlayer) {
                 var ball = this.scene.ballsList[i];
 
                 if (this.isPointInsideArea(ball.x, ball.y, this.x, this.y, this.pickUpRadius)) {
-                    console.log("COINCIDE!");
                     return ball;
                 }
-
             }
         }
 
@@ -263,75 +270,43 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     releaseGrabOrThrow() {
-
-        if (this.aiming && this.ball != null) {
-            console.log("¡DISPARA!");
-
-            //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
-            if(this.dirX == 0 && this.dirY == 0){
-                this.ball.launch(1, 0);
-            }else{
-                this.ball.launch(this.dirX, this.dirY);
-            }
-
-            this.ball = null;
-
-            //Activar animación de lanzar.
-            //Esperar mientras se ejecuta la animación
-            var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
+        if(!this.aiming || this.ball == null)
+            return;
+        
+        //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
+        if(this.dirX == 0 && this.dirY == 0){
+            this.ball.launch(1, 0);
+        }else{
+            this.normaliceThrowDirection();
+            this.ball.launch(this.dirX, this.dirY);
         }
+
+        this.ball = null;
+
+        //Activar animación de lanzar.
+        //Esperar mientras se ejecuta la animación
+        //this.play("throw");
+        var throwAnimTimer = this.scene.time.addEvent({ delay: this.throwAnimationDelay, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
+    }
+
+    normaliceThrowDirection(){
+        if(this.dirX != 0 && this.dirY != 0){
+            this.dirX /= 1.5;
+            this.dirY /= 1.5;
+        }
+    }
+
+    throwAnimationFinished(){
+        this.aiming = false;
     }
 
     takeDamage(){
-        this.play('hurt');
-
-        var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.endHurtAnimation, callbackScope: this, loop: false });
-        this.stunned = true;
-
         this.health --;
 
-        this.flickeringEnded = false;
-        var timedEvent2 = this.scene.time.addEvent({ delay: 25, callback: this.flickeringCicle, callbackScope: this, loop: false });
-        
-        var timedEvent3 = this.scene.time.addEvent({ delay: 2000, callback: this.endFlickeringCicle, callbackScope: this, loop: false });
-
-        this.scene.playersGroup.remove(this);
-
-        this.checkEliminated();
-    }
-
-    flickeringEnded = false;
-
-    flickeringCicle(){
-
         if(this.health <= 0){
-            return;
-        }
-
-        this.visible = !this.visible;
-
-        if(!this.flickeringEnded){
-            var timedEvent = this.scene.time.addEvent({ delay: 25, callback: this.flickeringCicle, callbackScope: this, loop: false });
-        }else{
-            this.visible = true;
-            this.scene.playersGroup.add(this, true);
-        }
-       
-    }
-
-    endFlickeringCicle(){
-        if(this.health <= 0){
-            return;
-        }
-
-        this.flickeringEnded = true;
-    }
-
-    checkEliminated(){
-        if(this.health <= 0){
-            console.log("¡OHHH, MAMMA MIA!")
-
             this.destroyFromScene();
+        }else{
+            this.enterHurtState();
         }
     }
 
@@ -342,6 +317,8 @@ class Player extends Phaser.GameObjects.Sprite{
         //Eliminar de la lista de bolas
         this.scene.playersList.splice(this.scene.playersList.lastIndexOf(this), 1);
         this.scene.playersGroup.remove(this);
+
+        this.scene.playerEliminated();
 
         //Destruir objeto de la escena
         this.destroy();
@@ -367,31 +344,46 @@ class Player extends Phaser.GameObjects.Sprite{
         this.scene.input.keyboard.off('keyup_'+this.keyCrouch);
     }
 
+    enterHurtState(){
+        this.play('hurt');
+        var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
+        this.stunned = true;
 
-    endHurtAnimation(){
-        if(this.health <= 0){
-            return;
-        }
-        
-        this.play('walk');
-
-        this.stunned = false;
+        this.startHurtInvulnerableFrames();
     }
 
-    throwAnimationFinished(){
-        this.aiming = false;
+    startHurtInvulnerableFrames(){
+        this.flickeringEnded = false;
+        var flickeringCicleTimer = this.scene.time.addEvent({ delay: this.timeBetweenFlickeringCycles, callback: this.flickeringCicle, callbackScope: this, loop: false });
+        var flickeringEndTimer = this.scene.time.addEvent({ delay: this.invulnerabilityDuration, callback: this.endFlickeringCicle, callbackScope: this, loop: false });
+    }
+
+    flickeringCicle(){
+        this.visible = !this.visible;
+
+        if(!this.flickeringEnded){
+            var timedEvent = this.scene.time.addEvent({ delay: this.timeBetweenFlickeringCycles, callback: this.flickeringCicle, callbackScope: this, loop: false });
+        }else{
+            this.visible = true;
+            this.scene.playersGroup.add(this, true);
+        }  
+    }
+
+    endFlickeringCicle(){
+        this.flickeringEnded = true;
+    }
+
+    endHurtAnimation(){
+        this.play('idle');
+        this.stunned = false;
     }
 
     inputCrouch(){
         if(this.crouching || this.stunned)
             return;
-        
-        console.log("Magacho");
 
         this.crouching = true;
-        this.invulnerable = true;
         this.play('crouch');
-
 
         this.setBodyVelocityToCero();
 
@@ -400,9 +392,7 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     endCrouchInvulnerability(){
-        this.invulnerable = false;
         this.addToGroupIfIsNotAddedYet();
-        console.log("Se acabó lo que se daba")
     }
 
     addToGroupIfIsNotAddedYet(){
@@ -412,12 +402,9 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     releaseCrouch(){
-        console.log("Ya no magacho");
-    
         this.crouching = false;
-        this.play('walk');
+        this.play('idle');
 
         this.addToGroupIfIsNotAddedYet();
     }
-
 }

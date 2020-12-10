@@ -6,6 +6,7 @@ class BallTal extends Ball{
     constructor(scene, posX, posY){
         super(scene, posX, posY, "bomba2");
 
+        this.setDepth(2);
         this.setScale(0.3);
         this.setupPhysics(scene);
 
@@ -17,19 +18,6 @@ class BallTal extends Ball{
             this.speed = 1000;
         }
 
-    }
-
-    update(elapsed){
-        
-        if (this.onGround || this.heldByPlayer)
-            return;
-        
-        //Después de recorrer cierta distancia, que la bola quede en el suelo
-        this.distanceToTravel -= this.speed * elapsed;
-
-        if(this.distanceToTravel < 0){
-            this.setBallOnGround();      
-        }
     }
 
     launch(dirX, dirY){
@@ -44,14 +32,6 @@ class BallTal extends Ball{
 
         //Después de un pequeño retardo, añadimos la bola al grupo de bolas para colisiones
         var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
-
-        console.log("INDICIÓN");
-    }
-
-
-    impact(){
-        console.log("OH NO!");
-        this.destroyFromScene()
     }
 
     enterSuddenDeathMode(){

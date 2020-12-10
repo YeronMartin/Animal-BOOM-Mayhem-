@@ -8,10 +8,12 @@ class Ball extends Phaser.GameObjects.Sprite{
     heldByPlayer = false;
 
     distanceToTravel = 1500000;
+    distanceToActivateCollisions = 100000;
 
     constructor(scene, posX, posY, keyname){
         super(scene, posX, posY, keyname);
 
+        this.setDepth(2);
         this.setScale(0.3);
         this.setupPhysics(scene);
 
@@ -37,10 +39,22 @@ class Ball extends Phaser.GameObjects.Sprite{
             return;
         
         //Después de recorrer cierta distancia, que la bola quede en el suelo
-        this.distanceToTravel -= this.speed * elapsed;
+        if(this.distanceToTravel > 0){
+            this.distanceToTravel -= this.speed * elapsed;
 
-        if(this.distanceToTravel < 0){
-            this.setBallOnGround();            
+            if(this.distanceToTravel < 0){
+                this.setBallOnGround();
+                this.distanceToTravel = 0;        
+            }
+        }
+
+        if(this.distanceToActivateCollisions > 0){
+            this.distanceToActivateCollisions -= this.speed * elapsed;
+
+            if(this.distanceToActivateCollisions < 0){
+                this.addToPhysicsGroup();
+                this.distanceToActivateCollisions = 0;        
+            }
         }
     }
 
@@ -59,13 +73,12 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.onGround = false;
         this.heldByPlayer = false;
         this.distanceToTravel = 1500000;
+        this.distanceToActivateCollisions = 100000;
 
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
 
         //Después de un pequeño retardo, añadimos la bola al grupo de bolas para colisiones
-        var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
-
-        console.log("INDICIÓN");
+        //var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
     }
 
     addToPhysicsGroup ()
@@ -75,8 +88,6 @@ class Ball extends Phaser.GameObjects.Sprite{
 
     //Llamado cuando la bola ha impactado contra un jugador
     impact(){
-        console.log("OH NO!");
-
         this.setBallOnGround();
 
         //this.destroyFromScene()
@@ -87,8 +98,6 @@ class Ball extends Phaser.GameObjects.Sprite{
         //Eliminar de la lista de bolas
         this.scene.ballsList.splice(this.scene.ballsList.lastIndexOf(this), 1);
         this.scene.ballsGroup.remove(this);
-
-        console.log(this.scene.ballsList.length);
 
         //Destruir objeto de la escena
         this.destroy();

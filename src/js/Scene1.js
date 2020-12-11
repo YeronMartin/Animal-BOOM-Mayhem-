@@ -9,6 +9,7 @@ class Scene1 extends Phaser.Scene {
         this.load.image("cerdete", "././resources/img/cerdete.png");
 
         this.load.spritesheet('cerdete_sheet', '././resources/img/cerdete_sheet.png', { frameWidth: 100, frameHeight: 97 } );
+        this.load.spritesheet('potato_sheet', '././resources/img/potato_sheet.png', {frameWidth: 100, frameHeight: 100 } );
         //this.load.spritesheet('mummy', 'assets/animations/mummy37x45.png', { frameWidth: 37, frameHeight: 45 });
 
 

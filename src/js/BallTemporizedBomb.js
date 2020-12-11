@@ -4,13 +4,16 @@ class BallTemporizedBomb extends Ball{
     speed = 700;
     distanceToTravel = 2000000;
     activated = false;
-    activationTime = 5000;
+    activationTime = Phaser.Math.Between(5000, 8000);
+    animationTime = 2000;
+    //activationTime = 5000;
 
     constructor(scene, posX, posY){
-        super(scene, posX, posY, "bomba4");
+        super(scene, posX, posY, "potato_sheet");
 
-        this.setScale(0.7);
+        this.setScale(0.6);
         this.setupPhysics(scene);
+        this.setupAnimations(scene);
         
 
         var scene = scene;
@@ -22,6 +25,20 @@ class BallTemporizedBomb extends Ball{
         scene.physics.world.enableBody(this);
         this.body.collideWorldBounds = true;
         this.body.bounce.set(1);
+    }
+    setupAnimations(scene){
+        this.anim1 = this.scene.anims.create({
+            key: 'normal',
+            frames: this.scene.anims.generateFrameNames('potato_sheet', {frames: [0]}),
+            frameRate: 0,
+            repeat: -1
+        });
+        this.anim2 = this.scene.anims.create({
+            key: 'red',
+            frames: this.scene.anims.generateFrameNames('potato_sheet', {frames: [1]}),
+            frameRate: 0,
+            repeat: -1
+        });
     }
 
     launch(dirX, dirY){
@@ -37,8 +54,10 @@ class BallTemporizedBomb extends Ball{
         var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
 
 
-        if(!this.activated)
+        if(!this.activated){
             this.activated = true;
+        }
+            
     }
 
     update(elapsed){
@@ -61,18 +80,28 @@ class BallTemporizedBomb extends Ball{
     updateActivationTimer(elapsed){
         if(this.activated && this.activationTime > 0){
             this.activationTime -= elapsed;
+            this.animationTime -= elapsed;
+            
+            
+            if(this.animationTime > 1000) {
+                this.play('red');
+            } else {
+                this.play('normal');
+            }
+            
+            if(this.animationTime < 0){
+                this.animationTime = 2000;
+            }
+            
 
             if(this.activationTime < 0){
                 this.activationTime = 0;
                 this.timedExplode();
             }
         }
-
-        console.log(this.activationTime);
     }
 
     timedExplode(){
-        //this.activated = false;
         var explosion2 = new Explosion(this.scene, this.x, this.y);
         this.destroyFromScene();
     }

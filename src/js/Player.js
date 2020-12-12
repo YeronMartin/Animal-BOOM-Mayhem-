@@ -319,10 +319,7 @@ class Player extends Phaser.GameObjects.Sprite{
             this.normaliceThrowDirection();
             this.ball.launch(this.dirX, this.dirY);
 
-
             this.playThrowAnimation();
-
-            
         }
 
         this.ball = null;
@@ -469,5 +466,6 @@ class Player extends Phaser.GameObjects.Sprite{
         this.play('idle');
 
         this.addToGroupIfIsNotAddedYet();
+        this.flickeringEnded = true;
     }
 }

@@ -2,8 +2,15 @@ var config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
+    scene: [mainMenu, options, credits, characterSelection, scenario, playGame, postGame, gameSettings, 
+        StadiumGame, Tutorial],
 
-    scene: [gameSettings, mainMenu, options, credits, character, scenario, playGame, postGame]
+    physics: {
+        default: "arcade",
+        arcade:{
+            debug: false
+        }
+      }
 };
 
 var game = new Phaser.Game(config);

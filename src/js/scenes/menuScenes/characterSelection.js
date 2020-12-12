@@ -1,6 +1,6 @@
-class character extends Phaser.Scene{
+class characterSelection extends Phaser.Scene{
     constructor (){
-        super("character");
+        super("characterSelection");
         var exitButton;
         var button_selected = null;
         var juaniButton;

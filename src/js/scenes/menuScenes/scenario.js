@@ -37,7 +37,7 @@ class scenario extends Phaser.Scene{
         this.gameSettingsButton.setInteractive();
 
         this.exitButton.on('pointerdown', () => this.scene.start('character'));
-        this.estadioButton.on('pointerdown', () => this.scene.start('playGame'));
+        this.estadioButton.on('pointerdown', () => this.scene.start('stadiumGame'));
         this.gameSettingsButton.on('pointerdown', () =>this.scene.start('gameSettingsButton'));
 
         //Flechas
@@ -51,8 +51,6 @@ class scenario extends Phaser.Scene{
     update(){
         this.toSelectButton();
         this.toEnterButton();
-
-
     }
 
     renderButtons (i, j){
@@ -70,7 +68,7 @@ class scenario extends Phaser.Scene{
           break;
       }
       switch (j) {
-        case  0:
+      case  0:
           this.exitButton = this.add.image(50, 50, "exit_arrow").setDepth(1).setScale(.1);
           break;
         case 1:

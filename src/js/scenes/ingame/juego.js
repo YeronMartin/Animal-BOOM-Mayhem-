@@ -3,11 +3,8 @@ class juego extends Phaser.Scene{
         super("playGame");
     }
     
-     preload(){
+    preload(){
         this.load.image("background_credits", "././resources/img/background_credits.png");
-        
-
-        
     }
 
     create(){
@@ -20,18 +17,10 @@ class juego extends Phaser.Scene{
         nextScene.setInteractive();
         nextScene.on('pointerdown', () => this.scene.start('postGame'));
         //estadioButton.on('pointerdown', () => this.scene.start('character'));
+    }
         
-        
-;
-
-}
-        
-
-                    
-
     update(){
         
-
     }
 
 }

@@ -1,22 +1,16 @@
-class mode extends Phaser.Scene{
+class gameModeSelection extends Phaser.Scene{
     constructor (){
-        super("mode");
+        super("gameModeSelection");
     }
     
      preload(){
         this.load.image("background_credits", "././resources/img/background_credits.png");
-         this.load.image("exit_arrow", "././resources/img/exit_arrow.png")
-        
-
-        
+        this.load.image("exit_arrow", "././resources/img/exit_arrow.png")
     }
 
     create(){
-        
-       
-        
         this.add.image(400, 300, "background_credits");
-         this.add.text(500, 50, 'Pantalla Modo de juego', {fill: '#000000'}).setDepth(1);
+        this.add.text(500, 50, 'Pantalla Modo de juego', {fill: '#000000'}).setDepth(1);
         var exitButton = this.add.image(50, 50, "exit_arrow");
         exitButton.setScale(.1);
         
@@ -26,24 +20,15 @@ class mode extends Phaser.Scene{
         exitButton.setInteractive();
         teamButton.setInteractive();
         hungerButton.setInteractive();
-         exitButton.on('pointerdown', () => this.scene.start('OffLine/OnLine'));
-         teamButton.on('pointerdown', () => this.scene.start('character'));
-         hungerButton.on('pointerdown', () => this.scene.start('character'));
+        exitButton.on('pointerdown', () => this.scene.start('OffLine/OnLine'));
+        teamButton.on('pointerdown', () => this.scene.start('character'));
+        hungerButton.on('pointerdown', () => this.scene.start('character'));
+    }
         
-        
-;
-
-}
-        
-
-                    
-
     update(){
         /*if(Phaser.Input.Keyboard.JustDown(this.key_E)){
             this.toNextScene();
         }*/
-        
-
     }
 
    /* toNextScene(){

@@ -4,8 +4,19 @@ class StadiumGame extends Phaser.Scene {
     }
 
     preload(){
-        this.load.spritesheet('juani_sheet', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
-        
+        this.load.spritesheet('juani_sheet0', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('juani_sheet0a', '././././resources/img/characters/juani/juani_sheet1_basketball.png', { frameWidth: 180, frameHeight: 250 } );
+
+        this.load.spritesheet('juani_sheet1', '././././resources/img/characters/juani/juani_sheet2.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('juani_sheet1a', '././././resources/img/characters/juani/juani_sheet1_basketball.png', { frameWidth: 180, frameHeight: 250 } );
+
+        this.load.spritesheet('player_none', '././././resources/img/characters/juani/player_none.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_basketball', '././././resources/img/characters/juani/player_basketball.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_bomb', '././././resources/img/characters/juani/player_bomb.png', { frameWidth: 180, frameHeight: 250 } );
+
+        this.load.spritesheet('player_potato', '././././resources/img/characters/juani/player_potato1.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_potato_red', '././././resources/img/characters/juani/player_potato2.png', { frameWidth: 180, frameHeight: 250 } );
+
         this.load.spritesheet('lifebar_0', '././././resources/img/hud/lifebar_blue.png', { frameWidth: 230, frameHeight: 45 });
         this.load.spritesheet('lifebar_1', '././././resources/img/hud/lifebar_red.png', { frameWidth: 230, frameHeight: 45 });
 

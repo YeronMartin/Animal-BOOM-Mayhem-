@@ -1,7 +1,7 @@
 class Player extends Phaser.GameObjects.Sprite{
-
-
     id;
+    sheetKey = 0;
+
     speed = 400;
     aiming = false;
     pickUpRadius = 80;
@@ -32,7 +32,7 @@ class Player extends Phaser.GameObjects.Sprite{
     facingRight = true;
 
     constructor(scene, x, y, id) {
-        super(scene, x, y, "juani_sheet", id);
+        super(scene, x, y, "juani_sheet"+id);
 
         this.id = id;
 
@@ -49,9 +49,14 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.setupAnimations(scene);
 
-        this.play('idle');
+        this.sheetKey = '';
+
+        //this.play('idle'+this.id+this.sheetKey);
+        this.play('idle'+this.id);
 
         this.setupInputEvents(scene, id);
+
+        this.playerItem = new PlayerItem(this.scene, 0, 0, this, 'none');
 
         this.setupLifeBar(id);
     }
@@ -64,63 +69,62 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.lifebar.anim0 = this.scene.anims.create({
             key: 'lifebar_'+id+'_3',
-            frames: this.scene.anims.generateFrameNames('lifebar_'+id, {frames: [0]}),
+            frames: this.scene.anims.generateFrameNames('lifebar_'+this.id, {frames: [0]}),
         });
 
         this.lifebar.anim1 = this.scene.anims.create({
             key: 'lifebar_'+id+'_2',
-            frames: this.scene.anims.generateFrameNames('lifebar_'+id, {frames: [1]}),
+            frames: this.scene.anims.generateFrameNames('lifebar_'+this.id, {frames: [1]}),
         });
 
         this.lifebar.anim2 = this.scene.anims.create({
             key: 'lifebar_'+id+'_1',
-            frames: this.scene.anims.generateFrameNames('lifebar_'+id, {frames: [2]}),
+            frames: this.scene.anims.generateFrameNames('lifebar_'+this.id, {frames: [2]}),
         });
     }
 
     setupAnimations(scene){
         this.anim0 = this.scene.anims.create({
-            key: 'idle',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [0]}),
+            key: 'idle'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [0]}),
             frameRate: 0,
             repeat: 1
         });
 
         this.anim1 = this.scene.anims.create({
-            key: 'walk',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [1, 2, 3]}),
+            key: 'walk'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [1, 2, 3]}),
             frameRate: 10,
             repeat: -1
         });
 
         this.anim2 = this.scene.anims.create({
-            key: 'throw',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [6, 7]}),
+            key: 'throw'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [6, 7]}),
             frameRate: 20,
             repeat: 0
         });
 
         this.anim3 = this.scene.anims.create({
-            key: 'aim',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [6]}),
+            key: 'aim'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [6]}),
             frameRate: 10,
             repeat: 0
         });
 
         this.anim4 = this.scene.anims.create({
-            key: 'crouch',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [4, 5]}),
+            key: 'crouch'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [4, 5]}),
             frameRate: 10,
             repeat: 0
         });
 
         this.anim5 = this.scene.anims.create({
-            key: 'hurt',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [8]}),
+            key: 'hurt'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [8]}),
             frameRate: 0,
             repeat: -1
         });
-
     }
 
     setupPhysics(scene){
@@ -173,9 +177,6 @@ class Player extends Phaser.GameObjects.Sprite{
         this.updateLifebarPosition();
 
         this.updatePosition();
-
-        
-
         this.updateBallPosition();
         this.updateAnimations();
 
@@ -185,6 +186,8 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     updatePosition(){
+
+        this.playerItem.update();
 
         if (this.aiming || this.stunned || this.crouching)
             return;
@@ -206,6 +209,11 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.body.velocity.x = newVelocityX;
         this.body.velocity.y = newVelocityY;
+
+        if(this.ball == null && this.playerItem.id == 'potato'){
+            this.playerItem.destroy();
+            this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'none');
+        }
     }
 
     updateLifebarPosition(){
@@ -225,22 +233,27 @@ class Player extends Phaser.GameObjects.Sprite{
 
         if((this.body.velocity.x < 0 || this.dirX < 0) && !this.flipX){
             this.flipX = true;
+            this.playerItem.flipX = true;
         }else if((this.body.velocity.x > 0 || this.dirX > 0) && this.flipX){
             this.flipX = false;
+            this.playerItem.flipX = false;
         }
 
         //CAMBIAR A TENER EN CUENTA LA DIRECCIÓN Y LA BOLA EN MANO
         if(this.aiming){
-            this.play('aim');
+            this.play('aim'+this.id);
+            this.playerItem.playAim();
         }
 
         if(this.aiming || this.stunned || this.crouching)
             return;
 
         if(this.body.velocity.x == 0 && this.body.velocity.y == 0){
-            this.play('idle');
-        }else if(this.anims.getCurrentKey() != 'walk'){
-            this.play('walk');
+            this.play('idle'+this.id);
+            this.playerItem.playIdle();
+        }else if(this.anims.getCurrentKey() != 'walk'+this.id){
+            this.play('walk'+this.id);
+            this.playerItem.playWalk();
         }
     }
 
@@ -311,8 +324,25 @@ class Player extends Phaser.GameObjects.Sprite{
 
             this.setBodyVelocityToCero();
 
-            this.play('crouch');
+            this.playerItem.destroy();
+
+            if(this.ball.id == "BallBasket"){
+                this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'basketball');
+            }else if(this.ball.id == 'BallBomb'){
+                this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'bomb');
+            }else if(this.ball.id == "BallTemporizedBomb"){
+                this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'potato');
+            }
+
+            //this.play('crouch'+this.id+this.sheetKey);
+            this.play('crouch'+this.id);
+            this.playerItem.playCrouch();
+
             this.stunned = true;
+
+
+            this.ball.visible = false;
+
             var pickUpDelayTimer = this.scene.time.addEvent({ delay: 150, callback: this.pickupDelayEnded, callbackScope: this, loop: false });
         }
     }
@@ -348,15 +378,29 @@ class Player extends Phaser.GameObjects.Sprite{
             return;
 
         //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
+
+
+
+
         if(this.dirX == 0 && this.dirY == 0){
-            this.ball.launch(1, 0);
+            if(this.flipX){
+                this.ball.launch(-1, 0);
+            }else{
+                this.ball.launch(1, 0);
+            }
         }else{
             this.normaliceThrowDirection();
             this.ball.launch(this.dirX, this.dirY);
         }
 
         this.playThrowAnimation();
+        this.ball.visible = true;
         this.ball = null;
+        //this.sheetKey = '';
+
+        this.playerItem.destroy();
+        this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'none');
+
 
         //Activar animación de lanzar.
         //Esperar mientras se ejecuta la animación
@@ -366,7 +410,10 @@ class Player extends Phaser.GameObjects.Sprite{
 
     playThrowAnimation(){
 
-        this.play('throw');
+        //this.play('throw'+this.id+this.sheetKey);
+        this.play('throw'+this.id);
+        this.playerItem.playThrow();
+
         this.stunned = true;
         this.aiming = false;
         //SELECCIONAR ANIMACIÓN EN FUNCIÓN DE LA DIRECCIÓN Y DE LA BOLA EN MANO
@@ -389,10 +436,13 @@ class Player extends Phaser.GameObjects.Sprite{
 
         if(this.health <= 0){
            // this.destroyFromScene();
-           this.play('hurt');
-           this.removeFromSceneLists();
-           this.scene.playerEliminated();
-           this.lifebar.destroy();
+           //this.play('hurt'+this.id+this.sheetKey);
+            this.play('hurt'+this.id);
+            this.playerItem.playHurt();
+
+            this.removeFromSceneLists();
+            this.scene.playerEliminated();
+            this.lifebar.destroy();
         }else{
             this.lifebar.play('lifebar_'+this.id+'_'+this.health);
             this.enterHurtState();
@@ -437,7 +487,10 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     enterHurtState(){
-        this.play('hurt');
+        //this.play('hurt'+this.id+this.sheetKey);
+        this.play('hurt'+this.id);
+        this.playerItem.playHurt();
+
         var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
         this.stunned = true;
 
@@ -468,7 +521,10 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     endHurtAnimation(){
-        this.play('idle');
+        //this.play('idle'+this.id+this.sheetKey);
+        this.play('idle'+this.id);
+        this.playerItem.playIdle();
+
         this.stunned = false;
     }
 
@@ -477,7 +533,10 @@ class Player extends Phaser.GameObjects.Sprite{
             return;
 
         this.crouching = true;
-        this.play('crouch');
+        //this.play('crouch'+this.id+this.sheetKey);
+
+        this.play('crouch'+this.id);
+        this.playerItem.playCrouch();
 
         this.setBodyVelocityToCero();
 
@@ -497,7 +556,10 @@ class Player extends Phaser.GameObjects.Sprite{
 
     releaseCrouch(){
         this.crouching = false;
-        this.play('idle');
+        //this.play('idle'+this.id+this.sheetKey);
+
+        this.play('idle'+this.id);
+        this.playerItem.playIdle();
 
         this.addToGroupIfIsNotAddedYet();
         this.flickeringEnded = true;

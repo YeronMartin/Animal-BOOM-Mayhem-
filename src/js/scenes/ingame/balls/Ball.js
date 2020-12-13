@@ -17,7 +17,7 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.setScale(0.5);
         this.setupPhysics(scene);
 
-        var scene = scene;
+        this.scene = scene;
         scene.add.existing(this);
 
         if(scene.timeEnded){

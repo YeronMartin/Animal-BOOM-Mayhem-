@@ -1,11 +1,15 @@
 class BallTemporizedBomb extends Ball{
     
-    id = "BallBomb"
+    id = "BallTemporizedBomb"
     speed = 700;
     distanceToTravel = 2000000;
+    distanceToActivateCollisions = 100000;
+
     activated = false;
     activationTime = Phaser.Math.Between(5000, 8000);
     animationTime = 2000;
+
+    redState = false;
 
     constructor(scene, posX, posY){
         super(scene, posX, posY, "potato_sheet");
@@ -51,9 +55,7 @@ class BallTemporizedBomb extends Ball{
         this.distanceToTravel = 1500000;
 
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
-
-        //Después de un pequeño retardo, añadimos la bola al grupo de bolas para colisiones
-        var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
+        this.distanceToActivateCollisions = 100000;
 
 
         if(!this.activated){
@@ -63,21 +65,29 @@ class BallTemporizedBomb extends Ball{
     }
 
     update(elapsed){
+        if (!this.onGround && !this.heldByPlayer){
+            //Después de recorrer cierta distancia, que la bola quede en el suelo
+            this.distanceToTravel -= this.speed * elapsed;
         
+            if(this.distanceToTravel < 0){
+                this.setBallOnGround();
+            }
+
+            if(this.distanceToActivateCollisions > 0){
+                this.distanceToActivateCollisions -= this.speed * elapsed;
+    
+                if(this.distanceToActivateCollisions < 0){
+                    this.addToPhysicsGroup();
+                    this.distanceToActivateCollisions = 0;        
+                }
+            }
+
+            this.angle += 10;
+        }
+
+
+
         this.updateActivationTimer(elapsed);
-
-        if (this.onGround || this.heldByPlayer){
-            return;
-        }
-        
-        //Después de recorrer cierta distancia, que la bola quede en el suelo
-        this.distanceToTravel -= this.speed * elapsed;
-        
-        if(this.distanceToTravel < 0){
-            this.setBallOnGround();
-        }
-
-        this.angle += 10;
     }
 
     updateActivationTimer(elapsed){
@@ -85,17 +95,17 @@ class BallTemporizedBomb extends Ball{
             this.activationTime -= elapsed;
             this.animationTime -= elapsed;
             
-            
             if(this.animationTime > 1000) {
                 this.play('red');
+                this.redState = true;
             } else {
                 this.play('normal');
+                this.redState = false;
             }
             
             if(this.animationTime < 0){
                 this.animationTime = 2000;
             }
-            
 
             if(this.activationTime < 0){
                 this.activationTime = 0;

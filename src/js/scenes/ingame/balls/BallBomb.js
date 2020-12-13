@@ -13,6 +13,10 @@ class BallBomb extends Ball{
 
         var scene = scene;
         scene.add.existing(this);
+
+        if(scene.timeEnded){
+            this.enterSuddenDeathMode();
+        }
     }
 
     setupPhysics(scene)

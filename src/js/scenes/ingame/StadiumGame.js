@@ -4,12 +4,10 @@ class StadiumGame extends Phaser.Scene {
     }
 
     preload(){
-        //this.load.spritesheet('cerdete_sheet', '././././resources/img/characters/juani/cerdete_sheet.png', { frameWidth: 100, frameHeight: 100 } );
         this.load.spritesheet('juani_sheet', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
         
         this.load.spritesheet('lifebar_0', '././././resources/img/hud/lifebar_blue.png', { frameWidth: 230, frameHeight: 45 });
         this.load.spritesheet('lifebar_1', '././././resources/img/hud/lifebar_red.png', { frameWidth: 230, frameHeight: 45 });
-
 
 
         this.load.image("pelota", "././././resources/img/balls/Pelota.png");
@@ -17,10 +15,6 @@ class StadiumGame extends Phaser.Scene {
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
 
         this.load.image("explosion", "././././resources/img/balls/Explosion.png");
-
-
-
-
 
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
     }
@@ -37,26 +31,27 @@ class StadiumGame extends Phaser.Scene {
 
     maxBallsInScene = 10;
 
-    minutesRemaining = 1;
-    secondsRemaining = 0;
+    minutesRemaining;
+    secondsRemaining5;
 
     create() {
         this.background = this.add.image(0, 0,"background");
         this.background.setOrigin(0,0);
         this.background.setDisplaySize(config.width, config.height);
         
-        this.matchTimer = this.add.text(20, 20, "Playing game", {
+        this.minutesRemaining = 1;
+        this.secondsRemaining = 0;
+
+        this.matchTimer = this.add.text(20, 20, this.minutesRemaining+":"+this.secondsRemaining+'0', {
             font: "25px Arial", 
             fill: "white",
-            
         });
         
         this.deltaTime = 0;
 
         this.physics.world.setBoundsCollision();
 
-        this.minutesRemaining = 1;
-        this.secondsRemaining = 0;
+
 
         this.setupPlayers();
         this.setupInitialBalls();
@@ -64,10 +59,16 @@ class StadiumGame extends Phaser.Scene {
         this.setupExplosionGroup();
 
         this.input.keyboard.on('keydown_ESC', this.escapePressed, this);
+        this.input.keyboard.on('keydown_ZERO', this.chetosPressed, this);
     }
 
     escapePressed(){
         this.scene.start("mainMenu");
+    }
+
+    chetosPressed(){
+        this.minutesRemaining = 0;
+        this.secondsRemaining = 5;
     }
 
     setupPlayers(){
@@ -103,11 +104,10 @@ class StadiumGame extends Phaser.Scene {
     }
 
     generateNewBall(){
-       
         var ballPosition = this.generateValidBallPosition();
         var i = this.ballsList.length;
 
-        if(Phaser.Math.Between(0, 10) > 6){
+        if(Phaser.Math.Between(0, 10) > 8){
             this.ballsList[i] = new BallBasket(this, ballPosition.x, ballPosition.y);
         }else if(Phaser.Math.Between(0, 10) > 7){
             this.ballsList[i] = new BallTemporizedBomb(this, ballPosition.x, ballPosition.y);
@@ -159,7 +159,6 @@ class StadiumGame extends Phaser.Scene {
     }
 
     colisionPlayerExplosion(player, explosion){
-        console.log("Has hecho colisi")
         player.takeDamage();
     }
 
@@ -213,7 +212,6 @@ class StadiumGame extends Phaser.Scene {
 
             if(this.secondsRemaining == 0 && this.minutesRemaining == 0){
                 this.timeEnded = true;
-                console.log("EL FINAL DE TODOOOOOOOOOOOOO");
                 this.activateSuddenDeath();
             }
             if(this.secondsRemaining < 10){
@@ -239,8 +237,14 @@ class StadiumGame extends Phaser.Scene {
     }
 
     activateSuddenDeath(){
+        //Actualizar todas las bolas existentes
         for (var i = this.ballsList.length - 1; i >= 0; i--) {
             this.ballsList[i].enterSuddenDeathMode();
+        }
+
+        //Poner la salud de todo el mundo a 1.
+        for (var i = this.playersList.length - 1; i >= 0; i--) {
+            this.playersList[i].enterSuddenDeathMode();
         }
     }
 }

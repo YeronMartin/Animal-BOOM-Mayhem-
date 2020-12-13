@@ -502,4 +502,9 @@ class Player extends Phaser.GameObjects.Sprite{
         this.addToGroupIfIsNotAddedYet();
         this.flickeringEnded = true;
     }
+
+    enterSuddenDeathMode(){
+        this.health = 1;
+        this.lifebar.play('lifebar_'+this.id+'_'+this.health);
+    }
 }

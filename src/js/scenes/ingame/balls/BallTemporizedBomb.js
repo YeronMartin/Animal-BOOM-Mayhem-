@@ -14,9 +14,12 @@ class BallTemporizedBomb extends Ball{
         this.setupPhysics(scene);
         this.setupAnimations(scene);
         
-
         var scene = scene;
         scene.add.existing(this);
+
+        if(scene.timeEnded){
+            this.enterSuddenDeathMode();
+        }
     }
 
     setupPhysics(scene)

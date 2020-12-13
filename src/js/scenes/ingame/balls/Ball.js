@@ -21,8 +21,7 @@ class Ball extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
 
         if(scene.timeEnded){
-            this.setScale(0.6);
-            this.speed = 800;
+            this.enterSuddenDeathMode();
         }
     }
 
@@ -106,7 +105,7 @@ class Ball extends Phaser.GameObjects.Sprite{
     }
 
     enterSuddenDeathMode(){
-        this.setScale(0.6);
-        this.speed = 800;
+        this.setScale(this.scale + 0.2);
+        this.speed += 300;
     }
 }

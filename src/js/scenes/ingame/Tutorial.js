@@ -6,6 +6,11 @@ class Tutorial extends Phaser.Scene {
 
     preload(){
         this.load.spritesheet('cerdete_sheet', '././././resources/img/characters/juani/cerdete_sheet.png', { frameWidth: 100, frameHeight: 100 } );
+        this.load.spritesheet('juani_sheet', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
+        
+        this.load.spritesheet('lifebar_0', '././././resources/img/hud/lifebar_blue.png', { frameWidth: 230, frameHeight: 45 });
+        this.load.spritesheet('lifebar_1', '././././resources/img/hud/lifebar_red.png', { frameWidth: 230, frameHeight: 45 });
+
         this.load.image("pelota", "././././resources/img/balls/Pelota.png");
         this.load.image("bomba", "././././resources/img/balls/Bomba.png");
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
@@ -61,6 +66,7 @@ class Tutorial extends Phaser.Scene {
 
         if(player == this.playersList[0]){
             player.health++;
+            player.lifebar.play('lifebar_0_'+player.health);
         }
 
 
@@ -137,7 +143,7 @@ class Tutorial extends Phaser.Scene {
                 break;
             case 1: //Recoger la pelota
                 if(this.ballsList[0].heldByPlayer){
-                    this.messageBox.setText("Lanza la bola manteniendo pulsado R y apunta con WASD. La bola rebotará por las paredes, ten cuidado de que no te golpee.");
+                    this.messageBox.setText("Lanza la bola manteniendo pulsado R y apunta con WASD. Ten cuidado porque la bola rebotará por las paredes.");
                     this.tutorialPhase++;
                 }
                 break;
@@ -150,7 +156,7 @@ class Tutorial extends Phaser.Scene {
                 if(this.ballsList[0].onGround){
                     this.tutorialPhase++;
                     this.messageBox.setText("Ahora que ya sabes recoger y lanzar bolas, es el momento de practicar con un adversario. Elimina a ese dummy, bastará con golpearlo 3 veces.");
-                    this.playersList[1] = new Dummy(this, config.width / 2, config.height / 2);
+                    this.playersList[1] = new Dummy(this, config.width / 2, config.height / 2, 1);
                     this.playersGroup.add(this.playersList[1], true);
                     this.generateBalls();
                 }
@@ -177,10 +183,13 @@ class Tutorial extends Phaser.Scene {
                     this.playersList[0].x = (config.width / 2) - 100;
                     this.playersList[0].y = config.height / 2;
                     this.playersList[0].body.immovable = true;
+                    this.playersList[0].play('idle');
+                    this.playersList[0].updateLifebarPosition();
 
                     //Colocamos un dummy en el borde derecho del mapa y le damos una pelota
-                    this.playersList[1] = new Dummy(this, config.width - 100, config.height / 2);
+                    this.playersList[1] = new Dummy(this, config.width - 100, config.height / 2, 1);
                     this.playersGroup.add(this.playersList[1], true);
+                    this.playersList[1].flipX = true;
                     this.placeBallOnDummy();
                     
                     this.input.keyboard.on('keydown_ENTER', this.enterPressed, this);
@@ -214,6 +223,9 @@ class Tutorial extends Phaser.Scene {
     waitingTimeEnded(){
         this.playersList[1].ball.launch(-1, 0);
         this.playersList[1].ball = null;
+
+
+        this.playersList[1].play('throw');
     }
 
     hasThePlayerReachedTheBall(){

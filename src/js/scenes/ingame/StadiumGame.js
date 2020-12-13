@@ -4,12 +4,22 @@ class StadiumGame extends Phaser.Scene {
     }
 
     preload(){
-        this.load.spritesheet('cerdete_sheet', '././././resources/img/characters/juani/cerdete_sheet.png', { frameWidth: 100, frameHeight: 100 } );
+        //this.load.spritesheet('cerdete_sheet', '././././resources/img/characters/juani/cerdete_sheet.png', { frameWidth: 100, frameHeight: 100 } );
+        this.load.spritesheet('juani_sheet', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
+        
+        this.load.spritesheet('lifebar_0', '././././resources/img/hud/lifebar_blue.png', { frameWidth: 230, frameHeight: 45 });
+        this.load.spritesheet('lifebar_1', '././././resources/img/hud/lifebar_red.png', { frameWidth: 230, frameHeight: 45 });
+
+
+
         this.load.image("pelota", "././././resources/img/balls/Pelota.png");
         this.load.image("bomba", "././././resources/img/balls/Bomba.png");
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
 
         this.load.image("explosion", "././././resources/img/balls/Explosion.png");
+
+
+
 
 
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
@@ -97,9 +107,9 @@ class StadiumGame extends Phaser.Scene {
         var ballPosition = this.generateValidBallPosition();
         var i = this.ballsList.length;
 
-        if(Phaser.Math.Between(0, 10) > 7){
+        if(Phaser.Math.Between(0, 10) > 6){
             this.ballsList[i] = new BallBasket(this, ballPosition.x, ballPosition.y);
-        }else if(Phaser.Math.Between(0, 10) > 8){
+        }else if(Phaser.Math.Between(0, 10) > 7){
             this.ballsList[i] = new BallTemporizedBomb(this, ballPosition.x, ballPosition.y);
         }else{
             this.ballsList[i] = new BallBomb (this, ballPosition.x, ballPosition.y);

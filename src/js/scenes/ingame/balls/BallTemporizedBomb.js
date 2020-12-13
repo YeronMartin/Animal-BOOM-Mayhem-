@@ -10,7 +10,7 @@ class BallTemporizedBomb extends Ball{
     constructor(scene, posX, posY){
         super(scene, posX, posY, "potato_sheet");
 
-        this.setScale(0.6);
+        this.setScale(0.4);
         this.setupPhysics(scene);
         this.setupAnimations(scene);
         
@@ -44,7 +44,7 @@ class BallTemporizedBomb extends Ball{
         this.dirX = dirX;
         this.dirY = dirY;
         this.onGround = false;
-        this.heldByPlayer = false;
+        this.heldByPlayer = null;
         this.distanceToTravel = 1500000;
 
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
@@ -70,10 +70,11 @@ class BallTemporizedBomb extends Ball{
         //Después de recorrer cierta distancia, que la bola quede en el suelo
         this.distanceToTravel -= this.speed * elapsed;
         
-        
         if(this.distanceToTravel < 0){
             this.setBallOnGround();
         }
+
+        this.angle += 10;
     }
 
     updateActivationTimer(elapsed){
@@ -102,6 +103,11 @@ class BallTemporizedBomb extends Ball{
 
     timedExplode(){
         var explosion2 = new Explosion(this.scene, this.x, this.y);
+
+        if(this.heldByPlayer){
+            this.heldByPlayer.ball = null;
+        }
+
         this.destroyFromScene();
     }
 

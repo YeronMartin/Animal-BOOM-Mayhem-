@@ -8,7 +8,7 @@ class BallBasket extends Ball{
     constructor(scene, posX, posY){
         super(scene, posX, posY, "pelota");
 
-        this.setScale(0.6);
+        this.setScale(0.4);
         this.setupPhysics(scene);
 
         var scene = scene;

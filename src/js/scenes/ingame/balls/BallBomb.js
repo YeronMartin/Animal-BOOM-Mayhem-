@@ -8,7 +8,7 @@ class BallBomb extends Ball{
     constructor(scene, posX, posY){
         super(scene, posX, posY, "bomba");
 
-        this.setScale(0.7);
+        this.setScale(0.4);
         this.setupPhysics(scene);
 
         var scene = scene;
@@ -50,6 +50,8 @@ class BallBomb extends Ball{
                 this.distanceToActivateCollisions = 0;        
             }
         }
+
+        this.angle += 10;
     }
 
     impact(player){

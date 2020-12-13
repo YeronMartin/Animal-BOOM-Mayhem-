@@ -1,5 +1,6 @@
 class Dummy extends Phaser.GameObjects.Sprite{
 
+    id;
     stunned = false;
     crouching = false;
 
@@ -11,12 +12,16 @@ class Dummy extends Phaser.GameObjects.Sprite{
 
     flickeringEnded = false;
 
-    constructor(scene, x, y) {
-        super(scene, x, y, "cerdete_sheet");
+    constructor(scene, x, y, id) {
+        super(scene, x, y, "juani_sheet");
+
+        this.id = id;
 
         //Añadir elemento a la escena
         scene.add.existing(this);
         this.setupPhysics(scene);
+
+        this.setScale(0.4);
 
         //Añadir elemento a una lista en la escena
         scene.playersGroup.add(this);
@@ -26,26 +31,71 @@ class Dummy extends Phaser.GameObjects.Sprite{
         this.body.immovable = true;
 
         this.play('idle');
+
+        this.setupLifeBar(id);
+    }
+
+    setupLifeBar(id){
+        this.lifebar = new Phaser.GameObjects.Sprite(this.scene, this.x, this.y + 50, 'lifebar_'+id);
+        this.scene.add.existing(this.lifebar);
+        this.lifebar.setDepth(3);
+        this.lifebar.setScale(0.3);
+
+        this.lifebar.anim0 = this.scene.anims.create({
+            key: 'lifebar_'+id+'_3',
+            frames: this.scene.anims.generateFrameNames('lifebar_'+id, {frames: [0]}),
+        });
+
+        this.lifebar.anim1 = this.scene.anims.create({
+            key: 'lifebar_'+id+'_2',
+            frames: this.scene.anims.generateFrameNames('lifebar_'+id, {frames: [1]}),
+        });
+
+        this.lifebar.anim2 = this.scene.anims.create({
+            key: 'lifebar_'+id+'_1',
+            frames: this.scene.anims.generateFrameNames('lifebar_'+id, {frames: [2]}),
+        });
     }
 
     setupAnimations(scene){
-        this.anim1 = this.scene.anims.create({
+        this.anim0 = this.scene.anims.create({
             key: 'idle',
-            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [0]}),
+            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [0]}),
             frameRate: 0,
+            repeat: 1
+        });
+
+        this.anim1 = this.scene.anims.create({
+            key: 'walk',
+            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [1, 2, 3]}),
+            frameRate: 10,
             repeat: -1
+        });
+
+        this.anim2 = this.scene.anims.create({
+            key: 'throw',
+            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [6, 7]}),
+            frameRate: 20,
+            repeat: 0
         });
 
         this.anim3 = this.scene.anims.create({
-            key: 'crouch',
-            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [3]}),
-            frameRate: 0,
-            repeat: -1
+            key: 'aim',
+            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [6]}),
+            frameRate: 10,
+            repeat: 0
         });
 
         this.anim4 = this.scene.anims.create({
+            key: 'crouch',
+            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [4, 5]}),
+            frameRate: 10,
+            repeat: 0
+        });
+
+        this.anim5 = this.scene.anims.create({
             key: 'hurt',
-            frames: this.scene.anims.generateFrameNames('cerdete_sheet', {frames: [4]}),
+            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [8]}),
             frameRate: 0,
             repeat: -1
         });
@@ -62,6 +112,13 @@ class Dummy extends Phaser.GameObjects.Sprite{
             this.ball.x = this.x;
             this.ball.y = this.y;
         }
+
+        this.updateLifebarPosition();
+    }
+
+    updateLifebarPosition(){
+        this.lifebar.x = this.x;
+        this.lifebar.y = this.y + 50;
     }
 
      //Metodiños para gestionar la recogida o lanzamiento de bolindres
@@ -71,6 +128,7 @@ class Dummy extends Phaser.GameObjects.Sprite{
         this.body.velocity.y = 0;
     }
 
+    /*
     takeDamage(){
         this.health --;
 
@@ -79,6 +137,18 @@ class Dummy extends Phaser.GameObjects.Sprite{
         }else{
             this.enterHurtState();
             this.setBodyVelocityToCero();
+        }
+    }
+*/
+    takeDamage(){
+        this.health --;
+
+        if(this.health <= 0){
+            this.lifebar.destroy();
+           this.destroyFromScene();
+        }else{
+            this.lifebar.play('lifebar_'+this.id+'_'+this.health);
+            this.enterHurtState();
         }
     }
 

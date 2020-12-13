@@ -5,7 +5,7 @@ class Ball extends Phaser.GameObjects.Sprite{
     speed = 700;
 
     onGround = true;
-    heldByPlayer = false;
+    heldByPlayer = null;
 
     distanceToTravel = 1500000;
     distanceToActivateCollisions = 100000;
@@ -14,7 +14,7 @@ class Ball extends Phaser.GameObjects.Sprite{
         super(scene, posX, posY, keyname);
 
         this.setDepth(2);
-        this.setScale(0.3);
+        this.setScale(0.5);
         this.setupPhysics(scene);
 
         var scene = scene;
@@ -56,6 +56,8 @@ class Ball extends Phaser.GameObjects.Sprite{
                 this.distanceToActivateCollisions = 0;        
             }
         }
+
+        this.angle += 10;
     }
 
     setBallOnGround(){
@@ -71,7 +73,7 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.dirY = dirY;
 
         this.onGround = false;
-        this.heldByPlayer = false;
+        this.heldByPlayer = null;
         this.distanceToTravel = 1500000;
         this.distanceToActivateCollisions = 100000;
 

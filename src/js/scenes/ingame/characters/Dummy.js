@@ -30,8 +30,6 @@ class Dummy extends Phaser.GameObjects.Sprite{
 
         this.setupAnimations(scene);
 
-
-
         this.play('idle'+id);
 
         this.setupLifeBar(id);
@@ -162,6 +160,8 @@ class Dummy extends Phaser.GameObjects.Sprite{
     }
 
     startHurtInvulnerableFrames(){
+        this.scene.playersGroup.remove(this);
+
         this.flickeringEnded = false;
         var flickeringCicleTimer = this.scene.time.addEvent({ delay: this.timeBetweenFlickeringCycles, callback: this.flickeringCicle, callbackScope: this, loop: false });
         var flickeringEndTimer = this.scene.time.addEvent({ delay: this.invulnerabilityDuration, callback: this.endFlickeringCicle, callbackScope: this, loop: false });
@@ -175,8 +175,6 @@ class Dummy extends Phaser.GameObjects.Sprite{
         }else{
             this.visible = true;
             this.scene.playersGroup.add(this, true);
-
-            console.log("SACABO");
         }  
     }
 

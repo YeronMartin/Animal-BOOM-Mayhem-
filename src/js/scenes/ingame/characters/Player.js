@@ -26,7 +26,7 @@ class Player extends Phaser.GameObjects.Sprite{
     hurtInvulnerabilityDuration = 1000;
     crouchInvulnerabilityDuration = 500;
 
-    flickeringEnded = false;
+    flickeringEnded = true;
 
     facingRight = true;
 
@@ -35,7 +35,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.id = id;
 
-        this.setDepth(1);
+        this.setDepth(2);
 
         //Añadir elemento a la escena
         scene.add.existing(this);
@@ -334,8 +334,6 @@ class Player extends Phaser.GameObjects.Sprite{
             this.playerItem.playCrouch();
 
             this.stunned = true;
-
-
             this.ball.visible = false;
 
             var pickUpDelayTimer = this.scene.time.addEvent({ delay: 150, callback: this.pickupDelayEnded, callbackScope: this, loop: false });
@@ -543,5 +541,12 @@ class Player extends Phaser.GameObjects.Sprite{
     enterSuddenDeathMode(){
         this.health = 1;
         this.lifebar.play('lifebar_'+this.id+'_'+this.health);
+    }
+
+    releaseKeys(){
+        this.pressingDown = false;
+        this.pressingLeft = false;
+        this.pressingUp = false;
+        this.pressingRight = false;
     }
 }

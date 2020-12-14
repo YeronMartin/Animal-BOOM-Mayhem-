@@ -51,17 +51,16 @@ class StadiumGame extends Phaser.Scene {
         this.acumulatedDelta = 0;
         this.timeEnded = false;
 
-
         this.matchTimer = this.add.text(20, 20, this.minutesRemaining+":"+this.secondsRemaining+'0', {
             font: "25px Arial", 
             fill: "white",
         });
+
+        this.matchTimer.setDepth(5);
         
         this.deltaTime = 0;
 
         this.physics.world.setBoundsCollision();
-
-
 
         this.setupPlayers();
         this.setupInitialBalls();

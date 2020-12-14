@@ -116,7 +116,7 @@ class scenario extends Phaser.Scene{
               if (this.selectedButton == 0) {
                 this.scene.start("mainMenu");
               } else if (this.selectedButton == 1){
-                this.scene.start("scenario");
+                this.scene.start("stadiumGame");
               } else if (this.selectedButton == 2){
                 this.scene.start("gameSettings");
               }

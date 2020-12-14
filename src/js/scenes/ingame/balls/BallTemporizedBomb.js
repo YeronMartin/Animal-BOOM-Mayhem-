@@ -8,6 +8,7 @@ class BallTemporizedBomb extends Ball{
     activated = false;
     activationTime = Phaser.Math.Between(5000, 8000);
     animationTime = 2000;
+    currentAnimationTime = 2000;
 
     redState = false;
 
@@ -58,10 +59,8 @@ class BallTemporizedBomb extends Ball{
         this.distanceToActivateCollisions = 100000;
 
 
-        if(!this.activated){
+        if(!this.activated)
             this.activated = true;
-        }
-            
     }
 
     update(elapsed){
@@ -85,17 +84,16 @@ class BallTemporizedBomb extends Ball{
             this.angle += 10;
         }
 
-
-
         this.updateActivationTimer(elapsed);
     }
 
     updateActivationTimer(elapsed){
         if(this.activated && this.activationTime > 0){
             this.activationTime -= elapsed;
-            this.animationTime -= elapsed;
+            //this.animationTime -= elapsed;
+            this.currentAnimationTime -= elapsed;
             
-            if(this.animationTime > 1000) {
+            if(this.currentAnimationTime > (this.animationTime / 2)) {
                 this.play('red');
                 this.redState = true;
             } else {
@@ -103,8 +101,11 @@ class BallTemporizedBomb extends Ball{
                 this.redState = false;
             }
             
-            if(this.animationTime < 0){
-                this.animationTime = 2000;
+            if(this.currentAnimationTime <= 0){
+                //this.animationTime = (this.animationTime) - (this.animationTime * 30 / 100);
+                this.animationTime = this.activationTime / 5;
+
+                this.currentAnimationTime = this.animationTime;
             }
 
             if(this.activationTime < 0){

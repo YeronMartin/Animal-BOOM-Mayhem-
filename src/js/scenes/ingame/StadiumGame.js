@@ -5,26 +5,20 @@ class StadiumGame extends Phaser.Scene {
 
     preload(){
         this.load.spritesheet('juani_sheet0', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
-        this.load.spritesheet('juani_sheet0a', '././././resources/img/characters/juani/juani_sheet1_basketball.png', { frameWidth: 180, frameHeight: 250 } );
-
         this.load.spritesheet('juani_sheet1', '././././resources/img/characters/juani/juani_sheet2.png', { frameWidth: 180, frameHeight: 250 } );
-        this.load.spritesheet('juani_sheet1a', '././././resources/img/characters/juani/juani_sheet1_basketball.png', { frameWidth: 180, frameHeight: 250 } );
-
+       
         this.load.spritesheet('player_none', '././././resources/img/characters/juani/player_none.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_basketball', '././././resources/img/characters/juani/player_basketball.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_bomb', '././././resources/img/characters/juani/player_bomb.png', { frameWidth: 180, frameHeight: 250 } );
-
         this.load.spritesheet('player_potato', '././././resources/img/characters/juani/player_potato1.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_potato_red', '././././resources/img/characters/juani/player_potato2.png', { frameWidth: 180, frameHeight: 250 } );
 
         this.load.spritesheet('lifebar_0', '././././resources/img/hud/lifebar_blue.png', { frameWidth: 230, frameHeight: 45 });
         this.load.spritesheet('lifebar_1', '././././resources/img/hud/lifebar_red.png', { frameWidth: 230, frameHeight: 45 });
 
-
         this.load.image("pelota", "././././resources/img/balls/Pelota.png");
         this.load.image("bomba", "././././resources/img/balls/Bomba.png");
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
-
         this.load.image("explosion", "././././resources/img/balls/Explosion.png");
 
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
@@ -44,6 +38,8 @@ class StadiumGame extends Phaser.Scene {
 
     minutesRemaining;
     secondsRemaining5;
+    acumulatedDelta = 0;
+    timeEnded = false;
 
     create() {
         this.background = this.add.image(0, 0,"background");
@@ -52,6 +48,9 @@ class StadiumGame extends Phaser.Scene {
         
         this.minutesRemaining = 1;
         this.secondsRemaining = 0;
+        this.acumulatedDelta = 0;
+        this.timeEnded = false;
+
 
         this.matchTimer = this.add.text(20, 20, this.minutesRemaining+":"+this.secondsRemaining+'0', {
             font: "25px Arial", 
@@ -77,9 +76,15 @@ class StadiumGame extends Phaser.Scene {
         this.scene.start("mainMenu");
     }
 
+    noMorechetos = false;
+
     chetosPressed(){
-        this.minutesRemaining = 0;
-        this.secondsRemaining = 5;
+        if(!this.noMorechetos){
+            this.minutesRemaining = 0;
+            this.secondsRemaining = 5;
+
+            this.noMorechetos = true;
+        }
     }
 
     setupPlayers(){
@@ -188,24 +193,14 @@ class StadiumGame extends Phaser.Scene {
         });
         this.exitText.setOrigin(0.5, 0.5);
         this.exitText.setDepth(5);
-
-        //this.scene.restart();
-        //this.scene.start("bootGame");
     }
 
     update(time, delta){
-
-        //this.background.tilePositionY -= 0.5;
-
         this.updatePlayers(delta);
         this.updateBalls(delta);
 
         this.updateClock(time, delta);
     }
-
-    acumulatedDelta = 0;
-
-    timeEnded = false;
 
     updateClock(time, delta){
         if(this.timeEnded)

@@ -17,10 +17,10 @@ class mainMenu extends Phaser.Scene{
     create(){
         var style = { font: "25px Arial", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
 
-        this.playButton = this.add.text(config.width/2.15, config.height/1.8, 'Play', style).setDepth(1);
+        this.playButton = this.add.text(config.width/2.15, config.height/1.8, 'Jugar', style).setDepth(1);
         this.tutorialButton = this.add.text(config.width/2.25, config.height/1.8 + 50, 'Tutorial', style).setDepth(1);
-        this.optionsButton = this.add.text(config.width/2.25, config.height/1.8 + 100, 'Options', style).setDepth(1);
-        this.creditsButton = this.add.text(config.width/2.25, config.height/1.8 +150, 'Credits', style).setDepth(1);
+        this.optionsButton = this.add.text(config.width/2.25, config.height/1.8 + 100, 'Ajustes', style).setDepth(1);
+        this.creditsButton = this.add.text(config.width/2.25, config.height/1.8 +150, 'Créditos', style).setDepth(1);
 
         this.add.image(config.width/2, config.height/2, "background_mainMenu").setDepth(0);
 
@@ -52,15 +52,19 @@ class mainMenu extends Phaser.Scene{
         this.creditsButton.on('pointerout', () => this.creditsButton.setStyle({ fill: '#000'}));
         this.optionsButton.on('pointerout', () => this.optionsButton.setStyle({ fill: '#000'}));
 
+
+        /*
         //Flechas
         this.key_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.key_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        */
+
+        this.key_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.key_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
         //Enter y espacio
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-
     };
 
     update(){
@@ -69,40 +73,44 @@ class mainMenu extends Phaser.Scene{
     }
 
     toSelectButton(){
-      if(Phaser.Input.Keyboard.JustDown(this.key_DOWN)){
-          if (this.button_selected == null){
-            this.button_selected = 0;
-            this.button_vector[0].setStyle({ fill: '#ff8000'});
-          }else if (this.button_selected != null){
-            this.button_vector[this.button_selected].setStyle({ fill: '#000'});
-            if(this.button_selected == 2){
-              this.button_selected = -1;
+        if(Phaser.Input.Keyboard.JustDown(this.key_DOWN)){
+            if(this.button_selected == null){
+                this.button_selected = 0;
+                this.button_vector[0].setStyle({ fill: '#ff8000'});
+            }else{
+                this.button_vector[this.button_selected].setStyle({ fill: '#000'});
+                
+                if(this.button_selected == 3){
+                    this.button_selected = -1;
+                }
+                this.button_selected ++;
+                this.button_vector[this.button_selected].setStyle({ fill: '#ff8000'});
             }
-            this.button_selected ++;
-            this.button_vector[this.button_selected].setStyle({ fill: '#ff8000'});
-          }
         }else if (Phaser.Input.Keyboard.JustDown(this.key_UP))
-        if (this.button_selected == null){
-          this.button_selected = 2;
-          this.button_vector[2].setStyle({ fill: '#ff8000'});
-        }else if (this.button_selected != null){
-          this.button_vector[this.button_selected].setStyle({ fill: '#000'});
-          if(this.button_selected == 0){
-            this.button_selected = 3;
-          }
-          this.button_selected --;
-          this.button_vector[this.button_selected].setStyle({ fill: '#ff8000'});
+            if (this.button_selected == null){
+                this.button_selected = 0;
+                this.button_vector[0].setStyle({ fill: '#ff8000'});
+            }else{
+                this.button_vector[this.button_selected].setStyle({ fill: '#000'});
+                if(this.button_selected == 0){
+                    this.button_selected = 4;
+                }
+                this.button_selected --;
+                this.button_vector[this.button_selected].setStyle({ fill: '#ff8000'});
+            }
         }
-    }
+        
     toEnterButton(){
       if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
         if (this.button_selected != null) {
           if (this.button_selected == 0) {
             this.scene.start("characterSelection");
           } else if (this.button_selected == 1){
-            this.scene.start("options");
+            this.scene.start("tutorial");
           }else if (this.button_selected == 2){
-            this.scene.start("credits")
+            this.scene.start("options")
+          }else if(this.button_selected == 3){
+            this.scene.start("credits");
           }
         }
       }

@@ -1,6 +1,5 @@
 class Player extends Phaser.GameObjects.Sprite{
     id;
-    sheetKey = 0;
 
     speed = 400;
     aiming = false;
@@ -48,8 +47,6 @@ class Player extends Phaser.GameObjects.Sprite{
         scene.playersGroup.add(this);
 
         this.setupAnimations(scene);
-
-        this.sheetKey = '';
 
         //this.play('idle'+this.id+this.sheetKey);
         this.play('idle'+this.id);
@@ -128,7 +125,6 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     setupPhysics(scene){
-        
         scene.physics.world.enableBody(this);
         this.body.collideWorldBounds = true;
         this.body.bounce.set(false);
@@ -334,7 +330,6 @@ class Player extends Phaser.GameObjects.Sprite{
                 this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'potato');
             }
 
-            //this.play('crouch'+this.id+this.sheetKey);
             this.play('crouch'+this.id);
             this.playerItem.playCrouch();
 
@@ -378,10 +373,6 @@ class Player extends Phaser.GameObjects.Sprite{
             return;
 
         //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
-
-
-
-
         if(this.dirX == 0 && this.dirY == 0){
             if(this.flipX){
                 this.ball.launch(-1, 0);
@@ -396,27 +387,20 @@ class Player extends Phaser.GameObjects.Sprite{
         this.playThrowAnimation();
         this.ball.visible = true;
         this.ball = null;
-        //this.sheetKey = '';
 
         this.playerItem.destroy();
         this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'none');
 
-
-        //Activar animación de lanzar.
         //Esperar mientras se ejecuta la animación
-
         var throwAnimTimer = this.scene.time.addEvent({ delay: this.throwAnimationDelay, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
     }
 
     playThrowAnimation(){
-
-        //this.play('throw'+this.id+this.sheetKey);
         this.play('throw'+this.id);
         this.playerItem.playThrow();
 
         this.stunned = true;
         this.aiming = false;
-        //SELECCIONAR ANIMACIÓN EN FUNCIÓN DE LA DIRECCIÓN Y DE LA BOLA EN MANO
     }
 
     normaliceThrowDirection(){
@@ -433,10 +417,7 @@ class Player extends Phaser.GameObjects.Sprite{
     takeDamage(){
         this.health --;
 
-
         if(this.health <= 0){
-           // this.destroyFromScene();
-           //this.play('hurt'+this.id+this.sheetKey);
             this.play('hurt'+this.id);
             this.playerItem.playHurt();
 
@@ -458,7 +439,6 @@ class Player extends Phaser.GameObjects.Sprite{
     destroyFromScene(){
 
         //Eliminar de la lista de bolas
-        
         this.removeFromSceneLists();
         this.scene.playerEliminated();
 
@@ -487,7 +467,6 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     enterHurtState(){
-        //this.play('hurt'+this.id+this.sheetKey);
         this.play('hurt'+this.id);
         this.playerItem.playHurt();
 
@@ -521,7 +500,6 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     endHurtAnimation(){
-        //this.play('idle'+this.id+this.sheetKey);
         this.play('idle'+this.id);
         this.playerItem.playIdle();
 
@@ -533,7 +511,6 @@ class Player extends Phaser.GameObjects.Sprite{
             return;
 
         this.crouching = true;
-        //this.play('crouch'+this.id+this.sheetKey);
 
         this.play('crouch'+this.id);
         this.playerItem.playCrouch();
@@ -541,7 +518,6 @@ class Player extends Phaser.GameObjects.Sprite{
         this.setBodyVelocityToCero();
 
         this.startInvulnerableFrames(this.crouchInvulnerabilityDuration);
-        //var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.endCrouchInvulnerability, callbackScope: this, loop: false });
     }
 
     endCrouchInvulnerability(){
@@ -556,7 +532,6 @@ class Player extends Phaser.GameObjects.Sprite{
 
     releaseCrouch(){
         this.crouching = false;
-        //this.play('idle'+this.id+this.sheetKey);
 
         this.play('idle'+this.id);
         this.playerItem.playIdle();

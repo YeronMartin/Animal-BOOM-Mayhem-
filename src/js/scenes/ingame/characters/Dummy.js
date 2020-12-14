@@ -13,7 +13,7 @@ class Dummy extends Phaser.GameObjects.Sprite{
     flickeringEnded = false;
 
     constructor(scene, x, y, id) {
-        super(scene, x, y, "juani_sheet");
+        super(scene, x, y, "juani_sheet"+id);
 
         this.id = id;
 
@@ -21,6 +21,8 @@ class Dummy extends Phaser.GameObjects.Sprite{
         scene.add.existing(this);
         this.setupPhysics(scene);
 
+
+        this.setDepth(1);
         this.setScale(0.4);
 
         //Añadir elemento a una lista en la escena
@@ -28,9 +30,9 @@ class Dummy extends Phaser.GameObjects.Sprite{
 
         this.setupAnimations(scene);
 
-        this.body.immovable = true;
 
-        this.play('idle');
+
+        this.play('idle'+id);
 
         this.setupLifeBar(id);
     }
@@ -59,43 +61,43 @@ class Dummy extends Phaser.GameObjects.Sprite{
 
     setupAnimations(scene){
         this.anim0 = this.scene.anims.create({
-            key: 'idle',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [0]}),
+            key: 'idle'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [0]}),
             frameRate: 0,
             repeat: 1
         });
 
         this.anim1 = this.scene.anims.create({
-            key: 'walk',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [1, 2, 3]}),
+            key: 'walk'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [1, 2, 3]}),
             frameRate: 10,
             repeat: -1
         });
 
         this.anim2 = this.scene.anims.create({
-            key: 'throw',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [6, 7]}),
+            key: 'throw'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [6, 7]}),
             frameRate: 20,
             repeat: 0
         });
 
         this.anim3 = this.scene.anims.create({
-            key: 'aim',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [6]}),
+            key: 'aim'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [6]}),
             frameRate: 10,
             repeat: 0
         });
 
         this.anim4 = this.scene.anims.create({
-            key: 'crouch',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [4, 5]}),
+            key: 'crouch'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [4, 5]}),
             frameRate: 10,
             repeat: 0
         });
 
         this.anim5 = this.scene.anims.create({
-            key: 'hurt',
-            frames: this.scene.anims.generateFrameNames('juani_sheet', {frames: [8]}),
+            key: 'hurt'+this.id,
+            frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [8]}),
             frameRate: 0,
             repeat: -1
         });
@@ -105,6 +107,7 @@ class Dummy extends Phaser.GameObjects.Sprite{
         scene.physics.world.enableBody(this);
         this.body.collideWorldBounds = true;
         this.body.bounce.set(false);
+        this.body.immovable = true;
     }
 
     update(){
@@ -128,18 +131,6 @@ class Dummy extends Phaser.GameObjects.Sprite{
         this.body.velocity.y = 0;
     }
 
-    /*
-    takeDamage(){
-        this.health --;
-
-        if(this.health <= 0){
-            this.destroyFromScene();
-        }else{
-            this.enterHurtState();
-            this.setBodyVelocityToCero();
-        }
-    }
-*/
     takeDamage(){
         this.health --;
 
@@ -163,7 +154,7 @@ class Dummy extends Phaser.GameObjects.Sprite{
     }
 
     enterHurtState(){
-        this.play('hurt');
+        this.play('hurt'+this.id);
         var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
         this.stunned = true;
 
@@ -184,6 +175,8 @@ class Dummy extends Phaser.GameObjects.Sprite{
         }else{
             this.visible = true;
             this.scene.playersGroup.add(this, true);
+
+            console.log("SACABO");
         }  
     }
 
@@ -192,7 +185,7 @@ class Dummy extends Phaser.GameObjects.Sprite{
     }
 
     endHurtAnimation(){
-        this.play('idle');
+        this.play('idle'+this.id);
         this.stunned = false;
     }
 }

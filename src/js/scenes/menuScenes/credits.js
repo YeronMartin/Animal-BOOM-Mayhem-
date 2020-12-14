@@ -19,12 +19,15 @@ class credits extends Phaser.Scene{
         //Setteo de la interactividad
         this.exitButton.setInteractive();
         this.exitButton.on('pointerdown', () =>  this.scene.start('mainMenu'));
-        //Flechas
-        this.key_LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.key_RIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        //Enter y espacio
+        
+        //Flechas A y D
+        this.key_LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.key_RIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        
+        //Enter, ESPACIO y ESCAPE
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.key_ESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
     }
 
     update(){
@@ -57,15 +60,10 @@ class credits extends Phaser.Scene{
     }
     
     toEnterButton(){
-      if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
+      if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE) || Phaser.Input.Keyboard.JustDown(this.key_ESC)) {
         if (this.button_selected != null){
           this.scene.start("mainMenu");
         }
       }
     }
-
-   /* toNextScene(){
-        this.scene.start("playGame");
-    }*/
-
 }

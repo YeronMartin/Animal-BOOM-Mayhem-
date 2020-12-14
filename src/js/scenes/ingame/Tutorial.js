@@ -5,9 +5,15 @@ class Tutorial extends Phaser.Scene {
 
 
     preload(){
-        this.load.spritesheet('cerdete_sheet', '././././resources/img/characters/juani/cerdete_sheet.png', { frameWidth: 100, frameHeight: 100 } );
-        this.load.spritesheet('juani_sheet', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
-        
+        this.load.spritesheet('juani_sheet0', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('juani_sheet1', '././././resources/img/characters/juani/juani_sheet2.png', { frameWidth: 180, frameHeight: 250 } );
+       
+        this.load.spritesheet('player_none', '././././resources/img/characters/juani/player_none.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_basketball', '././././resources/img/characters/juani/player_basketball.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_bomb', '././././resources/img/characters/juani/player_bomb.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_potato', '././././resources/img/characters/juani/player_potato1.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_potato_red', '././././resources/img/characters/juani/player_potato2.png', { frameWidth: 180, frameHeight: 250 } );
+
         this.load.spritesheet('lifebar_0', '././././resources/img/hud/lifebar_blue.png', { frameWidth: 230, frameHeight: 45 });
         this.load.spritesheet('lifebar_1', '././././resources/img/hud/lifebar_red.png', { frameWidth: 230, frameHeight: 45 });
 
@@ -183,7 +189,7 @@ class Tutorial extends Phaser.Scene {
                     this.playersList[0].x = (config.width / 2) - 100;
                     this.playersList[0].y = config.height / 2;
                     this.playersList[0].body.immovable = true;
-                    this.playersList[0].play('idle');
+                    this.playersList[0].play('idle'+this.playersList[0].id);
                     this.playersList[0].updateLifebarPosition();
 
                     //Colocamos un dummy en el borde derecho del mapa y le damos una pelota
@@ -225,7 +231,7 @@ class Tutorial extends Phaser.Scene {
         this.playersList[1].ball = null;
 
 
-        this.playersList[1].play('throw');
+        this.playersList[1].play('throw'+this.playersList[1].id);
     }
 
     hasThePlayerReachedTheBall(){

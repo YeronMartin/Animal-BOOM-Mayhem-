@@ -8,6 +8,7 @@ class mainMenu extends Phaser.Scene{
         var creditsButton;
         var button_vector;
         var button_selected;
+        var tutorialButton;
     }
 
      preload(){
@@ -19,14 +20,16 @@ class mainMenu extends Phaser.Scene{
         this.load.image("settings_button", "././resources/img/interfaces/settings_button.png");
         this.load.image("credits_button", "././resources/img/interfaces/credits_button.png");
         this.load.image("credits_button_selected", "././resources/img/interfaces/credits_button_selected.png");
+         this.load.image("tutorial_button", "././resources/img/interfaces/tutorial_button.png");
+        this.load.image("tutorial_button_selected", "././resources/img/interfaces/tutorial_button_selected.png");
     }
 
      create(){
 
         this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button').setDepth(1).setScale(.075);
         //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 + 50, 'settings_button').setDepth(1).setScale(.075);
-        this.creditsButton = this.add.image(config.width/2 -10,config.height/1.3 +50, 'credits_button').setDepth(1).setScale(.075);
-
+        this.creditsButton = this.add.image(config.width/2 -10,config.height/1.3 +100, 'credits_button').setDepth(1).setScale(.075);
+         this.tutorialButton =  this.add.image(config.width/2 -10,config.height/1.3 +50, 'tutorial_button').setDepth(1).setScale(.075);
 
         this.add.image(-config.width/14, 0, "mainMenu_background").setOrigin(0, 0).setDepth(0).setScale(.4);
 
@@ -38,13 +41,16 @@ class mainMenu extends Phaser.Scene{
         //Setteo de la interactividad
         this.playButton.on('pointerdown', () =>  this.scene.start("character"));
         this.creditsButton.on('pointerdown', () => this.scene.start("credits"));
+        this.tutorialButton.on('pointerdown', () => this.scene.start("tutorial"));
+         
         //this.settingsButton.on('pointerdown', () => this.scene.start("options"));
 
         //botones cuando se les pasa por encima
         this.playButton.on('pointerover', () =>
         this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button_selected').setDepth(1).setScale(.075));
         this.creditsButton.on('pointerover', () =>
-        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button_selected').setDepth(1).setScale(.075));
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +100, 'credits_button_selected').setDepth(1).setScale(.075));
+         this.tutorialButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button_selected').setDepth(1).setScale(.075);
         //this.settingsButton.on('pointerover', () =>
         //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button_selected').setDepth(1).setScale(.075));
 
@@ -52,7 +58,8 @@ class mainMenu extends Phaser.Scene{
         this.playButton.on('pointerout', () =>
         this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button').setDepth(1).setScale(.075));
         this.creditsButton.on('pointerout', () =>
-        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button').setDepth(1).setScale(.075));
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +100, 'credits_button').setDepth(1).setScale(.075));
+         this.tutorialButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button').setDepth(1).setScale(.075);
         //this.settingsButton.on('pointerout', () =>
         //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button').setDepth(1).setScale(.075));
 
@@ -79,8 +86,11 @@ class mainMenu extends Phaser.Scene{
     /*case 1:
       this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button_selected').setDepth(1).setScale(.075);
       break;*/
-      case 1:
-        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button_selected').setDepth(1).setScale(.075);
+      case 2:
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +100, 'credits_button_selected').setDepth(1).setScale(.075);
+        break;
+    case 1:
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button_selected').setDepth(1).setScale(.075);
         break;
     default:
     break;
@@ -92,8 +102,11 @@ class mainMenu extends Phaser.Scene{
     /*case 1:
       this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button').setDepth(1).setScale(.075);
       break;*/
+      case 2:
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +100, 'credits_button').setDepth(1).setScale(.075);
+        break;
       case 1:
-        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button').setDepth(1).setScale(.075);
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button').setDepth(1).setScale(.075);
         break;
     default:
     break;
@@ -109,7 +122,7 @@ class mainMenu extends Phaser.Scene{
             this.renderButtons();
           }else{
 
-            if(this.selectedButton == 1){
+            if(this.selectedButton == 2){
               this.selectedButton = -1;
             }
             this.selectedButton ++;
@@ -121,7 +134,7 @@ class mainMenu extends Phaser.Scene{
             this.renderButtons();
           }else {
             if(this.selectedButton == 0){
-              this.selectedButton = 2;
+              this.selectedButton = 3;
             }
             this.selectedButton --;
             this.renderButtons();
@@ -135,8 +148,10 @@ class mainMenu extends Phaser.Scene{
             this.scene.start("character");
           }/* else if (this.selectedButton == 1){
             this.scene.start("options");
-          }*/else if (this.selectedButton == 1){
+          }*/else if (this.selectedButton == 2){
             this.scene.start("credits")
+          }else if (this.selectedButton == 1){
+            this.scene.start("tutorial")
           }
         }
       }

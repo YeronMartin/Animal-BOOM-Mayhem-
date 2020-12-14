@@ -46,9 +46,18 @@ class Tutorial extends Phaser.Scene {
         this.setupInitialBalls();
 
         this.explosionGroup = this.add.group();
-        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion);  
+        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion,  null, this);  
     
         this.input.keyboard.on('keydown_ESC', this.escapePressed, this);
+    }
+
+    colisionPlayerExplosion(player, explosion){
+        player.takeDamage();
+
+        if(player == this.playersList[0]){
+            player.health++;
+            player.lifebar.play('lifebar_0_'+player.health);
+        }
     }
 
     escapePressed(){
@@ -59,8 +68,6 @@ class Tutorial extends Phaser.Scene {
         this.ballsList = [];
 
         this.ballsList[0] = new BallBasket(this, 100, 200);
-
-        //this.generateNewBall();
         
         this.ballsGroup = this.add.group();
         this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall, null, this);  
@@ -169,9 +176,10 @@ class Tutorial extends Phaser.Scene {
                 break;
             case 4: //Muñeco destruido
                 if(this.playersList[1] == null){
+                    console.log("Destruidísimo");
+
                     this.messageBox.setText("¡Muy bien! Ahora la última lección. Puedes evadir balonazos agachándote manteniendo la tecla T. Ten cuidado porque solo serás invulnerable por unos instantes. Pulsa ENTER cuando estés preparado.");
                     this.tutorialPhase++;
-
 
                     //En caso de que el jugador tenga una pelota, se la quitamos
                     if(this.playersList[0].ball){
@@ -185,12 +193,32 @@ class Tutorial extends Phaser.Scene {
                     }
 
                     //Colocamos al jugador casi en el centro
-                    this.playersList[0].setBodyVelocityToCero();
+                    
                     this.playersList[0].x = (config.width / 2) - 100;
                     this.playersList[0].y = config.height / 2;
                     this.playersList[0].body.immovable = true;
-                    this.playersList[0].play('idle'+this.playersList[0].id);
+                    //this.playersList[0].play('idle'+this.playersList[0].id);
                     this.playersList[0].updateLifebarPosition();
+
+                    this.input.keyboard.off('keydown_W');
+                    this.input.keyboard.off('keyup_W');
+
+                    this.input.keyboard.off('keydown_A');
+                    this.input.keyboard.off('keyup_A');
+
+                    this.input.keyboard.off('keydown_S');
+                    this.input.keyboard.off('keyup_S');
+
+                    this.input.keyboard.off('keydown_D');
+                    this.input.keyboard.off('keyup_D');
+
+                    this.input.keyboard.off('keydown_R');
+                    this.input.keyboard.off('keyup_R');
+
+                    this.playersList[0].releaseKeys();
+
+                    this.playersList[0].setBodyVelocityToCero();
+
 
                     //Colocamos un dummy en el borde derecho del mapa y le damos una pelota
                     this.playersList[1] = new Dummy(this, config.width - 100, config.height / 2, 1);
@@ -242,9 +270,9 @@ class Tutorial extends Phaser.Scene {
     updatePlayers(delta){
         for (var i = this.playersList.length - 1; i >= 0; i--) {
             //En la fase 4 del tutorial, limitamos el movimiento del jugador
-            if(i == 0 && (this.tutorialPhase >= 5 && this.tutorialPhase <= 7)){
-                continue;
-            }
+            //if(i == 0 && (this.tutorialPhase >= 5 && this.tutorialPhase <= 7)){
+            //    continue;
+            //}
 
             this.playersList[i].update(delta);
         }

@@ -11,60 +11,59 @@ class mainMenu extends Phaser.Scene{
     }
 
      preload(){
-        this.load.image("background_mainMenu", "././resources/img/background_mainMenu.png");
+          this.load.image("background_mainMenu", "././resources/img/background_mainMenu.png");
+        this.load.image("mainMenu_background", "././resources/img/mainMenu_background.png");
+        this.load.image("play_button", "././resources/img/interfaces/play_button.png");
+        this.load.image("play_button_selected", "././resources/img/interfaces/play_button_selected.png");
+        this.load.image("settings_button_selected", "././resources/img/interfaces/settings_button_selected.png");
+        this.load.image("settings_button", "././resources/img/interfaces/settings_button.png");
+        this.load.image("credits_button", "././resources/img/interfaces/credits_button.png");
+        this.load.image("credits_button_selected", "././resources/img/interfaces/credits_button_selected.png");
     }
 
-    create(){
-        var style = { font: "25px Arial", fill: "#000", boundsAlignH: "center", boundsAlignV: "middle" };
+     create(){
 
-        this.playButton = this.add.text(config.width/2.15, config.height/1.8, 'Jugar', style).setDepth(1);
-        this.tutorialButton = this.add.text(config.width/2.25, config.height/1.8 + 50, 'Tutorial', style).setDepth(1);
-        this.optionsButton = this.add.text(config.width/2.25, config.height/1.8 + 100, 'Ajustes', style).setDepth(1);
-        this.creditsButton = this.add.text(config.width/2.25, config.height/1.8 +150, 'Créditos', style).setDepth(1);
+        this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button').setDepth(1).setScale(.075);
+        //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 + 50, 'settings_button').setDepth(1).setScale(.075);
+        this.creditsButton = this.add.image(config.width/2 -10,config.height/1.3 +50, 'credits_button').setDepth(1).setScale(.075);
 
-        this.add.image(config.width/2, config.height/2, "background_mainMenu").setDepth(0);
 
-        //Creación de un array con los botones
-        this.button_selected = null;
-        this.button_vector=  [this.playButton, this.tutorialButton, this.optionsButton, this.creditsButton];
+        this.add.image(-config.width/14, 0, "mainMenu_background").setOrigin(0, 0).setDepth(0).setScale(.4);
 
         //Setteo de la interactividad
-        this.playButton.setInteractive();
-        this.tutorialButton.setInteractive()
+        this.playButton.setInteractive ();
         this.creditsButton.setInteractive();
-        this.optionsButton.setInteractive();
+        //this.settingsButton.setInteractive();
 
         //Setteo de la interactividad
-        this.playButton.on('pointerdown', () =>  this.scene.start("characterSelection"));
-        this.tutorialButton.on('pointerdown', () => this.scene.start("tutorial"));
+        this.playButton.on('pointerdown', () =>  this.scene.start("character"));
         this.creditsButton.on('pointerdown', () => this.scene.start("credits"));
-        this.optionsButton.on('pointerdown', () => this.scene.start("options"));
+        //this.settingsButton.on('pointerdown', () => this.scene.start("options"));
 
         //botones cuando se les pasa por encima
-        this.playButton.on('pointerover', () =>  this.playButton.setStyle({ fill: '#ff8000'}));
-        this.tutorialButton.on('pointerover', () =>  this.tutorialButton.setStyle({ fill: '#ff8000'}));
-        this.creditsButton.on('pointerover', () => this.creditsButton.setStyle({ fill: '#ff8000'}));
-        this.optionsButton.on('pointerover', () => this.optionsButton.setStyle({ fill: '#ff8000'}));
+        this.playButton.on('pointerover', () =>
+        this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button_selected').setDepth(1).setScale(.075));
+        this.creditsButton.on('pointerover', () =>
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button_selected').setDepth(1).setScale(.075));
+        //this.settingsButton.on('pointerover', () =>
+        //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button_selected').setDepth(1).setScale(.075));
 
         //botones cuando se les pasa por encima
-        this.playButton.on('pointerout', () =>  this.playButton.setStyle({ fill: '#000'}));
-        this.tutorialButton.on('pointerout', () =>  this.tutorialButton.setStyle({ fill: '#000'}));
-        this.creditsButton.on('pointerout', () => this.creditsButton.setStyle({ fill: '#000'}));
-        this.optionsButton.on('pointerout', () => this.optionsButton.setStyle({ fill: '#000'}));
+        this.playButton.on('pointerout', () =>
+        this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button').setDepth(1).setScale(.075));
+        this.creditsButton.on('pointerout', () =>
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button').setDepth(1).setScale(.075));
+        //this.settingsButton.on('pointerout', () =>
+        //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button').setDepth(1).setScale(.075));
 
-
-        /*
         //Flechas
         this.key_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.key_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        */
-
-        this.key_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.key_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
         //Enter y espacio
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
     };
 
     update(){
@@ -72,45 +71,72 @@ class mainMenu extends Phaser.Scene{
       this.toEnterButton();
     }
 
-    toSelectButton(){
-        if(Phaser.Input.Keyboard.JustDown(this.key_DOWN)){
-            if(this.button_selected == null){
-                this.button_selected = 0;
-                this.button_vector[0].setStyle({ fill: '#ff8000'});
-            }else{
-                this.button_vector[this.button_selected].setStyle({ fill: '#000'});
-                
-                if(this.button_selected == 3){
-                    this.button_selected = -1;
-                }
-                this.button_selected ++;
-                this.button_vector[this.button_selected].setStyle({ fill: '#ff8000'});
+  renderButtons(i, j){
+  switch (this.selectedButton) {
+    case 0:
+      this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button_selected').setDepth(1).setScale(.075);
+      break;
+    /*case 1:
+      this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button_selected').setDepth(1).setScale(.075);
+      break;*/
+      case 1:
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button_selected').setDepth(1).setScale(.075);
+        break;
+    default:
+    break;
+  }
+  switch (this.lastSelectedButton) {
+    case 0:
+      this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button').setDepth(1).setScale(.075);
+      break;
+    /*case 1:
+      this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button').setDepth(1).setScale(.075);
+      break;*/
+      case 1:
+        this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'credits_button').setDepth(1).setScale(.075);
+        break;
+    default:
+    break;
+  }
+  this.lastSelectedButton = this.selectedButton;
+
+}
+
+  toSelectButton(){
+      if(Phaser.Input.Keyboard.JustDown(this.key_DOWN)){
+          if (this.selectedButton == null){
+            this.selectedButton = 0;
+            this.renderButtons();
+          }else{
+
+            if(this.selectedButton == 1){
+              this.selectedButton = -1;
             }
-        }else if (Phaser.Input.Keyboard.JustDown(this.key_UP))
-            if (this.button_selected == null){
-                this.button_selected = 0;
-                this.button_vector[0].setStyle({ fill: '#ff8000'});
-            }else{
-                this.button_vector[this.button_selected].setStyle({ fill: '#000'});
-                if(this.button_selected == 0){
-                    this.button_selected = 4;
-                }
-                this.button_selected --;
-                this.button_vector[this.button_selected].setStyle({ fill: '#ff8000'});
+            this.selectedButton ++;
+            this.renderButtons();
+          }
+      }else if (Phaser.Input.Keyboard.JustDown(this.key_UP)){
+          if (this.selectedButton == null){
+            this.selectedButton = 1;
+            this.renderButtons();
+          }else {
+            if(this.selectedButton == 0){
+              this.selectedButton = 2;
             }
-        }
-        
-    toEnterButton(){
+            this.selectedButton --;
+            this.renderButtons();
+          }
+      }
+  }
+  toEnterButton(){
       if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
-        if (this.button_selected != null) {
-          if (this.button_selected == 0) {
-            this.scene.start("characterSelection");
-          } else if (this.button_selected == 1){
-            this.scene.start("tutorial");
-          }else if (this.button_selected == 2){
-            this.scene.start("options")
-          }else if(this.button_selected == 3){
-            this.scene.start("credits");
+        if (this.selectedButton != null) {
+          if (this.selectedButton == 0) {
+            this.scene.start("character");
+          }/* else if (this.selectedButton == 1){
+            this.scene.start("options");
+          }*/else if (this.selectedButton == 1){
+            this.scene.start("credits")
           }
         }
       }

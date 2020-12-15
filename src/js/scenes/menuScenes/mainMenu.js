@@ -11,7 +11,7 @@ class mainMenu extends Phaser.Scene{
         var tutorialButton;
     }
 
-     preload(){
+    preload(){
         this.load.image("mainMenu_background", "././resources/img/sceneBackground/mainMenu_background.png");
         this.load.image("play_button", "././resources/img/interfaces/buttons/play_button.png");
         this.load.image("play_button_selected", "././resources/img/interfaces/buttons/play_button_selected.png");
@@ -19,8 +19,10 @@ class mainMenu extends Phaser.Scene{
         this.load.image("settings_button", "././resources/img/interfaces/buttons/settings_button.png");
         this.load.image("credits_button", "././resources/img/interfaces/buttons/credits_button.png");
         this.load.image("credits_button_selected", "././resources/img/interfaces/buttons/credits_button_selected.png");
-         this.load.image("tutorial_button", "././resources/img/interfaces/buttons/tutorial_button.png");
+        this.load.image("tutorial_button", "././resources/img/interfaces/buttons/tutorial_button.png");
         this.load.image("tutorial_button_selected", "././resources/img/interfaces/buttons/tutorial_button_selected.png");
+
+        
     }
 
      create(){

@@ -14,7 +14,6 @@ class postGame extends Phaser.Scene{
        this.load.image("character_description_area", "././resources/img/interfaces/areas/character_description_area.png");
        this.load.image("juani_winner", "././resources/img/Interfaces/characterRep/juani_winner.png");
        this.load.image("juani_cursed_winner", "././resources/img/Interfaces/characterRep/juani_cursed_winner.png");
-
     }
 
     create(){
@@ -28,15 +27,10 @@ class postGame extends Phaser.Scene{
 
         this.renderWinner();
 
-
         this.key_M = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
         this.key_N = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
         this.key_B = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
-
 }
-
-
-
 
     update(){
         if(Phaser.Input.Keyboard.JustDown(this.key_M)){
@@ -46,7 +40,6 @@ class postGame extends Phaser.Scene{
         }else if(Phaser.Input.Keyboard.JustDown(this.key_B)){
             this.toGameScene();
         }
-
     }
 
     toMenuScene(){

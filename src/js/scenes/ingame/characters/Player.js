@@ -48,6 +48,7 @@ class Player extends Phaser.GameObjects.Sprite{
         this.setupAnimations(scene);
 
         this.anims.play('idle'+this.id, true);
+        
 
         this.setupInputEvents(scene, id);
 
@@ -392,6 +393,8 @@ class Player extends Phaser.GameObjects.Sprite{
         this.playerItem.destroy();
         this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'none');
 
+        this.scene.throwSfx.play();
+
         //Esperar mientras se ejecuta la animación
         var throwAnimTimer = this.scene.time.addEvent({ delay: this.throwAnimationDelay, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
     }
@@ -422,8 +425,9 @@ class Player extends Phaser.GameObjects.Sprite{
             this.anims.play('hurt'+this.id, true);
             this.playerItem.playHurt();
 
+            this.disableInputs();
             this.removeFromSceneLists();
-            this.scene.playerEliminated();
+            this.scene.playerEliminated(this.id);
             this.lifebar.destroy();
         }else{
             this.lifebar.play('lifebar_'+this.id+'_'+this.health);
@@ -441,7 +445,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
         //Eliminar de la lista de bolas
         this.removeFromSceneLists();
-        this.scene.playerEliminated();
+        this.scene.playerEliminated(this.id);
 
         //Destruir objeto de la escena
         this.destroy();

@@ -3,7 +3,6 @@ class Tutorial extends Phaser.Scene {
         super("tutorial");
     }
 
-
     preload(){
         this.load.spritesheet('juani_sheet0', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('juani_sheet1', '././././resources/img/characters/juani/juani_sheet2.png', { frameWidth: 180, frameHeight: 250 } );
@@ -25,6 +24,14 @@ class Tutorial extends Phaser.Scene {
 
         this.load.image('fondo_texto', "././././resources/img/interfaces/areas/character_description_area.png");
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
+
+
+
+        this.load.audio('soniquete', [
+            '././././resources/audio/sonido/476178__unadamlar__correct-choice.wav'
+        ]);
+      
+        this.load.audio('throwsfx', ['././././resources/audio/sonido/346373__denao270__throwing-whip-effect.wav']);
     }
 
     create(){
@@ -40,7 +47,7 @@ class Tutorial extends Phaser.Scene {
         this.textBackground.scaleY = 0.5;
         this.textBackground.setDepth(4);
 
-        this.messageBox = this.add.text(25, 20, "Bienvenido al tutorial de Animal BOOM Mayhem. Utiliza WASD para moverte. Acércate a esa bola. Para el jugador 2 UHJK.");
+        this.messageBox = this.add.text(25, 20, "Bienvenido al tutorial de Animal BOOM Mayhem. Utiliza WASD para moverte. Acércate a esa bola.");
         this.messageBox.setWordWrapWidth(745);
         this.messageBox.setDepth(5);
 
@@ -55,6 +62,9 @@ class Tutorial extends Phaser.Scene {
         this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion,  null, this);
 
         this.input.keyboard.on('keydown_ESC', this.escapePressed, this);
+
+        this.correct = this.sound.add('soniquete');
+        this.throwSfx = this.sound.add('throwsfx');
     }
 
     colisionPlayerExplosion(player, explosion){
@@ -87,7 +97,6 @@ class Tutorial extends Phaser.Scene {
             player.health++;
             player.lifebar.play('lifebar_0_'+player.health);
         }
-
 
         if(this.tutorialPhase == 7 && this.playersList[1] != null){
             this.placeBallOnDummy();
@@ -156,12 +165,14 @@ class Tutorial extends Phaser.Scene {
             case 0: //Moverse hacia la pelota
                 if(this.hasThePlayerReachedTheBall()){
                     //Avanzar texto y fase
-                    this.messageBox.setText("Muy bien, ahora pulsa R para recoger la bola del suelo. Para el jugador 2 O.");
+                    this.correct.play();
+                    this.messageBox.setText("Muy bien, ahora pulsa R para recoger la bola del suelo.");
                     this.tutorialPhase++;
                 }
                 break;
             case 1: //Recoger la pelota
                 if(this.ballsList[0].heldByPlayer){
+                    this.correct.play();
                     this.messageBox.setText("Lanza la bola manteniendo pulsado R y apunta con WASD. Ten cuidado porque la bola rebotará por las paredes. ");
                     this.tutorialPhase++;
                 }
@@ -173,6 +184,7 @@ class Tutorial extends Phaser.Scene {
                 break;
             case 3: //La bola ha dejado de moverse
                 if(this.ballsList[0].onGround){
+                    this.correct.play();
                     this.tutorialPhase++;
                     this.messageBox.setText("Ahora que ya sabes recoger y lanzar bolas, es el momento de practicar con un adversario. Elimina a ese dummy, bastará con golpearlo 3 veces.");
                     this.playersList[1] = new Dummy(this, config.width / 2, config.height / 2, 1);
@@ -182,9 +194,9 @@ class Tutorial extends Phaser.Scene {
                 break;
             case 4: //Muñeco destruido
                 if(this.playersList[1] == null){
-                    console.log("Destruidísimo");
+                    this.correct.play();
 
-                    this.messageBox.setText("¡Muy bien! Ahora la última lección. Puedes evadir balonazos agachándote manteniendo la tecla T. Ten cuidado porque solo serás invulnerable por unos instantes. Para el jugador 2 P. \nPulsa ENTER cuando estés preparado.");
+                    this.messageBox.setText("¡Muy bien! Ahora la última lección. Puedes evadir balonazos agachándote manteniendo la tecla T. Ten cuidado porque solo serás invulnerable por unos instantes. \nPulsa ENTER cuando estés preparado.");
                     this.tutorialPhase++;
 
                     //En caso de que el jugador tenga una pelota, se la quitamos
@@ -222,9 +234,7 @@ class Tutorial extends Phaser.Scene {
                     this.input.keyboard.off('keyup_R');
 
                     this.playersList[0].releaseKeys();
-
                     this.playersList[0].setBodyVelocityToCero();
-
 
                     //Colocamos un dummy en el borde derecho del mapa y le damos una pelota
                     this.playersList[1] = new Dummy(this, config.width - 100, config.height / 2, 1);
@@ -242,6 +252,7 @@ class Tutorial extends Phaser.Scene {
                 break;
             case 7:
                 if(this.playersList[1] == null){
+                    this.correct.play();
                     this.messageBox.setText("¡Eso es! Ya estás preparado para competir en Animal BOOM Mayhem. Pulsa ESCAPE para salir al menú");
                     this.playersList[0].body.immovable = false;
                     this.tutorialPhase++;
@@ -264,6 +275,7 @@ class Tutorial extends Phaser.Scene {
         this.playersList[1].ball.launch(-1, 0);
         this.playersList[1].ball = null;
 
+        this.throwSfx.play();
 
         this.playersList[1].play('throw'+this.playersList[1].id);
     }

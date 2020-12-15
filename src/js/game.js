@@ -10,7 +10,11 @@ var config = {
         arcade:{
             debug: false
         }
-      }
+      },
+      
+      audio: {
+        disableWebAudio: true
+    }
 };
 
 var game = new Phaser.Game(config);

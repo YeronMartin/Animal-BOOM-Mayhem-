@@ -25,6 +25,9 @@ class StadiumGame extends Phaser.Scene {
 
         this.load.image('fondo_texto', "././././resources/img/interfaces/areas/character_description_area.png");
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
+
+
+        this.load.audio('throwsfx', ['././././resources/audio/sonido/346373__denao270__throwing-whip-effect.wav']);
     }
 
     //No hace falta que estén aquí las variables, pero me gusta saber que tengo aquí.
@@ -79,6 +82,8 @@ class StadiumGame extends Phaser.Scene {
 
         this.input.keyboard.on('keydown_ESC', this.escapePressed, this);
         this.input.keyboard.on('keydown_ZERO', this.chetosPressed, this);
+
+        this.throwSfx = this.sound.add('throwsfx');
     }
 
     escapePressed(){
@@ -186,8 +191,11 @@ class StadiumGame extends Phaser.Scene {
         player.takeDamage();
     }
 
-    playerEliminated(){
-        this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "FIN DE LA RONDA", {
+    playerEliminated(id){
+
+        this.playersList[0].disableInputs();
+
+        this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "TENEMOS UN GANADOR", {
             font: "50px Arial",
             fill: "white",
         });
@@ -204,8 +212,8 @@ class StadiumGame extends Phaser.Scene {
         //Esperar 3 segundetes para que se vea qué ha pasado.
 
         this.matchEnd = true;
-        //var timedEvent = this.time.addEvent({ delay: 3000, callback:  this.toPostGame, callbackScope: this, loop: true });
-        this.toPostGame();
+        var timedEvent = this.time.addEvent({ delay: 2000, callback:  this.toPostGame, callbackScope: this, loop: true });
+        //this.toPostGame();
     }
 
     matchEnd = false;

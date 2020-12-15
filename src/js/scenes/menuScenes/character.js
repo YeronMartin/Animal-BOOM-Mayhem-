@@ -8,7 +8,6 @@ class character extends Phaser.Scene{
         var selectedButton;
         var descriptionText;
         var descriptionArea;
-
     }
 
      preload(){
@@ -24,21 +23,37 @@ class character extends Phaser.Scene{
         this.load.image("rep_Juani_cursed_selected", "././resources/img/Interfaces/characterRep/rep_Juani_cursed_selected.png");
         this.load.image("character_description_area", "././resources/img/interfaces/areas/character_description_area.png");
 
+        this.load.image("controls1", "././resources/img/interfaces/areas/Keyboard.png");
+        this.load.image("controls2", "././resources/img/interfaces/areas/Keyboard2.png");
     }
 
     create(){
         this.add.image(0, 0, "character_background").setOrigin(0, 0).setDepth(0);
-        this.add.text(config.width/6, config.height/18, 'Selecciona a tu campeón', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
+        this.textoTitulo = this.add.text(config.width/2, config.height/11, 'Personajes', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
+        this.textoTitulo.setOrigin(0.5, 0.5);
+
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setDepth(1).setScale(.1);
         this.descriptionArea = this.add.image(config.width/6, config.height/1.4, "character_description_area").setDepth(2)
         .setScale(1.6,0.9).setOrigin(0, 0).setVisible(false);
         this.descriptionText = this.add.text(config.width/5, config.height/1.33, "", {fill: "#fff" ,font: "Arial", font: "18px"}).setDepth(3).setWordWrapWidth(450);
-        this.juaniButton =  new characterCard( this, config.width/4, config.height/2.2, "Tras limpiar, cocinar, cuidar a sus 4302 palomas "
+        
+        this.juaniButton =  new characterCard( this, (config.width/4) + 80 , config.height/2.2, "Tras limpiar, cocinar, cuidar a sus 4302 palomas "
         + " y salir de su 'AEROBIC ULTRA INTENSIVE class' La Juani está lista "
         +"\npara participar en Aniaml BOOM Mayhem.", "rep_Juani", "rep_Juani_selected",-config.width/50, config.height/1.5, "juani_dialogue");
-        this.juaniCursedButton =  new characterCard( this, config.width/1.4, config.height/2.2, "Juani Cursed fue una vez uan fan acosadora de"+
+        
+        this.juaniCursedButton =  new characterCard( this, (config.width/1.4) - 80, config.height/2.2, "Juani Cursed fue una vez una fan acosadora de"+
         "La Juani. Ahora mismo su meta es suplantarla y ser 'La Juani Original'. \n'Todo lo que diga sobre mí es mentira'", "rep_Juani_cursed",
          "rep_Juani_cursed_selected", config.width/1.3, config.height/1.5,  "juani_cursed_dialogue");
+
+        this.keys1 = this.add.image(0, 200 ,'controls1');
+        this.keys1.setOrigin(0, 0);
+        this.keys1.setDepth(1);
+        this.keys1.setScale(0.3);
+
+        this.keys2 = this.add.image(config.width, 200, 'controls2');
+        this.keys2.setOrigin(1, 0);
+        this.keys2.setDepth(1);
+        this.keys2.setScale(0.3);
 
         //Setteo de la interactivdad
         this.exitButton.setInteractive();
@@ -51,7 +66,6 @@ class character extends Phaser.Scene{
         //pointerover
         this.exitButton.on('pointerover', () =>
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow_selected").setDepth(1).setScale(.1));
-
 
         //pointerout
         this.exitButton.on('pointerout', () =>

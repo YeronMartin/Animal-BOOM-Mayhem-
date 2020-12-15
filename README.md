@@ -769,4 +769,34 @@ Principal_ ​.
   No hay ningún concept art de la Juani Cursed pues su diseño es el mismo que el de la Juani pero con un cambio de color. La Juani es el personaje que controlaría
   el jugador 1 y la Juani Cursed es el personaje que controlaría el jugador 2.
   
+  #### 5.1.2. Animaciones
+  Se han incluido animaciones de andar, lanzar la pelota, agacharse, coger la pelota y cuando el personaje recibe un golpe. Para ello, se han hecho 
+  sprite sheets para poder implementar estas animaciones en el juego. A continuación, se muestran los sprite sheets de cada animación:
+  
+  Para la animación de andar:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_andando.PNG)
+  
+  Para la animación de lanzar la pelota:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_lanzando.PNG)
+  
+  Para la animación de agacharse:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_Agacharse_1.png)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_Agacharse_2.png)
+  
+  Para la animación de coger la pelota:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_coger_pelota_1.png)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_coger_pelota_2.png)
+  
+  Para la animación de recibir un golpe:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_golpeada.png)
+  
+  
+  
   

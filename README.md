@@ -254,7 +254,24 @@ aspecto.
 
 El jugador puede desbloquear nuevos personajes y atuendos a medida que juega
 partidas.  
-
+  
+ #### 3.2.1. La Juani  
+   
+ La Juani es el personaje estrella del juego al ser el primero personaje diseñado.  
+ La Juani es una maruja ama de casa que tras limpiar, cocinar, cuidar a sus 4302  
+ palomas y salir de su 'AEROBIC ULTRA INTENSIVE class' está lista para participar  
+ en la quingentésimo trigésimo novena edición del campeonato Animal BOOM Mayhem y  
+ coronarse vencedora por octavo año consecutivo.  
+ 
+  #### 3.2.2. Juani  Cursed
+   
+ Juani Cursed fue una vez una fan acosadora de la Juani, no obstante, después de  
+ intentar llamar la atención de ésta y no conseguirlo juró robarla la identidad  
+ y ser 'La Juani' original. Vive obsesionada con destruirla y saber lo que piensa  
+ de ella.  
+ 
+ "Todo lo que diga de mí es mentira"
+  
 ### 3.3. Tipo de cámara  
 
 _Animal BOOM Mayhem_ presenta una cámara cenital centrada en el escenario para
@@ -269,9 +286,9 @@ principales de los jugadores en ​ _Animal BOOM Mayhem_ ​:
 
 |  |  Jugador 1  |  Jugador 2   |
 | -- | -- | -- |
-| Movimiento | W, A, S, D | I, J, K, L |
-| Recoger/Lanzar bolas| E | O |
-| Agacharse | R | P |
+| Movimiento | W, A, S, D | U, H, J, K |
+| Recoger/Lanzar bolas| R | O |
+| Agacharse | T | P |
 
 ### 3.5. Colisiones  
 

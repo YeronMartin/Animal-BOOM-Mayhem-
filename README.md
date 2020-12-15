@@ -938,9 +938,9 @@ Principal_ ​.
   
   ● Un sonido para cuando el personaje es golpeado (recibe un balonazo).   
   ● Un sonido para cuando el jugador realiza los pasos del tutorial correctamente.   
-  ● Un sonido para cuando las bombas o las patatas explotan.
-  ● Un sonido para cuando el jugador pulsa los botones del menú principal.
-  ● Un sonido para cuando el jugador lanza una pelota.
+  ● Un sonido para cuando las bombas o las patatas explotan.   
+  ● Un sonido para cuando el jugador pulsa los botones del menú principal.   
+  ● Un sonido para cuando el jugador lanza una pelota.   
 
   
   ## 7. Referencias

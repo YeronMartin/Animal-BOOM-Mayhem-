@@ -26,8 +26,12 @@ class StadiumGame extends Phaser.Scene {
         this.load.image('fondo_texto', "././././resources/img/interfaces/areas/character_description_area.png");
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
 
-
+        this.load.audio('hit', ['././././resources/audio/sonido/hit.ogg']);
         this.load.audio('throwsfx', ['././././resources/audio/sonido/346373__denao270__throwing-whip-effect.wav']);
+        this.load.audio('explosionSfx', ['././././resources/audio/sonido/explosion01.wav']);
+
+
+        this.load.audio('game_bgm', ['././resources/audio/musica/US-Sports-BGM_AdobeStock_372213012_preview.m4a']);
     }
 
     //No hace falta que estén aquí las variables, pero me gusta saber que tengo aquí.
@@ -84,6 +88,17 @@ class StadiumGame extends Phaser.Scene {
         this.input.keyboard.on('keydown_ZERO', this.chetosPressed, this);
 
         this.throwSfx = this.sound.add('throwsfx');
+        this.hitSfx = this.sound.add('hit');
+        this.hitSfx.setVolume(0.2);
+
+        this.explosionSfx = this.sound.add('explosionSfx');
+        this.explosionSfx.setVolume(0.5);
+
+        this.game.sound.stopAll();
+
+        this.gameBgm = this.sound.add('game_bgm');
+        this.gameBgm.setVolume(0.1);
+        this.gameBgm.play();
     }
 
     escapePressed(){
@@ -192,8 +207,15 @@ class StadiumGame extends Phaser.Scene {
     }
 
     playerEliminated(id){
+        if(this.matchEnd)
+            return;
 
-        this.playersList[0].disableInputs();
+
+        this.winner = this.playersList[0].id + 1;
+        //this.playersList[0].disableInputs();
+        
+        console.log("Donde te sentaste "+id);
+
 
         this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "TENEMOS UN GANADOR", {
             font: "50px Arial",
@@ -219,8 +241,8 @@ class StadiumGame extends Phaser.Scene {
     matchEnd = false;
 
     toPostGame(){
-        console.log(this.playersList[0].id + 1);
-        this.scene.start('postGame', {winner :"Jugador "+(this.playersList[0].id + 1)});
+        console.log(this.winner);
+        this.scene.start('postGame', {winner :"Jugador "+(this.winner)});
     }
 
     update(time, delta){

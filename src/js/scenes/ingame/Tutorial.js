@@ -3,6 +3,10 @@ class Tutorial extends Phaser.Scene {
         super("tutorial");
     }
 
+    init(music){
+        this.music = music.bgm;
+    }
+
     preload(){
         this.load.spritesheet('juani_sheet0', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('juani_sheet1', '././././resources/img/characters/juani/juani_sheet2.png', { frameWidth: 180, frameHeight: 250 } );
@@ -25,13 +29,14 @@ class Tutorial extends Phaser.Scene {
         this.load.image('fondo_texto', "././././resources/img/interfaces/areas/character_description_area.png");
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
 
-
-
         this.load.audio('soniquete', [
             '././././resources/audio/sonido/476178__unadamlar__correct-choice.wav'
         ]);
       
         this.load.audio('throwsfx', ['././././resources/audio/sonido/346373__denao270__throwing-whip-effect.wav']);
+        this.load.audio('hit', ['././././resources/audio/sonido/hit.ogg']);
+
+        this.load.audio('explosionSfx', ['././././resources/audio/sonido/explosion01.wav']);
     }
 
     create(){
@@ -65,6 +70,11 @@ class Tutorial extends Phaser.Scene {
 
         this.correct = this.sound.add('soniquete');
         this.throwSfx = this.sound.add('throwsfx');
+        this.hitSfx = this.sound.add('hit');
+        this.hitSfx.setVolume(0.2);
+
+        this.explosionSfx = this.sound.add('explosionSfx');
+        this.explosionSfx.setVolume(0.5);
     }
 
     colisionPlayerExplosion(player, explosion){

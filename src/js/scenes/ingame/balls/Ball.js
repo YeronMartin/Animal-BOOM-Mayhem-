@@ -90,7 +90,7 @@ class Ball extends Phaser.GameObjects.Sprite{
     //Llamado cuando la bola ha impactado contra un jugador
     impact(){
         this.setBallOnGround();
-
+        this.scene.hitSfx.play();
         //this.destroyFromScene()
     }
 

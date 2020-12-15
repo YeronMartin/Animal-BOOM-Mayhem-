@@ -118,6 +118,7 @@ class BallTemporizedBomb extends Ball{
 
     timedExplode(){
         var explosion2 = new Explosion(this.scene, this.x, this.y, 'potato');
+        this.scene.explosionSfx.play();
 
         if(this.heldByPlayer){
             this.heldByPlayer.ball = null;
@@ -127,6 +128,7 @@ class BallTemporizedBomb extends Ball{
     }
 
     impact(player){
+        this.scene.hitSfx.play();
         this.timedExplode();
     }
 }

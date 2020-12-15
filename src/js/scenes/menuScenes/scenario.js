@@ -9,7 +9,7 @@ class scenario extends Phaser.Scene{
         var lastSelectedButton;
     }
 
-     preload(){
+    preload(){
         this.load.image("stage_background", "././resources/img/sceneBackground/stage_background.png");
         this.load.image("rep_estadio", "././resources/img/Interfaces/stageRep/rep_estadio.png");
         this.load.image("rep_estadio_selected", "././resources/img/Interfaces/stageRep/rep_estadio_selected.png");
@@ -17,7 +17,7 @@ class scenario extends Phaser.Scene{
         this.load.image("exit_arrow", "././resources/img/Interfaces/buttons/exit_arrow.png");
         this.load.image("exit_arrow_selected", "././resources/img/Interfaces/buttons/exit_arrow_selected.png")
 
-        }
+    }
 
     create(){
       //Creacion de la imagenes
@@ -50,17 +50,16 @@ class scenario extends Phaser.Scene{
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-
         //Escape
         this.key_ESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-}
+        this.menuSelectSfx = this.sound.add('menuSelectSfx');
+        this.menuSelectSfx.setVolume(0.2);
+    }
 
     update(){
         this.toSelectButton();
         this.toEnterButton();
-
-
     }
 
     renderButtons (){
@@ -120,8 +119,12 @@ class scenario extends Phaser.Scene{
           if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
             if (this.selectedButton != null) {
               if (this.selectedButton == 0) {
+                this.menuSelectSfx.play();
+
                 this.scene.start("character");
               } else if (this.selectedButton == 1){
+                this.menuSelectSfx.play();
+
                 this.scene.start("stadiumGame");
               }
             }

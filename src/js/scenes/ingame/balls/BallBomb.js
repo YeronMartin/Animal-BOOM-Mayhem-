@@ -30,7 +30,7 @@ class BallBomb extends Ball{
 
     explode(player){
         var explosion = new Explosion(this.scene, this.x, this.y, 'bomb');
-        
+        this.scene.explosionSfx.play();
     }
 
     update(elapsed){
@@ -61,6 +61,8 @@ class BallBomb extends Ball{
     }
 
     impact(player){
+        this.scene.hitSfx.play();
+
         this.explode();
         
         this.setBallOnGround();

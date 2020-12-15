@@ -82,7 +82,9 @@ class character extends Phaser.Scene{
         this.key_SCAPE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
 
-}
+        this.menuSelectSfx = this.sound.add('menuSelectSfx');
+        this.menuSelectSfx.setVolume(0.2);
+    }
 
     update(){
 
@@ -166,14 +168,23 @@ class character extends Phaser.Scene{
           if (this.selectedButton == 1) {
             this.selectedButton = null;
             this.lastSelectedButton = null;
+
+            this.menuSelectSfx.play();
+
             this.scene.start("scenario");
           } else if (this.selectedButton == 0){
             this.selectedButton = null;
             this.lastSelectedButton = null;
+
+            this.menuSelectSfx.play();
+
             this.scene.start("mainMenu");
           } else if (this.selectedButton == 2){
             this.selectedButton = null;
             this.lastSelectedButton = null;
+
+            this.menuSelectSfx.play();
+
             this.scene.start("scenario");
           }
         }

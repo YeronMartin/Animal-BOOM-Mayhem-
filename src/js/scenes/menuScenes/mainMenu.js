@@ -22,7 +22,8 @@ class mainMenu extends Phaser.Scene{
         this.load.image("tutorial_button", "././resources/img/interfaces/buttons/tutorial_button.png");
         this.load.image("tutorial_button_selected", "././resources/img/interfaces/buttons/tutorial_button_selected.png");
 
-        
+        this.load.audio('menuSelectSfx', ['././resources/audio/sonido/co_cartoon_splodge_splat_010.mp3']);
+        this.load.audio('menu_bgm', ['././resources/audio/musica/Use-Your-Time-Wisely_AdobeStock_357365454_preview.m4a']);
     }
 
      create(){
@@ -39,6 +40,8 @@ class mainMenu extends Phaser.Scene{
         this.creditsButton.setInteractive();
         this.tutorialButton.setInteractive();
         //this.settingsButton.setInteractive();
+
+/*
 
         //Setteo de la interactividad
         this.playButton.on('pointerdown', () =>  this.scene.start("character"));
@@ -67,6 +70,8 @@ class mainMenu extends Phaser.Scene{
         //this.settingsButton.on('pointerout', () =>
         //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button').setDepth(1).setScale(.075));
 
+        */
+
         //Flechas
         this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.key_W = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -75,6 +80,12 @@ class mainMenu extends Phaser.Scene{
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+        this.menuSelectSfx = this.sound.add('menuSelectSfx');
+        this.menuSelectSfx.setVolume(0.1);
+
+        this.menuBgm = this.sound.add('menu_bgm');
+        this.menuBgm.setVolume(0.1);
+        this.menuBgm.play();
     };
 
     update(){
@@ -150,12 +161,15 @@ class mainMenu extends Phaser.Scene{
         if (this.selectedButton != null) {
           if (this.selectedButton == 0) {
             this.scene.start("character");
+            this.menuSelectSfx.play();
           }/* else if (this.selectedButton == 1){
             this.scene.start("options");
           }*/else if (this.selectedButton == 2){
             this.scene.start("credits")
+            this.menuSelectSfx.play();
           }else if (this.selectedButton == 1){
             this.scene.start("tutorial")
+            this.menuSelectSfx.play();
           }
         }
       }

@@ -694,7 +694,7 @@ Principal_ ​.
   En la escena _Tutorial_ se ha modifiado para que en la parte superior de la pantalla se muestren poco a poco  
   los controles.  
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Diagrama%20de%20flujo%20de%20juego.png)  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Tutorial.png)  
   
   
   ### 4.2.11. Pantalla de batalla  

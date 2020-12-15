@@ -699,5 +699,5 @@ Principal_ ​.
   ### 4.2.12. Ventana de Victoria  
   
   En la escena _Pantalla de Victoria_ no se han realizado cambios.  
-  ![No carga la imagen] (https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Victoria.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Victoria.png)
   

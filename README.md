@@ -425,8 +425,9 @@ ser lanzada (jugadores, obstáculos, paredes). Daña a los jugadores y
 objetos que se encuentren en el radio de explosión.  
 
 ● **Bomba con temporizador** ​: Similar a la ​ _Bomba_ ​, pero con un
-temporizador de 5 a 10 segundos tras ser lanzada. No explota al caer
-al suelo.  
+temporizador de 3 a 8 segundos tras ser lanzada. No explota al caer
+al suelo. Se representa mediante una patata. Como no se sabe cuando va a explotar, se pone
+cada vez más veces roja para indicarle al usuario que va a explotar.
 
 ● **Bola ígnea** ​: Similar a la ​ _Bola normal_ con el añadido de dejar un rastro
 de llamas en su camino tras ser lanzada.  

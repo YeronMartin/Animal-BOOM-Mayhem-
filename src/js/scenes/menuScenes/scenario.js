@@ -10,34 +10,55 @@ class scenario extends Phaser.Scene{
     }
 
      preload(){
-        this.load.image("background_credits", "././resources/img/background_credits.png");
-        this.load.image("game_settings_button", "././resources/img/star.png");
-        this.load.image("game_settings_button_selected", "././resources/img/star_selected.png");
+        this.load.image("stage_background", "././resources/img/sceneBackground/stage_background.png");
+        this.load.image("rep_estadio", "././resources/img/Interfaces/stageRep/rep_estadio.png");
+        this.load.image("rep_estadio_selected", "././resources/img/Interfaces/stageRep/rep_estadio_selected.png");
+        this.load.image("rep_estadio_background", "././resources/img/Interfaces/stageRep/rep_estadio_background.png");
+        this.load.image("exit_arrow", "././resources/img/Interfaces/buttons/exit_arrow.png");
+        this.load.image("exit_arrow_selected", "././resources/img/Interfaces/buttons/exit_arrow_selected.png")
+
         }
 
     create(){
       //Creacion de la imagenes
-        this.add.image(-config.width/3.5, 0, "background_credits").setOrigin(0, 0);
-        this.add.text(config.width/6, config.height/18, 'Selecciona el escenario', {fill: '#000000', font: "40px"}).setDepth(1);
+        this.add.image(0, 0, "stage_background").setOrigin(0, 0);
+        this.add.text(config.width/6, config.height/18, 'Selecciona el escenario', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
+
         //Seteo de los botones
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setScale(.1);
-        //this.gameSettingsButton = this.add.image(config.width/1.1,config.height/11, "game_settings_button");
-        this.estadioButton = this.add.image(config.width/1.5,config.height/1.5, 'rep_Juani').setDepth(1).setScale(.15);
+        this.estadioButton = new stageCard( this, config.width/2, config.height/1.12, "rep_estadio", "rep_estadio_selected", "rep_estadio_background");
+
         //Setteo de la interactividad
         this.exitButton.setInteractive();
-        this.estadioButton.setInteractive();
-        //this.gameSettingsButton.setInteractive();
+        this.estadioButton.stageImageButton.setInteractive();
 
+        //pointerdown
         this.exitButton.on('pointerdown', () => this.scene.start('character'));
-        this.estadioButton.on('pointerdown', () => this.scene.start('stadiumGame'));
-        //this.gameSettingsButton.on('pointerdown', () =>this.scene.start('gameSettingsButton'));
+        this.estadioButton.stageImageButton.on('pointerdown', () => this.scene.start('stadiumGame'));
+
+        //pointerover
+        this.exitButton.on('pointerover', () =>
+        this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow_selected").setDepth(1).setScale(.1));
+        this.estadioButton.stageImageButton.on('pointerover', () =>
+        this.estadioButton.renderStage());
+
+        //pointerout
+        this.exitButton.on('pointerout', () =>
+        this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setDepth(1).setScale(.1));
+        this.estadioButton.stageImageButton.on('pointerout', () =>
+        this.estadioButton.renderStage());
 
         //Flechas
-        this.key_LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.key_RIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         //Enter y espacio
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+
+        //Escape
+        this.key_ESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+
 }
 
     update(){
@@ -53,11 +74,8 @@ class scenario extends Phaser.Scene{
           this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow_selected").setScale(.1);
           break;
         case 1:
-          this.estadioButton = this.add.image(config.width/1.5,config.height/1.5, 'rep_Juani_selected').setDepth(1).setScale(.15);
+          this.estadioButton.renderStage();
           break;
-        /*case 2:
-          this.gameSettingsButton = this.add.image(config.width/1.1,config.height/11, "game_settings_button_selected");
-          break;*/
         default:
           break;
       }
@@ -66,18 +84,15 @@ class scenario extends Phaser.Scene{
           this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setScale(.1);
           break;
         case 1:
-          this.estadioButton = this.add.image(config.width/1.5,config.height/1.5, 'rep_Juani').setDepth(1).setScale(.15);
+          this.estadioButton.renderStage();
           break;
-        /*case 2:
-          this.gameSettingsButton = this.add.image(config.width/1.1,config.height/11, "game_settings_button");
-          break;*/
         default:
           break;
       }
     }
 
     toSelectButton(){
-            if(Phaser.Input.Keyboard.JustDown(this.key_LEFT)){ //Si se pulsa la felcha izquierda
+            if(Phaser.Input.Keyboard.JustDown(this.key_A)){ //Si se pulsa la felcha izquierda
               if (this.selectedButton == null){ //Si previamente no se ha seleccionado ningún elemento
                 //Selecciona la flecha de salida
                 this.selectedButton = 0;
@@ -89,7 +104,7 @@ class scenario extends Phaser.Scene{
                 this.selectedButton--;
                 this.renderButtons();
               }
-          }if(Phaser.Input.Keyboard.JustDown(this.key_RIGHT)){ //Si se pulsa la felcha izquierda
+          }if(Phaser.Input.Keyboard.JustDown(this.key_D)){ //Si se pulsa la felcha izquierda
             if (this.selectedButton == null){ //Si previamente no se ha seleccionado ningún elemento
               //Selecciona la flecha de salida
               this.selectedButton = 1;
@@ -101,8 +116,10 @@ class scenario extends Phaser.Scene{
               this.selectedButton++;
               this.renderButtons();
             }
-        }
+        }if(Phaser.Input.Keyboard.JustDown(this.key_ESC)){ //Si se pulsa la felcha izquierda
+          this.scene.start("character");
       }
+    };
 
     toEnterButton(){
           if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
@@ -111,11 +128,9 @@ class scenario extends Phaser.Scene{
                 this.scene.start("character");
               } else if (this.selectedButton == 1){
                 this.scene.start("stadiumGame");
-              }/* else if (this.selectedButton == 2){
-                this.scene.start("gameSettings");
-              }*/
+              }
             }
           }
-    }
+    };
 
 }

@@ -7,21 +7,20 @@ class mainMenu extends Phaser.Scene{
         var optionsButton;
         var creditsButton;
         var button_vector;
-        var button_selected;
+        var selected_button;
         var tutorialButton;
     }
 
      preload(){
-          this.load.image("background_mainMenu", "././resources/img/background_mainMenu.png");
-        this.load.image("mainMenu_background", "././resources/img/mainMenu_background.png");
-        this.load.image("play_button", "././resources/img/interfaces/play_button.png");
-        this.load.image("play_button_selected", "././resources/img/interfaces/play_button_selected.png");
-        this.load.image("settings_button_selected", "././resources/img/interfaces/settings_button_selected.png");
-        this.load.image("settings_button", "././resources/img/interfaces/settings_button.png");
-        this.load.image("credits_button", "././resources/img/interfaces/credits_button.png");
-        this.load.image("credits_button_selected", "././resources/img/interfaces/credits_button_selected.png");
-         this.load.image("tutorial_button", "././resources/img/interfaces/tutorial_button.png");
-        this.load.image("tutorial_button_selected", "././resources/img/interfaces/tutorial_button_selected.png");
+        this.load.image("mainMenu_background", "././resources/img/sceneBackground/mainMenu_background.png");
+        this.load.image("play_button", "././resources/img/interfaces/buttons/play_button.png");
+        this.load.image("play_button_selected", "././resources/img/interfaces/buttons/play_button_selected.png");
+        this.load.image("settings_button_selected", "././resources/img/interfaces/buttons/settings_button_selected.png");
+        this.load.image("settings_button", "././resources/img/interfaces/buttons/settings_button.png");
+        this.load.image("credits_button", "././resources/img/interfaces/buttons/credits_button.png");
+        this.load.image("credits_button_selected", "././resources/img/interfaces/buttons/credits_button_selected.png");
+         this.load.image("tutorial_button", "././resources/img/interfaces/buttons/tutorial_button.png");
+        this.load.image("tutorial_button_selected", "././resources/img/interfaces/buttons/tutorial_button_selected.png");
     }
 
      create(){
@@ -36,13 +35,14 @@ class mainMenu extends Phaser.Scene{
         //Setteo de la interactividad
         this.playButton.setInteractive ();
         this.creditsButton.setInteractive();
+        this.tutorialButton.setInteractive();
         //this.settingsButton.setInteractive();
 
         //Setteo de la interactividad
         this.playButton.on('pointerdown', () =>  this.scene.start("character"));
         this.creditsButton.on('pointerdown', () => this.scene.start("credits"));
         this.tutorialButton.on('pointerdown', () => this.scene.start("tutorial"));
-         
+
         //this.settingsButton.on('pointerdown', () => this.scene.start("options"));
 
         //botones cuando se les pasa por encima
@@ -50,7 +50,8 @@ class mainMenu extends Phaser.Scene{
         this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button_selected').setDepth(1).setScale(.075));
         this.creditsButton.on('pointerover', () =>
         this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +100, 'credits_button_selected').setDepth(1).setScale(.075));
-         this.tutorialButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button_selected').setDepth(1).setScale(.075);
+        this.tutorialButton.on('pointerover', () =>
+        this.tutorialButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button_selected').setDepth(1).setScale(.075));
         //this.settingsButton.on('pointerover', () =>
         //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button_selected').setDepth(1).setScale(.075));
 
@@ -59,13 +60,14 @@ class mainMenu extends Phaser.Scene{
         this.playButton = this.add.image(config.width/2 -10, config.height/1.3, 'play_button').setDepth(1).setScale(.075));
         this.creditsButton.on('pointerout', () =>
         this.creditsButton = this.add.image(config.width/2 -10, config.height/1.3 +100, 'credits_button').setDepth(1).setScale(.075));
-         this.tutorialButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button').setDepth(1).setScale(.075);
+        this.tutorialButton.on('pointerout', () =>
+         this.tutorialButton = this.add.image(config.width/2 -10, config.height/1.3 +50, 'tutorial_button').setDepth(1).setScale(.075));
         //this.settingsButton.on('pointerout', () =>
         //this.settingsButton = this.add.image(config.width/2 -10, config.height/1.5 +50, 'settings_button').setDepth(1).setScale(.075));
 
         //Flechas
-        this.key_DOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.key_UP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.key_W = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
 
         //Enter y espacio
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -116,7 +118,7 @@ class mainMenu extends Phaser.Scene{
 }
 
   toSelectButton(){
-      if(Phaser.Input.Keyboard.JustDown(this.key_DOWN)){
+      if(Phaser.Input.Keyboard.JustDown(this.key_S)){
           if (this.selectedButton == null){
             this.selectedButton = 0;
             this.renderButtons();
@@ -128,7 +130,7 @@ class mainMenu extends Phaser.Scene{
             this.selectedButton ++;
             this.renderButtons();
           }
-      }else if (Phaser.Input.Keyboard.JustDown(this.key_UP)){
+      }else if (Phaser.Input.Keyboard.JustDown(this.key_W)){
           if (this.selectedButton == null){
             this.selectedButton = 1;
             this.renderButtons();

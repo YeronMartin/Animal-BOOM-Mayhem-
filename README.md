@@ -92,6 +92,7 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.2.10 Tutorial  
     4.2.11 Pantalla de batalla  
     4.2.12 Ventana de victoria
+5. Arte 2D
 
 ## 1. Cambios
 ​En este apartado se mostrarán las versiones del documento de diseño del juego.  
@@ -299,6 +300,8 @@ es una maruja ama de casa que tras limpiar, cocinar, cuidar a sus 4302 palomas y
 su 'AEROBIC ULTRA INTENSIVE class' está lista para participar en la quingentésimo trigésimo 
 novena edición del campeonato Animal BOOM Mayhem y coronarse vencedora por octavo año consecutivo.  
  
+![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Concept%20art%20-%20La%20Juani.jpg)
+
 Como se ha mencionado en la historia, a la Juani le encanta el aerobic. Por ello, a 
 la hora de diseñar el personaje hemos optado por vestirla con el típico traje de aerobic 
 de los años 80.
@@ -743,4 +746,21 @@ Principal_ ​.
   En la escena _Pantalla de Victoria_ no se han realizado cambios.  
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Victoria.png)
+  
+  
+  ## 5. Arte 2D
+  Para esta segunda fase, se han creado multitud de sprites e imágenes para poder montar el videojuego. A continuación, se especificarán
+  todos los recursos artísticos creados para esta segunda fase. Cabe destacar que todos ellos son de realización propia y se han dibujado
+  con el programa Procreate.
+  
+  ### 5.1. Personajes
+  Todos los personajes de _Animal BOOM Mayhem_ los ha diseñado el equipo y son ideas propias. De momento solo se han implementado dos personajes: la Juani y
+  la Juani Cursed, pero se tiene pensado incluir más personajes.
+  
+  #### 5.1.1. Concept Art
+  Para crear a la Juani, realizamos un concept art que representase la idea que teníamos en mente: una paloma a la que le gustase el aerobic y que fuese muy 
+  fuerte. A continuación, se puede observar el concept art realizado:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Concept%20art%20-%20La%20Juani.jpg)
+  
   

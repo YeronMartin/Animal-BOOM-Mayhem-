@@ -41,7 +41,7 @@ hacerse con la “​ _corona explosiva_ ​”.
 
 ## ÍNDICE
 
-1. Cambios
+1. Cambios  
   1.1 Segunda revisión       
 2. Introducción  
   2.1 Inspiración  
@@ -66,7 +66,7 @@ hacerse con la “​ _corona explosiva_ ​”.
   3.8 Objetos lanzables  
   3.9 Progresión del jugador  
 4. Interfaz  
-  4.1. Primera versión
+  4.1. Primera versión        
     4.1.1 Diagrama de flujo      
     4.1.2. Menú principal   
     4.1.3. Créditos  
@@ -78,7 +78,7 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.1.9 Selección de escenario  
     4.1.10 Tutorial  
     4.1.11 Pantalla de batalla  
-    4.1.12 Ventana de victoria    
+    4.1.12 Ventana de victoria 
   4.2. Versión implementada      
     4.2.1 Diagrama de flujo  
     4.2.2. Menú principal   
@@ -95,7 +95,12 @@ hacerse con la “​ _corona explosiva_ ​”.
 5. Arte 2D   
   5.1 Personajes   
     5.1.1 Concept art   
-    5.1.2 Animaciones   
+    5.1.2 Animaciones     
+  5.2 Escenarios    
+  5.3 Props   
+    5.3.1 Pelotas   
+    5.3.2 Sprites de vida   
+    5.3.3 Marcador   
      
 
 ## 1. Cambios
@@ -755,7 +760,7 @@ Principal_ ​.
   ## 5. Arte 2D
   Para esta segunda fase, se han creado multitud de sprites e imágenes para poder montar el videojuego. A continuación, se especificarán
   todos los recursos artísticos creados para esta segunda fase. Cabe destacar que todos ellos son de realización propia y se han dibujado
-  con el programa Procreate.
+  con el programa Procreate. Hemos intentado mantener una estética cartoon que fuese coherente con nuestra idea inicial y el concepto cómico del videojuego.
   
   ### 5.1. Personajes
   Todos los personajes de _Animal BOOM Mayhem_ los ha diseñado el equipo y son ideas propias. De momento solo se han implementado dos personajes: la Juani y
@@ -797,6 +802,36 @@ Principal_ ​.
   Para la animación de recibir un golpe:
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_golpeada.png)
+  
+  
+  También, cabe destacar que se realizaron los siguientes sprite sheets para la animación de cuando el personaje anda con alguna de las pelotas en la mano. Cada
+  sprite de la tira representaría donde se encontraría la pelota cuando el personaje está andando con ella.
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_basketball.PNG)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_bomb.PNG)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_potato1.PNG)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_potato2.PNG)
+  
+  
+  ### 5.2. Escenarios
+  _Animal BOOM Mayhem_ es un videojuego competitivo en el que varios animales compiten en un torneo de balón prisionero. Debido a esto, el primer escenario
+  disponible es una cancha deportiva. Este es el escenario disponible en la fase 2 y, en futuras fases, se van a introducir nuevos escenarios como una zona
+  helada.
+  
+  A continuación, se muestra esta cancha deportiva que corresponde con el primer escenario del juego:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/scenarios/stadium_background.png)
+  
+  ### 5.3. Props
+  
+  #### 5.3.1. Pelotas
+  
+  #### 5.3.2. Sprites de vida
+  
+  #### 5.3.3. Marcador
   
   
   

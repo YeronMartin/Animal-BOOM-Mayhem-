@@ -42,11 +42,11 @@ hacerse con la “​ _corona explosiva_ ​”.
 ## ÍNDICE
 
 1. Cambios
-  1.1 Segunda revisión
+  1.1 Segunda revisión  
 2. Introducción  
-  2.1 Inspiración
-  2.2 Plataforma
-  2.3 Concepto del juego  
+  2.1 Inspiración  
+  2.2 Plataforma  
+  2.3 Concepto del juego    
   2.4 Características principales  
   2.5 Género  
   2.6 Propósito y público objetivo  

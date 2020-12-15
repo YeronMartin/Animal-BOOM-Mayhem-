@@ -6,7 +6,7 @@ class BallTemporizedBomb extends Ball{
     distanceToActivateCollisions = 100000;
 
     activated = false;
-    activationTime = Phaser.Math.Between(5000, 8000);
+    activationTime = Phaser.Math.Between(3000, 8000);
     animationTime = 2000;
     currentAnimationTime = 2000;
 
@@ -35,6 +35,7 @@ class BallTemporizedBomb extends Ball{
         this.body.collideWorldBounds = true;
         this.body.bounce.set(1);
     }
+
     setupAnimations(scene){
         this.anim1 = this.scene.anims.create({
             key: 'normal',
@@ -59,7 +60,6 @@ class BallTemporizedBomb extends Ball{
 
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
         this.distanceToActivateCollisions = 100000;
-
 
         if(!this.activated)
             this.activated = true;
@@ -104,9 +104,8 @@ class BallTemporizedBomb extends Ball{
             }
             
             if(this.currentAnimationTime <= 0){
-                //this.animationTime = (this.animationTime) - (this.animationTime * 30 / 100);
+                //Reducir el tiempo entre animaciones dependiendo del tiempo restante
                 this.animationTime = this.activationTime / 5;
-
                 this.currentAnimationTime = this.animationTime;
             }
 
@@ -118,7 +117,7 @@ class BallTemporizedBomb extends Ball{
     }
 
     timedExplode(){
-        var explosion2 = new Explosion(this.scene, this.x, this.y);
+        var explosion2 = new Explosion(this.scene, this.x, this.y, 'potato');
 
         if(this.heldByPlayer){
             this.heldByPlayer.ball = null;

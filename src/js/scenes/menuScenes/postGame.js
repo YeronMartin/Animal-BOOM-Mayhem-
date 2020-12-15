@@ -26,7 +26,6 @@ class postGame extends Phaser.Scene{
         this.add.text(config.width/20, config.height/1.4 +100, 'Pulsa B para volver a\njugar', {fill: '#fff', font: "Arial", font: "16px"}).setDepth(2);
         this.add.image(config.width/80, config.height/1.5 +3, 'character_description_area').setDepth(1).setScale(.9, 1.1).setOrigin(0,0);
 
-        this.winner = "Jugador 1";
         this.renderWinner();
 
 
@@ -57,7 +56,7 @@ class postGame extends Phaser.Scene{
         this.scene.start("character");
     }
     toGameScene(){
-        this.scene.start("playGame");
+        this.scene.start("stadiumGame");
     }
 
     renderWinner(){

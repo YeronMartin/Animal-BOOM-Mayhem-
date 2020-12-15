@@ -14,10 +14,10 @@ class credits extends Phaser.Scene{
 
     create(){
         this.add.image(0, 0, "credits_background").setDepth(0).setOrigin(0, 0);
-        this.add.text(config.width/4.5, 25, '¿Quiénes somos?', {fill: '#fff', font: "arial", font: "40px"}).setDepth(1);
+        this.add.text(config.width/4.5, 25, '¿Quiénes somos?', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
         this.exitButton = this.add.image(50, 50, "exit_arrow").setScale(.1);
-        this.add.text((config.width/3)- 35, config.height/3.4, "Somos un grupo de amigos haciendo \nnuestro primero juego en PHASER 3", {fill: '#fff', font: "arial", font: "16px"}).setDepth(2);
-        this.add.text((config.width/3)- 35, config.height/2, "  !!MUCHAS GRACIAS \n       POR JUGAR!!", {fill: '#fff', font: "arial", font: "25px"}).setDepth(2);
+        this.add.text((config.width/3)- 25, config.height/3.4, "Somos un grupo de amigos haciendo nuestro primero juego en PHASER 3", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350);
+        this.add.text((config.width/3)- 25, config.height/2, "!!MUCHAS GRACIAS POR JUGAR!!", {fill: '#fff', font: "Arial", font:  "30px"}).setDepth(2).setWordWrapWidth(350);
 
         //Setteo de la interactividad
         this.exitButton.setInteractive();

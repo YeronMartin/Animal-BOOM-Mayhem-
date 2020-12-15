@@ -7,7 +7,7 @@ class Tutorial extends Phaser.Scene {
     preload(){
         this.load.spritesheet('juani_sheet0', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('juani_sheet1', '././././resources/img/characters/juani/juani_sheet2.png', { frameWidth: 180, frameHeight: 250 } );
-       
+
         this.load.spritesheet('player_none', '././././resources/img/characters/juani/player_none.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_basketball', '././././resources/img/characters/juani/player_basketball.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_bomb', '././././resources/img/characters/juani/player_bomb.png', { frameWidth: 180, frameHeight: 250 } );
@@ -40,7 +40,7 @@ class Tutorial extends Phaser.Scene {
         this.textBackground.scaleY = 0.5;
         this.textBackground.setDepth(4);
 
-        this.messageBox = this.add.text(25, 20, "Bienvenido al tutorial de Animal BOOM Mayhem. Utiliza WASD para moverte. Acércate a esa bola.");
+        this.messageBox = this.add.text(25, 20, "Bienvenido al tutorial de Animal BOOM Mayhem. Utiliza WASD para moverte. Acércate a esa bola. Para el jugador 2 UHJK.");
         this.messageBox.setWordWrapWidth(745);
         this.messageBox.setDepth(5);
 
@@ -52,8 +52,8 @@ class Tutorial extends Phaser.Scene {
         this.setupInitialBalls();
 
         this.explosionGroup = this.add.group();
-        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion,  null, this);  
-    
+        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion,  null, this);
+
         this.input.keyboard.on('keydown_ESC', this.escapePressed, this);
     }
 
@@ -74,9 +74,9 @@ class Tutorial extends Phaser.Scene {
         this.ballsList = [];
 
         this.ballsList[0] = new BallBasket(this, 100, 200);
-        
+
         this.ballsGroup = this.add.group();
-        this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall, null, this);  
+        this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall, null, this);
     }
 
     colisionPlayerBall(player, ball){
@@ -133,7 +133,7 @@ class Tutorial extends Phaser.Scene {
                         break;
                     }
                 }
-    
+
                 tries--;
             }
 
@@ -156,13 +156,13 @@ class Tutorial extends Phaser.Scene {
             case 0: //Moverse hacia la pelota
                 if(this.hasThePlayerReachedTheBall()){
                     //Avanzar texto y fase
-                    this.messageBox.setText("Muy bien, ahora pulsa R para recoger la bola del suelo");
+                    this.messageBox.setText("Muy bien, ahora pulsa R para recoger la bola del suelo. Para el jugador 2 O.");
                     this.tutorialPhase++;
                 }
                 break;
             case 1: //Recoger la pelota
                 if(this.ballsList[0].heldByPlayer){
-                    this.messageBox.setText("Lanza la bola manteniendo pulsado R y apunta con WASD. Ten cuidado porque la bola rebotará por las paredes.");
+                    this.messageBox.setText("Lanza la bola manteniendo pulsado R y apunta con WASD. Ten cuidado porque la bola rebotará por las paredes. ");
                     this.tutorialPhase++;
                 }
                 break;
@@ -184,7 +184,7 @@ class Tutorial extends Phaser.Scene {
                 if(this.playersList[1] == null){
                     console.log("Destruidísimo");
 
-                    this.messageBox.setText("¡Muy bien! Ahora la última lección. Puedes evadir balonazos agachándote manteniendo la tecla T. Ten cuidado porque solo serás invulnerable por unos instantes. Pulsa ENTER cuando estés preparado.");
+                    this.messageBox.setText("¡Muy bien! Ahora la última lección. Puedes evadir balonazos agachándote manteniendo la tecla T. Ten cuidado porque solo serás invulnerable por unos instantes. Para el jugador 2 P. \nPulsa ENTER cuando estés preparado.");
                     this.tutorialPhase++;
 
                     //En caso de que el jugador tenga una pelota, se la quitamos
@@ -199,7 +199,7 @@ class Tutorial extends Phaser.Scene {
                     }
 
                     //Colocamos al jugador casi en el centro
-                    
+
                     this.playersList[0].x = (config.width / 2) - 100;
                     this.playersList[0].y = config.height / 2;
                     this.playersList[0].body.immovable = true;
@@ -231,7 +231,7 @@ class Tutorial extends Phaser.Scene {
                     this.playersGroup.add(this.playersList[1], true);
                     this.playersList[1].flipX = true;
                     this.placeBallOnDummy();
-                    
+
                     this.input.keyboard.on('keydown_ENTER', this.enterPressed, this);
                 }
                 break;
@@ -269,7 +269,7 @@ class Tutorial extends Phaser.Scene {
     }
 
     hasThePlayerReachedTheBall(){
-        return (Math.sqrt(Math.pow(this.playersList[0].x - this.ballsList[0].x, 2) 
+        return (Math.sqrt(Math.pow(this.playersList[0].x - this.ballsList[0].x, 2)
         + Math.pow(this.playersList[0].y - this.ballsList[0].y, 2)) < 100);
     }
 

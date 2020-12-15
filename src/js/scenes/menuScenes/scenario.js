@@ -34,19 +34,14 @@ class scenario extends Phaser.Scene{
 
         //pointerdown
         this.exitButton.on('pointerdown', () => this.scene.start('character'));
-        this.estadioButton.stageImageButton.on('pointerdown', () => this.scene.start('stadiumGame'));
 
         //pointerover
         this.exitButton.on('pointerover', () =>
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow_selected").setDepth(1).setScale(.1));
-        this.estadioButton.stageImageButton.on('pointerover', () =>
-        this.estadioButton.renderStage());
 
         //pointerout
         this.exitButton.on('pointerout', () =>
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setDepth(1).setScale(.1));
-        this.estadioButton.stageImageButton.on('pointerout', () =>
-        this.estadioButton.renderStage());
 
         //Flechas
         this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);

@@ -6,7 +6,7 @@ class StadiumGame extends Phaser.Scene {
     preload(){
         this.load.spritesheet('juani_sheet0', '././././resources/img/characters/juani/juani_sheet1.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('juani_sheet1', '././././resources/img/characters/juani/juani_sheet2.png', { frameWidth: 180, frameHeight: 250 } );
-       
+
         this.load.spritesheet('player_none', '././././resources/img/characters/juani/player_none.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_basketball', '././././resources/img/characters/juani/player_basketball.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_bomb', '././././resources/img/characters/juani/player_bomb.png', { frameWidth: 180, frameHeight: 250 } );
@@ -48,7 +48,7 @@ class StadiumGame extends Phaser.Scene {
         this.background = this.add.image(0, 0,"background");
         this.background.setOrigin(0,0);
         this.background.setDisplaySize(config.width, config.height);
-        
+
         this.minutesRemaining = 1;
         this.secondsRemaining = 0;
         this.acumulatedDelta = 1000;
@@ -57,7 +57,7 @@ class StadiumGame extends Phaser.Scene {
         this.matchEnd = false;
 
         this.matchTimer = this.add.text(config.width / 2, 30, this.minutesRemaining+":"+this.secondsRemaining+'0', {
-            font: "25px Consolas", 
+            font: "25px Consolas",
             fill: "red",
         });
         this.matchTimer.setOrigin(0.5, 0.5);
@@ -67,7 +67,7 @@ class StadiumGame extends Phaser.Scene {
         this.marcador.setDepth(5);
 
         this.matchTimer.setDepth(6);
-        
+
         this.deltaTime = 0;
 
         this.physics.world.setBoundsCollision();
@@ -110,7 +110,7 @@ class StadiumGame extends Phaser.Scene {
         for (var i = 0; i < this.maxBallsInScene; i++) {
             this.generateNewBall();
         }
-    
+
         this.ballsGroup = this.add.group();
 
         this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
@@ -160,7 +160,7 @@ class StadiumGame extends Phaser.Scene {
                         break;
                     }
                 }
-    
+
                 tries--;
             }
 
@@ -179,7 +179,7 @@ class StadiumGame extends Phaser.Scene {
 
     setupExplosionGroup(){
         this.explosionGroup = this.add.group();
-        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion);  
+        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion);
     }
 
     colisionPlayerExplosion(player, explosion){
@@ -188,7 +188,7 @@ class StadiumGame extends Phaser.Scene {
 
     playerEliminated(){
         this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "FIN DE LA RONDA", {
-            font: "50px Arial", 
+            font: "50px Arial",
             fill: "white",
         });
 
@@ -212,7 +212,7 @@ class StadiumGame extends Phaser.Scene {
 
     toPostGame(){
         console.log(this.playersList[0].id + 1);
-        this.scene.start('postGame', "Jugador "+(this.playersList[0].id + 1));
+        this.scene.start('postGame', {winner :"Jugador "+(this.playersList[0].id + 1)});
     }
 
     update(time, delta){
@@ -229,7 +229,7 @@ class StadiumGame extends Phaser.Scene {
     updateClock(time, delta){
         if(this.timeEnded || this.matchEnd)
             return;
-        
+
         this.acumulatedDelta += delta;
 
         if(this.acumulatedDelta >= 1000){
@@ -249,7 +249,7 @@ class StadiumGame extends Phaser.Scene {
 
             if(this.minutesRemaining < 10)
                 text += '0'+this.minutesRemaining+":";
-        
+
             if(this.secondsRemaining < 10){
                 text+= '0'+this.secondsRemaining;
             }else{

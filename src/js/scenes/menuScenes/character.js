@@ -32,12 +32,12 @@ class character extends Phaser.Scene{
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setDepth(1).setScale(.1);
         this.descriptionArea = this.add.image(config.width/6, config.height/1.4, "character_description_area").setDepth(2)
         .setScale(1.6,0.9).setOrigin(0, 0).setVisible(false);
-        this.descriptionText = this.add.text(config.width/5, config.height/1.3, "", {fill: "#fff" ,font: "Arial", font: "18px"}).setDepth(3);
-        this.juaniButton =  new characterCard( this, config.width/4, config.height/2.2, "Tras limpiar, cocinar, cuidar a sus 4302\npalomas "
-        + " y salir de su 'AEROBIC ULTRA  \nINTENSIVE class' La Juani está lista "
+        this.descriptionText = this.add.text(config.width/5, config.height/1.33, "", {fill: "#fff" ,font: "Arial", font: "18px"}).setDepth(3).setWordWrapWidth(450);
+        this.juaniButton =  new characterCard( this, config.width/4, config.height/2.2, "Tras limpiar, cocinar, cuidar a sus 4302 palomas "
+        + " y salir de su 'AEROBIC ULTRA INTENSIVE class' La Juani está lista "
         +"\npara participar en Aniaml BOOM Mayhem.", "rep_Juani", "rep_Juani_selected",-config.width/50, config.height/1.5, "juani_dialogue");
-        this.juaniCursedButton =  new characterCard( this, config.width/1.4, config.height/2.2, "Juani Cursed fue una vez uan fan acosadora\nde"+
-        "La Juani. Ahora mismo su meta es\nsuplantarla y ser 'La Juani Original'.\n  'Todo lo que diga sobre mí es mentira'", "rep_Juani_cursed",
+        this.juaniCursedButton =  new characterCard( this, config.width/1.4, config.height/2.2, "Juani Cursed fue una vez uan fan acosadora de"+
+        "La Juani. Ahora mismo su meta es suplantarla y ser 'La Juani Original'. \n'Todo lo que diga sobre mí es mentira'", "rep_Juani_cursed",
          "rep_Juani_cursed_selected", config.width/1.3, config.height/1.5,  "juani_cursed_dialogue");
 
         //Setteo de la interactivdad
@@ -47,28 +47,15 @@ class character extends Phaser.Scene{
 
         //pointerdown
         this.exitButton.on('pointerdown', () => this.scene.start('mainMenu'));
-        this.juaniButton.characterImage.on('pointerdown', () => this.scene.start('scenario'));
-        this.juaniCursedButton.characterImage.on('pointerdown', () => this.scene.start('scenario'));
 
         //pointerover
         this.exitButton.on('pointerover', () =>
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow_selected").setDepth(1).setScale(.1));
-        this.juaniButton.characterImage.on('pointerover', () =>
-        this.juaniButton.renderCard(),
-        this.descriptionText.setText(this.juaniButton.description));
-        this.juaniCursedButton.characterImage.on('pointerover', () =>
-        this.juaniCursedButton.renderCard(),
-        this.descriptionText.setText(this.juaniCursedButton.description));
+
 
         //pointerout
         this.exitButton.on('pointerout', () =>
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setDepth(1).setScale(.1));
-        this.juaniButton.characterImage.on('pointerout', () =>
-        this.juaniButton.renderCard(),
-        this.descriptionText.setText(""));
-        this.juaniCursedButton.characterImage.on('pointerout', () =>
-        this.juaniCursedButton.renderCard(),
-        this.descriptionText.setText(""));
 
         //Flechas
         this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);

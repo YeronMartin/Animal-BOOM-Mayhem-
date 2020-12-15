@@ -97,6 +97,7 @@ hacerse con la “​ _corona explosiva_ ​”.
     5.3.1 Pelotas   
     5.3.2 Sprites de vida   
     5.3.3 Marcador   
+  5.4 Interfaz   
      
 
 ## 1. Cambios
@@ -898,8 +899,49 @@ Principal_ ​.
   
   Por otro lado, para la pantalla de selección de personajes, se realizaron los siguientes dibujos de los dos personajes disponibles en esta fase, la Juani y la Juani Cursed:
   
-  ![No carga la imagen]()
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/rep_Juani.png)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/rep_Juani_cursed.png)
+  
+  Cabe destacar que se han hecho unos sprites para cuando la Juani y la Juani Cursed no están seleccionadas (imágenes superiores) y otros sprites para cuando han sido 
+  seleccionadas por el jugador:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/rep_Juani_selected.png)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/rep_Juani_cursed_selected.png)
+  
+  
+  Continuando con los personajes, se han dibujado sprites para cuando alguno de los jugadores gana la partida. En ellos, se muestra a su correspondiente personaje, la Juani 
+  en el caso del jugador 1 o la Juani Cursed en el caso del jugador 2, con la _"corona explosiva"_ en la cabeza.
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/juani_winner.png)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/juani_cursed_winner.png)
+  
+  
+  También, se han dibujado sprites de los personajes de diálogo:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/juani_dialogue.png)
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/juani_cursed_dialogue.png)
+  
+  
+  Este sería el dibujo de la _"corona explosiva"_ que gana el jugador que gane el torneo de balón prisionero:
   
   ![No carga la imagen]()
+  
+  
+  Para finalizar, también se han dibujado fondos para las pantallas de la interfaz. El siguiente fondo se incluye en pantallas como la de selección de personajes:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/sceneBackground/stage_background.png)
+  
+   
+  
+  
+  
+  
+  
+  
+  
   
   

@@ -848,9 +848,11 @@ Principal_ ​.
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Pelota.png)
   
+  
   Sprite de la bomba:
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Bomba.png)  
+  
   
   Sprite de la patata (bomba con temporizador):
   
@@ -861,14 +863,33 @@ Principal_ ​.
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Patata_2.png)
   
   
+  
   También, se crearon dos sprites para la animación de la explosión cuando las bombas explotan:
   
-  ![No carga la imagen]()
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Explosiones.png)
 
   
   #### 5.3.2. Sprites de vida
+  En cuanto a la barra de vida, se han creado sprites para representar la vida de cada jugador dentro del juego. En este caso, la barra de vida es un semicírculo 
+  que se sitúa debajo del personaje de cada jugador. Este semicírculo tiene tres secciones y, cada vez que el jugador es golpeado (pierde una vida), se elimina 
+  una sección de derecha a izquierda. Para poder conseguir este efecto, se han realizado en total seis sprites, tres por cada jugador. Asimismo, para poder 
+  diferenciar a cada jugador, cada semicírculo de vida tiene un color concreto: el semicírculo del jugador 1 es de color azul y el semicírculo del jugador 2 
+  es de color naranja.
+  
+  A continuación, se pueden observar los sprites de vida del jugador 1 junto a su evolución cuando el jugador pierde vidas:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/hud/lifebar_blue.png)
+  
+ 
+  Al igual que en el caso anterior, estos serían los sprites de vida del jugador 2 junto a su evolución:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/hud/lifebar_red.png)
   
   #### 5.3.3. Marcador
+  Cuando pasa cierto tiempo, indicado por un marcador (temporizador), se entra en el modo de muerte súbita donde las pelotas son más grandes y más rápidas. Para 
+  mostrar el tiempo y cuando comienza la muerte súbita, se ha creado un sprite marcador que está situado arriba de la pantalla durante la partida:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/hud/marcador.png)
   
   
   

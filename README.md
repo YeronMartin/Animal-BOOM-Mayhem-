@@ -43,39 +43,49 @@ hacerse con la “​ _corona explosiva_ ​”.
 
 1. Cambios
 2. Introducción  
-2.1 Concepto del juego  
-2.2 Características principales  
-2.3 Género  
-2.4 Propósito y público objetivo  
-2.5 Jugabilidad  
-2.6 Estilo visual  
-2.7 Alcance
+  2.1 Concepto del juego  
+  2.2 Características principales  
+  2.3 Género  
+  2.4 Propósito y público objetivo  
+  2.5 Jugabilidad  
+  2.6 Estilo visual  
+  2.7 Alcance
 3. Mecánicas  
-3.1 Flujo de juego  
-3.2 Personajes  
-3.3 Tipo de cámara  
-3.4 Controles  
-3.5 Colisiones  
-3.6 Reglas de interacciones  
-3.7 Niveles  
-3.8 Objetos lanzables  
-3.9 Progresión del jugador  
+  3.1 Flujo de juego  
+  3.2 Personajes  
+    3.2.1. La Juani  
+    3.2.2 Juani Cursed
+  3.3 Tipo de cámara  
+  3.4 Controles  
+  3.5 Colisiones  
+  3.6 Reglas de interacciones  
+  3.7 Niveles  
+  3.8 Objetos lanzables  
+  3.9 Progresión del jugador  
 4. Interfaz  
-4.1 Diagrama de flujo  
-4.2 Menú principal   
-4.3 Créditos  
-4.4 Menú de ajustes  
-4.5 Modo de conexión  
-4.6 Modo de juego  
-4.7 Selección de personaje  
-4.8 Menú de opciones de partida  
-4.9 Selección de escenario  
-4.10 Tutorial  
-4.11 Pantalla de batalla  
-4.12 Ventana de victoria
+4.1. Primera versión
+4.1.1 Diagrama de flujo  
+4.1.2. Menú principal   
+4.1.3. Créditos  
+4.1.4 Menú de ajustes  
+4.1.5 Modo de conexión  
+4.1.6 Modo de juego  
+4.1.7 Selección de personaje  
+4.1.8 Menú de opciones de partida  
+4.1.9 Selección de escenario  
+4.1.10 Tutorial  
+4.1.11 Pantalla de batalla  
+4.1.12 Ventana de victoria
+4.2. Versión implementada
 
 ## 1. Cambios
-​En este apartado se mostrarán las versiones del documento de diseño del juego.
+​En este apartado se mostrarán las versiones del documento de diseño del juego.  
+
+### 1.1 Segunda versión  
+A día 26 de Diciembre de 2020 se han realizado cambios en el readme respecto a  
+la integración de elementos que faltaban en la versión previa, como música o  
+elementos visuales descriptivos de la estética del juego, así como el resultado. 
+de la implementación de los interfaces.
 
 
 ## 2. Introducción
@@ -412,7 +422,8 @@ En este apartado se mostrarán las interfaces de ​ _Animal BOOM Mayhem_ ​, a
 mostrar un diagrama de flujo de los interfaces. Por cada una de las interfaces se
 explicarán brevemente su función.  
 
-### 4.1. Diagrama de flujo  
+### 4.1 Primera versión
+#### 4.1.1 Diagrama de flujo  
 
 A continuación, se puede observar el diagrama de flujo de ​ _Animal BOOM Mayhem_
 que muestra las pantallas del juego y la relación entre estas  
@@ -420,7 +431,7 @@ que muestra las pantallas del juego y la relación entre estas
 ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Diagrama%20de%20flujo%20de%20juego.jpg)
 
 
-### 4.2. Menú principal  
+#### 4.1.2. Menú principal  
 
 Aquí se puede observar un boceto de la pantalla de ​ _Menú Principal_ ​:    
 
@@ -440,7 +451,7 @@ juego ​ _Animal BOOM Mayhem_ ​.
 **● Botón de salir:** ​al pulsarlo lleva de vuelta al Sistema Operativo.  
 
 
-### 4.3. Créditos  
+#### 4.1.3. Créditos  
 
 La siguiente imagen muestra el interfaz de la pantalla ​ _Créditos_.  
 
@@ -451,7 +462,7 @@ Lista y descripción de todos los elementos de la pantalla:
 ● **Nombres del equipo:** panel que muestra el nombre de cada
 uno de los integrantes del equipo desarrollador del juego.  
 
-### 4.4. Menú de ajustes  
+#### 4.1.4. Menú de ajustes  
 
 La siguiente imagen es un prototipo del interfaz de la pantalla de ajustes del juego.  
 
@@ -471,7 +482,7 @@ sobre el botón ​ _Interfaz._
 
 
 
-### 4.5. Modo de conexión  
+#### 4.1.5. Modo de conexión  
 
 Aquí se puede observar un boceto de la pantalla de selección del ​ _Modo de
 Conexión_ ​:  
@@ -488,7 +499,7 @@ y pasa a la pantalla de ​ _Modo de Juego_ .
 ● **Botón de en línea:** al pulsarlo el jugador activa el modo de conexión
 online y pasa a la pantalla de ​ _Modo de Juego_ ​.  
 
-### 4.6. Modo de juego  
+#### 4.1.6. Modo de juego  
 
 Aquí se puede observar un boceto de la pantalla de selección del ​ _Modo de Juego_ ​:  
 
@@ -505,7 +516,7 @@ Personaje_ ​.
 ● **Botón de en equipo:** al pulsarlo, el jugador activa el modo de juego
 en equipo y pasa a la pantalla de ​ _Selección de Personaje_ ​.  
 
-### 4.7. Selección de personaje  
+#### 4.1.7. Selección de personaje  
 
 Aquí se puede observar un boceto de la pantalla de ​ _Selección de Personaje_ ​:  
 
@@ -533,7 +544,7 @@ partida
 
 
 
-### 4.8. Menú de opciones de partida  
+#### 4.1.8. Menú de opciones de partida  
 
 En la siguiente imagen se muestra la pantalla con los ajustes que se podrán hacer
 sobre las partidas.  
@@ -555,7 +566,7 @@ escoger cuánta vida tendrá por cada ronda.
 ● **Jugadores:** con el botón ​ _Jugadores_ ​el creador de la partida
 puede seleccionar cuantos miembros formarán parte de ella.  
 
-### 4.9. Selección de escenario  
+### 4.1.9. Selección de escenario  
 
 Aquí se puede observar un boceto de la pantalla de ​ _Selección de Escenario_ ​:  
 
@@ -579,7 +590,7 @@ escenario 2 como escenario principal de la partida.
 **● Botón escenario 3:** ​al pulsarlo, el jugador selecciona el
 escenario 3 como escenario principal de la partida.  
 
-### 4.10. Tutorial  
+#### 4.1.10. Tutorial  
 
 La siguiente imagen muestra el interfaz de la pantalla ​ _Tutorial._  
 
@@ -596,7 +607,7 @@ ataques y sobre el que ensayarán durante el tutorial del juego.
 ● **Texto emergente:** panel en el que van apareciendo las
 instrucciones del juego, cómo moverse, esquivar, lanzar..  
 
-### 4.11. Pantalla de batalla  
+### 4.1.11. Pantalla de batalla  
 
 Sirva la siguiente imagen para ilustrar la pantalla ​ _Partida._  
 
@@ -615,7 +626,7 @@ pies del jugador y se dividen en la cantidad de puntos de vida
 que se haya elegido antes de empezar la vida. Representa la
 cantidad de puntos de vida que tiene el jugador.  
 
-### 4.12. Ventana de victoria  
+#### 4.1.12. Ventana de victoria  
 
 Aquí se puede observar un boceto de la ​ _Ventana de Victoria_ ​:  
 
@@ -630,6 +641,12 @@ que ha ganado la partida.
 que se deben presionar para: volver a jugar la partida , volver a
 la pantalla de ​ _selección de personajes_ o regresar al ​ _Menú
 Principal_ ​.  
+  
+  ### 4.2. Versión implementada  
+  
+  En este aparto se expondrán las modificaciones que se ha hecho en el interfaz respecto a la anterior versión
+  
+  #### 4.2.1 
  
 
 

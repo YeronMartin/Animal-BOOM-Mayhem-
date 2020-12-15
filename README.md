@@ -936,9 +936,11 @@ Principal_ ​.
   Por otro lado, los efectos de sonido del juego los hemos sacado de la página: freesound.org. Para los efectos de sonido hemos optado, de nuevo, por sonidos 
   de estilo cartoon que sean graciosos. Hemos incluido los siguientes efectos de sonido:
   
-  ● Un sonido para cuando el personaje es golpeado.   
+  ● Un sonido para cuando el personaje es golpeado (recibe un balonazo).   
   ● Un sonido para cuando el jugador realiza los pasos del tutorial correctamente.   
   ● Un sonido para cuando las bombas o las patatas explotan.
+  ● Un sonido para cuando el jugador pulsa los botones del menú principal.
+  ● Un sonido para cuando el jugador lanza una pelota.
 
   
   ## 7. Referencias

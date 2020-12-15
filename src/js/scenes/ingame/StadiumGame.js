@@ -95,9 +95,8 @@ class StadiumGame extends Phaser.Scene {
         this.explosionSfx.setVolume(0.5);
 
         this.game.sound.stopAll();
-
         this.gameBgm = this.sound.add('game_bgm');
-        this.gameBgm.setVolume(0.1);
+        this.gameBgm.setVolume(0.5);
         this.gameBgm.play();
     }
 
@@ -212,10 +211,6 @@ class StadiumGame extends Phaser.Scene {
 
 
         this.winner = this.playersList[0].id + 1;
-        //this.playersList[0].disableInputs();
-        
-        console.log("Donde te sentaste "+id);
-
 
         this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "TENEMOS UN GANADOR", {
             font: "50px Arial",
@@ -235,13 +230,11 @@ class StadiumGame extends Phaser.Scene {
 
         this.matchEnd = true;
         var timedEvent = this.time.addEvent({ delay: 2000, callback:  this.toPostGame, callbackScope: this, loop: true });
-        //this.toPostGame();
     }
 
     matchEnd = false;
 
     toPostGame(){
-        console.log(this.winner);
         this.scene.start('postGame', {winner :"Jugador "+(this.winner)});
     }
 

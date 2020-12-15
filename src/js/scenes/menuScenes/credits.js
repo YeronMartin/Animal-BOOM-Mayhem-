@@ -16,9 +16,16 @@ class credits extends Phaser.Scene{
         this.add.image(0, 0, "credits_background").setDepth(0).setOrigin(0, 0);
         this.add.text(config.width/4.5, 25, '¿Quiénes somos?', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
         this.exitButton = this.add.image(50, 50, "exit_arrow").setScale(.1);
-        this.add.text((config.width/3)- 25, config.height/3.4, "Somos un grupo de amigos haciendo nuestro primero juego en PHASER 3", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350);
-        this.add.text((config.width/3)- 25, config.height/2, "!!MUCHAS GRACIAS POR JUGAR!!", {fill: '#fff', font: "Arial", font:  "30px"}).setDepth(2).setWordWrapWidth(350);
+        this.add.text((config.width / 2), config.height - 400, "Miembros del equipo", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+        
+        this.add.text((config.width / 2), config.height - 350, "Grupo 5:", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
 
+        this.add.text((config.width / 2), config.height - 280, " Carlos del Águila Mateu\n Jesús David Rojo Martín\n María Busto Ramos\n Yerón Martín Sánchez", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+
+        this.add.text((config.width / 2), config.height - 100, "!MUCHAS GRACIAS POR JUGAR!", {fill: '#fff', font: "Arial", font:  "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+
+
+        /*
         //Setteo de la interactividad
         this.exitButton.setInteractive();
 
@@ -32,6 +39,7 @@ class credits extends Phaser.Scene{
         //pointerout
         this.exitButton.on('pointerout', () =>
         this.exitButton = this.add.image(50, 50, "exit_arrow").setScale(.1));
+        */
 
         //Flechas A y D
         this.key_LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -57,7 +65,7 @@ class credits extends Phaser.Scene{
           this.exitButton = this.add.image(50, 50, "exit_arrow_selected").setScale(.1);
           this.button_selected = null;
         }
-      } else if(Phaser.Input.Keyboard.JustDown(this.key_RIGHT)){
+      }else if(Phaser.Input.Keyboard.JustDown(this.key_RIGHT)){
           if (this.button_selected == null){
             this.button_selected = this.exitButton;
             this.exitButton = this.add.image(50, 50, "exit_arrow").setScale(.1);
@@ -65,7 +73,7 @@ class credits extends Phaser.Scene{
             this.exitButton = this.add.image(50, 50, "exit_arrow").setScale(.1);
             this.button_selected = null;
           }
-      } else if(Phaser.Input.Keyboard.JustDown(this.key_ESC)){
+      }else if(Phaser.Input.Keyboard.JustDown(this.key_ESC)){
           this.scene.start("mainMenu");
       }
     }

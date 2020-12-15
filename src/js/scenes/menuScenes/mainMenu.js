@@ -81,11 +81,16 @@ class mainMenu extends Phaser.Scene{
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         this.menuSelectSfx = this.sound.add('menuSelectSfx');
-        this.menuSelectSfx.setVolume(0.1);
+        this.menuSelectSfx.setVolume(0.3);
 
+        this.game.sound.stopAll();
+        
         this.menuBgm = this.sound.add('menu_bgm');
-        this.menuBgm.setVolume(0.1);
-        this.menuBgm.play();
+        //this.menuBgm.setVolume(0.1);
+        //this.menuBgm.play();
+
+        this.game.sound.play('menu_bgm', {volume: 0.1});
+        this.game.sound.volume = 0.1;
     };
 
     update(){

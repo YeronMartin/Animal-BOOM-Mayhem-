@@ -651,11 +651,13 @@ Principal_ ​.
   #### 4.2.2 Menú principal  
   
   Se ha eliminado el botón _Salir_ y se ha sustituido el de _Opciones_ por el botón _Tutorial_.  
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/mainMenu.png)  
   
   #### 4.2.3 Créditos
   
-  No se han realizado cambios en la escena de _Créditos_.
+  No se han realizado cambios en la escena de _Créditos_.  
+  
 ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/creditos.png)  
   
   #### 4.2.4 Menú de ajustes 
@@ -673,7 +675,8 @@ Principal_ ​.
   #### 4.2.7. Selección de personaje  
   
   En la escena _Selección de personaje_ se ha añadido un espacio destinado a la descripción de los personajes,  
-  además de imágenes recordando los controles de cada uno de los personajes.
+  además de imágenes recordando los controles de cada uno de los personajes.  
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/seleccion_personaje.png)  
   
   #### 4.2.8. Ajustes de partida  
@@ -683,23 +686,27 @@ Principal_ ​.
   #### 4.2.9. Selección de escenario  
   
   En la escena _Selección de escenario_ no se ha realizado ningún cambio.  
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/seleccion_escenario.png)   
   
   #### 4.2.10. Tutorial  
   
   En la escena _Tutorial_ se ha modifiado para que en la parte superior de la pantalla se muestren poco a poco  
   los controles.  
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Impelementada/Tutorial.PNG)  
   
   
   ### 4.2.11. Pantalla de batalla  
   
   En la escena _Pantalla de batalla_ no se han realizado cambios.  
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/juego.png)   
   
   
   ### 4.2.12. Ventana de Victoria  
   
   En la escena _Pantalla de Victoria_ no se han realizado cambios.  
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Victoria.png)
   

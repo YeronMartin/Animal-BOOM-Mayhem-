@@ -45,13 +45,14 @@ hacerse con la “​ _corona explosiva_ ​”.
   1.1 Segunda revisión
 2. Introducción  
   2.1 Inspiración
-  2.2 Concepto del juego  
-  2.3 Características principales  
-  2.4 Género  
-  2.5 Propósito y público objetivo  
-  2.6 Jugabilidad  
-  2.7 Estilo visual  
-  2.8 Alcance
+  2.2 Plataforma
+  2.3 Concepto del juego  
+  2.4 Características principales  
+  2.5 Género  
+  2.6 Propósito y público objetivo  
+  2.7 Jugabilidad  
+  2.8 Estilo visual  
+  2.9 Alcance
 3. Mecánicas  
   3.1 Flujo de juego  
   3.2 Personajes  
@@ -118,11 +119,14 @@ elementos que va a incluir ​ _Animal BOOM Mayhem_ ​.
 ### 2.1. Inspiración
 _Animal BOOM Mayhem_ es un videojuego inspirado en los típicos juegos de arcade con una historia simple y un ritmo muy frenético. Concretamente, _Animal BOOM Mayhem_ se inspira en juegos como _Butasan_ o _Bomberman_ en los que varios jugadores compiten entre sí en una pelea con proyectiles varios.
 
-### 2.2. Concepto del juego
+### 2.2. Plataforma
+_Animal BOOM Mayhem_ es un videojuego competitivo en línea para PC. Esta va a ser su plataforma principal y no se tiene pensado sacarlo para otras.
+
+### 2.3. Concepto del juego
 _Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
 toma el control de un animal que competirá en un torneo de balón prisionero para
 hacerse con la “​ _corona explosiva_ ​”.
-### 2.3. Características principales
+### 2.4. Características principales
 El juego presenta las siguientes características principales:  
 
 ● **Simplicidad** ​: Al ser un videojuego de estilo arcade, este no presenta una
@@ -142,7 +146,7 @@ un modo muerte súbita para decidir al ganador.
 que enfrentarse a una serie de retos distintos en cada uno de ellos.
 
 
-### 2.4. Género
+### 2.5. Género
 _Animal BOOM Mayhem_ es un videojuego que presenta características de varios
 géneros. Estos serían los siguientes:  
 
@@ -160,7 +164,7 @@ aspecto de la competición con un movimiento libre.
 puntería y habilidad, generalmente en un contexto de combate o superación
 de peligros.  
 
-### 2.5. Propósito y público objetivo  
+### 2.6. Propósito y público objetivo  
 
 El propósito principal de ​ _Animal BOOM Mayhem_ es ofrecer a los jugadores un
 videojuego multijugador en línea frenético y sencillo con el que puedan entretenerse
@@ -172,7 +176,7 @@ básica, los usuarios pueden jugar ​ _Animal BOOM Mayhem_ en cualquier momento
 libre que tengan.
 
 
-### 2.6. Jugabilidad
+### 2.7. Jugabilidad
 Cada partida se basará en una competición de animales jugando al balón prisionero
 en el que el jugador tratará de quedar el último para acabar victorioso. Para lograr
 esto, los jugadores deben aprovechar una serie de power-ups y habilidades de los
@@ -188,7 +192,7 @@ esquivarlas agachándose.
 adicionales para tener una experiencia más personalizada, además de
 diversos escenarios con dinámicas diferentes.  
 
-### 2.7. Estilo visual  
+### 2.8. Estilo visual  
 
 _Animal BOOM Mayhem_ se caracteriza por tener un estilo visual muy simple y con
 estética cartoon ya que, al tratarse de un juego desenfadado, se ha preferido optar
@@ -197,7 +201,7 @@ Por lo tanto, en el diseño de tanto los personajes como de los escenarios,
 emplearemos colores saturados y diseños divertidos. En cuanto a sombreado
 emplea la técnica “cell-shading”, por seguir la línea estética del juego.  
 
-### 2.8. Alcance  
+### 2.9. Alcance  
 
 Así mismo el objetivo es crear un juego en línea multijugador. En las primeras
 etapas de su desarrollo se le dotará de las mecánicas básicas con variedad de

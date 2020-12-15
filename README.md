@@ -67,7 +67,7 @@ hacerse con la “​ _corona explosiva_ ​”.
   3.9 Progresión del jugador  
 4. Interfaz  
   4.1. Primera versión
-    4.1.1 Diagrama de flujo  
+    4.1.1 Diagrama de flujo      
     4.1.2. Menú principal   
     4.1.3. Créditos  
     4.1.4 Menú de ajustes  
@@ -78,8 +78,8 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.1.9 Selección de escenario  
     4.1.10 Tutorial  
     4.1.11 Pantalla de batalla  
-    4.1.12 Ventana de victoria
-  4.2. Versión implementada  
+    4.1.12 Ventana de victoria    
+  4.2. Versión implementada      
     4.2.1 Diagrama de flujo  
     4.2.2. Menú principal   
     4.2.3. Créditos  

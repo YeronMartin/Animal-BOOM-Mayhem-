@@ -100,7 +100,7 @@ A día 26 de Diciembre de 2020 se han realizado cambios en el readme respecto a 
     ● Se ha incluido un apartado de inspiración y juegos de referencia.
     ● Se ha incluido un apartado sobre la plataforma del juego.
     ● Se ha mejorado la descripción del objetivo del juego.
-    ● Se ha actualizado la información de la bomba con temporizador en el apartado de _3.8. Objetos lanzables_ .
+    ● Se ha actualizado la información de la bomba con temporizador en el apartado de 3.8.Objetos lanzables .
     ● Se ha mejorado la descripción de los personajes del juego.
     ● Se ha incluido un apartado de arte 2D.
     ● Se ha incluido un apartado de música y efectos de sonido.

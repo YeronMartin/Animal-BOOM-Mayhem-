@@ -63,20 +63,32 @@ hacerse con la “​ _corona explosiva_ ​”.
   3.8 Objetos lanzables  
   3.9 Progresión del jugador  
 4. Interfaz  
-4.1. Primera versión
-4.1.1 Diagrama de flujo  
-4.1.2. Menú principal   
-4.1.3. Créditos  
-4.1.4 Menú de ajustes  
-4.1.5 Modo de conexión  
-4.1.6 Modo de juego  
-4.1.7 Selección de personaje  
-4.1.8 Menú de opciones de partida  
-4.1.9 Selección de escenario  
-4.1.10 Tutorial  
-4.1.11 Pantalla de batalla  
-4.1.12 Ventana de victoria
-4.2. Versión implementada
+  4.1. Primera versión
+    4.1.1 Diagrama de flujo  
+    4.1.2. Menú principal   
+    4.1.3. Créditos  
+    4.1.4 Menú de ajustes  
+    4.1.5 Modo de conexión  
+    4.1.6 Modo de juego  
+    4.1.7 Selección de personaje  
+    4.1.8 Menú de opciones de partida  
+    4.1.9 Selección de escenario  
+    4.1.10 Tutorial  
+    4.1.11 Pantalla de batalla  
+    4.1.12 Ventana de victoria
+  4.2. Versión implementada  
+    4.2.1 Diagrama de flujo  
+    4.2.2. Menú principal   
+    4.2.3. Créditos  
+    4.2.4 Menú de ajustes  
+    4.2.5 Modo de conexión  
+    4.2.6 Modo de juego  
+    4.2.7 Selección de personaje  
+    4.2.8 Menú de opciones de partida  
+    4.2.9 Selección de escenario  
+    4.2.10 Tutorial  
+    4.2.11 Pantalla de batalla  
+    4.2.12 Ventana de victoria
 
 ## 1. Cambios
 ​En este apartado se mostrarán las versiones del documento de diseño del juego.  

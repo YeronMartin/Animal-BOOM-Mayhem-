@@ -97,7 +97,9 @@ hacerse con la “​ _corona explosiva_ ​”.
     5.3.1 Pelotas   
     5.3.2 Sprites de vida   
     5.3.3 Marcador   
-  5.4 Interfaz   
+  5.4 Interfaz 
+6. Música y efectos de sonido
+7. Referencias
      
 
 ## 1. Cambios
@@ -774,32 +776,13 @@ Principal_ ​.
   
   #### 5.1.2. Animaciones
   Se han incluido animaciones de andar, lanzar la pelota, agacharse, coger la pelota y cuando el personaje recibe un golpe. Para ello, se han hecho 
-  sprite sheets para poder implementar estas animaciones en el juego. A continuación, se muestran los sprite sheets de cada animación:
+  sprite sheets para poder implementar estas animaciones en el juego. A continuación, se muestran los sprite sheets que recogen todas estas animaciones
+  tanto del jugador 1 como del jugador 2:
   
-  Para la animación de andar:
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_sheet1.PNG)
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_andando.PNG)
-  
-  Para la animación de lanzar la pelota:
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_lanzando.PNG)
-  
-  Para la animación de agacharse:
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_Agacharse_1.png)
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_Agacharse_1_1.png)
-  
-  Para la animación de coger la pelota:
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_coger_pelota_1.png)
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_coger_pelota_1_2.png)
-  
-  Para la animación de recibir un golpe:
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_golpeada.png)
-  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_sheet2.png)
+   
   
   También, cabe destacar que se realizaron los siguientes sprite sheets para la animación de cuando el personaje anda con alguna de las pelotas en la mano. Cada
   sprite de la tira representaría donde se encontraría la pelota cuando el personaje está andando con ella.
@@ -934,6 +917,11 @@ Principal_ ​.
   Para finalizar, también se ha dibujado un fondo para las pantallas de la interfaz. El siguiente fondo se incluye en pantallas como la de selección de personajes:
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/sceneBackground/stage_background.png)
+  
+  
+  ## 6. Música y efectos de sonido
+  
+  ## 7. Referencias
   
    
   

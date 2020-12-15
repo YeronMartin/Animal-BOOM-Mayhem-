@@ -928,10 +928,10 @@ Principal_ ​.
   
   Este sería el dibujo de la _"corona explosiva"_ que gana el jugador que gane el torneo de balón prisionero:
   
-  ![No carga la imagen]()
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Corona_explosiva.png)
   
   
-  Para finalizar, también se han dibujado fondos para las pantallas de la interfaz. El siguiente fondo se incluye en pantallas como la de selección de personajes:
+  Para finalizar, también se ha dibujado un fondo para las pantallas de la interfaz. El siguiente fondo se incluye en pantallas como la de selección de personajes:
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/sceneBackground/stage_background.png)
   

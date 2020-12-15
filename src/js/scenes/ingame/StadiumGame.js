@@ -19,8 +19,9 @@ class StadiumGame extends Phaser.Scene {
         this.load.image("pelota", "././././resources/img/balls/Pelota.png");
         this.load.image("bomba", "././././resources/img/balls/Bomba.png");
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
-        this.load.image("explosion", "././././resources/img/balls/Explosion.png");
+        this.load.spritesheet('explosion_sheet', "././././resources/img/explosion_sheet.png", { frameWidth: 431, frameHeight: 400 });
 
+        this.load.image('marcador', '././././resources/img/hud/marcador.png');
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
     }
 
@@ -38,7 +39,7 @@ class StadiumGame extends Phaser.Scene {
 
     minutesRemaining;
     secondsRemaining5;
-    acumulatedDelta = 0;
+    acumulatedDelta = 1000;
     timeEnded = false;
 
     create() {
@@ -48,15 +49,20 @@ class StadiumGame extends Phaser.Scene {
         
         this.minutesRemaining = 1;
         this.secondsRemaining = 0;
-        this.acumulatedDelta = 0;
+        this.acumulatedDelta = 1000;
         this.timeEnded = false;
 
-        this.matchTimer = this.add.text(20, 20, this.minutesRemaining+":"+this.secondsRemaining+'0', {
-            font: "25px Arial", 
-            fill: "white",
+        this.matchTimer = this.add.text(config.width / 2, 30, this.minutesRemaining+":"+this.secondsRemaining+'0', {
+            font: "25px Consolas", 
+            fill: "red",
         });
+        this.matchTimer.setOrigin(0.5, 0.5);
 
-        this.matchTimer.setDepth(5);
+        this.marcador = this.add.image(config.width / 2, 40, 'marcador');
+        this.marcador.setScale(0.3);
+        this.marcador.setDepth(5);
+
+        this.matchTimer.setDepth(6);
         
         this.deltaTime = 0;
 
@@ -219,12 +225,20 @@ class StadiumGame extends Phaser.Scene {
                 this.timeEnded = true;
                 this.activateSuddenDeath();
             }
+
+            var text = '';
+
+            if(this.minutesRemaining < 10)
+                text += '0'+this.minutesRemaining+":";
+        
             if(this.secondsRemaining < 10){
-                this.matchTimer.setText(this.minutesRemaining+":0"+this.secondsRemaining);
+                text+= '0'+this.secondsRemaining;
             }else{
-                this.matchTimer.setText(this.minutesRemaining+":"+this.secondsRemaining);
+                text+= this.secondsRemaining;
             }
-            
+
+            this.matchTimer.setText(text);
+
             this.acumulatedDelta = 0;
         }
     }

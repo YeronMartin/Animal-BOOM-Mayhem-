@@ -21,8 +21,9 @@ class Tutorial extends Phaser.Scene {
         this.load.image("bomba", "././././resources/img/balls/Bomba.png");
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
 
-        this.load.image("explosion", "././././resources/img/balls/Explosion.png");
+        this.load.spritesheet('explosion_sheet', "././././resources/img/explosion_sheet.png", { frameWidth: 431, frameHeight: 400 });
 
+        this.load.image('fondo_texto', '././././resources/img/interfaces/character_description_area.png');
 
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
     }
@@ -34,8 +35,14 @@ class Tutorial extends Phaser.Scene {
 
         this.tutorialPhase = 0;
 
-        this.messageBox = this.add.text(20, 20, "Bienvenido al tutorial de Animal BOOM Mayhem. Utiliza WASD para moverte. Acércate a esa bola.");
-        this.messageBox.setWordWrapWidth(750);
+        this.textBackground = this.add.image(0, 0, 'fondo_texto');
+        this.textBackground.setOrigin(0, 0);
+        this.textBackground.scaleX = 2.5;
+        this.textBackground.scaleY = 0.5;
+        this.textBackground.setDepth(4);
+
+        this.messageBox = this.add.text(25, 20, "Bienvenido al tutorial de Animal BOOM Mayhem. Utiliza WASD para moverte. Acércate a esa bola.");
+        this.messageBox.setWordWrapWidth(745);
         this.messageBox.setDepth(5);
 
         this.playersGroup = this.add.group();

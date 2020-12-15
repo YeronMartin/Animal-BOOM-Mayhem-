@@ -29,7 +29,7 @@ class BallBomb extends Ball{
     }
 
     explode(player){
-        var explosion = new Explosion(this.scene, this.x, this.y);
+        var explosion = new Explosion(this.scene, this.x, this.y, 'bomb');
         
     }
 

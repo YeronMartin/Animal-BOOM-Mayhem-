@@ -42,7 +42,7 @@ hacerse con la “​ _corona explosiva_ ​”.
 ## ÍNDICE
 
 1. Cambios
-  1.1 Segunda revisión  
+  1.1 Segunda revisión    
 2. Introducción  
   2.1 Inspiración  
   2.2 Plataforma  

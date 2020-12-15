@@ -807,9 +807,15 @@ Principal_ ​.
   También, cabe destacar que se realizaron los siguientes sprite sheets para la animación de cuando el personaje anda con alguna de las pelotas en la mano. Cada
   sprite de la tira representaría donde se encontraría la pelota cuando el personaje está andando con ella.
   
+  Sprite sheet de cuando el personaje tiene en la mano la pelota normal (balón de baloncesto):
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_basketball.PNG)
   
+  Sprite sheet de cuando el personaje tiene en la mano la bomba:
+  
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_bomb.PNG)
+  
+  Sprite sheet de cuando el personaje tiene en la mano la patata (bomba con temporizador):
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_potato1.PNG)
   
@@ -827,7 +833,38 @@ Principal_ ​.
   
   ### 5.3. Props
   
+  Para poder desarrollar el videojuego, se realizaron multitud de props que se comentarán en las siguientes categorías.
+  
   #### 5.3.1. Pelotas
+  
+  _Animal BOOM Mayhem_ es un videojuego en el que los jugadores tienen que tratar de eliminarse unos a otros lanzándose diversos objetos diferentes. En esta segunda 
+  fase, los objetos que implementamos son: la pelota normal, una bomba y la patata (bomba con temporizador). Se han creado sprites png de tamaño 100x100 para las 
+  tres pelotas. Concretamente, para la patata se realizaron dos sprites, uno de la patata normal y otro de la patata con un ligero tono rojizo. Esto se debe a 
+  que, tras cierto tiempo, la patata explota y alternamos el sprite rojo con el normal cada vez más rápido para indicarle al usuario que queda poco para que explote.
+  
+  Las siguientes imágenes corresponden con los sprites de las tres pelotas explicadas, respectivamente. 
+  
+  Sprite de la pelota normal (balón de baloncesto):
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Pelota.png)
+  
+  Sprite de la bomba:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Bomba.png)  
+  
+  Sprite de la patata (bomba con temporizador):
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Patata.png)  
+  
+  Sprite de la patata roja para alertar al jugador:
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Patata_2.png)
+  
+  
+  También, se crearon dos sprites para la animación de la explosión cuando las bombas explotan:
+  
+  ![No carga la imagen]()
+
   
   #### 5.3.2. Sprites de vida
   

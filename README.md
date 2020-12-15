@@ -93,6 +93,9 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.2.11 Pantalla de batalla  
     4.2.12 Ventana de victoria
 5. Arte 2D
+  5.1 Personajes
+    5.1.1 Concept art
+     
 
 ## 1. Cambios
 ​En este apartado se mostrarán las versiones del documento de diseño del juego.  
@@ -762,5 +765,8 @@ Principal_ ​.
   fuerte. A continuación, se puede observar el concept art realizado:
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Concept%20art%20-%20La%20Juani.jpg)
+  
+  No hay ningún concept art de la Juani Cursed pues su diseño es el mismo que el de la Juani pero con un cambio de color. La Juani es el personaje que controlaría
+  el jugador 1 y la Juani Cursed es el personaje que controlaría el jugador 2.
   
   

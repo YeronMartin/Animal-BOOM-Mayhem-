@@ -95,6 +95,7 @@ hacerse con la “​ _corona explosiva_ ​”.
 5. Arte 2D
   5.1 Personajes
     5.1.1 Concept art
+    5.1.2 Animaciones
      
 
 ## 1. Cambios
@@ -785,13 +786,13 @@ Principal_ ​.
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_Agacharse_1.png)
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_Agacharse_2.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_Agacharse_1_1.png)
   
   Para la animación de coger la pelota:
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_coger_pelota_1.png)
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_coger_pelota_2.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Animacion_coger_pelota_1_2.png)
   
   Para la animación de recibir un golpe:
   

@@ -646,8 +646,58 @@ Principal_ ​.
   
   En este aparto se expondrán las modificaciones que se ha hecho en el interfaz respecto a la anterior versión
   
-  #### 4.2.1 
- 
+  #### 4.2.2 Menú principal  
+  
+  Se ha eliminado el botón _Salir_ y se ha sustituido el de _Opciones_ por el botón _Tutorial_.  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Ventana%20de%20victoria.PNG)  
+  
+  #### 4.2.3 Créditos
+  
+  No se han realizado cambios en la escena de _Créditos_.
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Ventana%20de%20victoria.PNG)  
+  
+  #### 4.2.4 Menú de ajustes 
+  
+  La escena _Menú de ajustes_ ha sido eliminada.  
+  
+  #### 4.2.5. Modo de conexión  
 
-
-
+  La escena _Modo de conexión_ ha sido eliminada.  
+  
+  #### 4.2.6. Modo de juego
+  
+  La escena _Modo de juego_ ha sido eliminada.  
+  
+  #### 4.2.7. Selección de personaje  
+  
+  En la escena _Selección de personaje_ se ha añadido un espacio destinado a la descripción de los personajes,  
+  además de imágenes recordando los controles de cada uno de los personajes.
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Ventana%20de%20victoria.PNG)  
+  
+  #### 4.2.8. Ajustes de partida  
+  
+  La escena _Ajustes de partida_ ha sido eliminada.  
+  
+  #### 4.2.9. Selección de escenario  
+  
+  En la escena _Selección de escenario_ no se ha realizado ningún cambio.  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Ventana%20de%20victoria.PNG)  
+  
+  #### 4.2.10. Tutorial  
+  
+  En la escena _Tutorial_ se ha modifiado para que en la parte superior de la pantalla se muestren poco a poco  
+  los controles.  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Ventana%20de%20victoria.PNG)  
+  
+  
+  ### 4.2.12. Pantalla de batalla  
+  
+  En la escena _Pantalla de batalla_ no se han realizado cambios.  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Ventana%20de%20victoria.PNG)  
+  
+  
+  ### 4.2.12. Ventana de Victoria  
+  
+  En la escena _Pantalla de Victoria_ no se han realizado cambios.  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Ventana%20de%20victoria.PNG)  
+  

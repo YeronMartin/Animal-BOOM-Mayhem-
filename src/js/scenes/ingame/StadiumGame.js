@@ -22,6 +22,8 @@ class StadiumGame extends Phaser.Scene {
         this.load.spritesheet('explosion_sheet', "././././resources/img/explosion_sheet.png", { frameWidth: 431, frameHeight: 400 });
 
         this.load.image('marcador', '././././resources/img/hud/marcador.png');
+
+        this.load.image('fondo_texto', "././././resources/img/interfaces/areas/character_description_area.png");
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
     }
 
@@ -51,6 +53,8 @@ class StadiumGame extends Phaser.Scene {
         this.secondsRemaining = 0;
         this.acumulatedDelta = 1000;
         this.timeEnded = false;
+        this.noMorechetos = false;
+        this.matchEnd = false;
 
         this.matchTimer = this.add.text(config.width / 2, 30, this.minutesRemaining+":"+this.secondsRemaining+'0', {
             font: "25px Consolas", 
@@ -94,7 +98,6 @@ class StadiumGame extends Phaser.Scene {
 
     setupPlayers(){
         this.playersGroup = this.add.group();
-
         this.playersList = [];
 
         this.playersList[0] = new Player(this, (config.width / 2) - 100, config.height / 2, 0);
@@ -109,6 +112,7 @@ class StadiumGame extends Phaser.Scene {
         }
     
         this.ballsGroup = this.add.group();
+
         this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
 
         var timedEvent = this.time.addEvent({ delay: 1000, callback:  this.ballRespawnerTimerEnded, callbackScope: this, loop: true });
@@ -169,9 +173,8 @@ class StadiumGame extends Phaser.Scene {
 
     //Cuando un boloncio choqua contra un jugador
     colisionPlayerBall(player, ball){
-        ball.impact();
-
         player.takeDamage();
+        ball.impact();
     }
 
     setupExplosionGroup(){
@@ -184,7 +187,7 @@ class StadiumGame extends Phaser.Scene {
     }
 
     playerEliminated(){
-        this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "Victoria Royale", {
+        this.victoryText = this.add.text(config.width / 2, (config.height / 2) - 100, "FIN DE LA RONDA", {
             font: "50px Arial", 
             fill: "white",
         });
@@ -192,15 +195,31 @@ class StadiumGame extends Phaser.Scene {
         this.victoryText.setOrigin(0.5, 0.5);
         this.victoryText.setDepth(5);
 
-        this.exitText = this.add.text(config.width / 2, (config.height / 2), "Pulsa ESCAPE para salir", {
-            font: "35px Arial", 
-            fill: "white",
-        });
-        this.exitText.setOrigin(0.5, 0.5);
-        this.exitText.setDepth(5);
+        this.textBackground = this.add.image(config.width / 2, (config.height / 2) - 100, 'fondo_texto');
+        this.textBackground.setOrigin(0.5, 0.5);
+        this.textBackground.scaleX = 2.5;
+        this.textBackground.scaleY = 0.5;
+        this.textBackground.setDepth(4);
+
+        //Esperar 3 segundetes para que se vea qué ha pasado.
+
+        this.matchEnd = true;
+        //var timedEvent = this.time.addEvent({ delay: 3000, callback:  this.toPostGame, callbackScope: this, loop: true });
+        this.toPostGame();
+    }
+
+    matchEnd = false;
+
+    toPostGame(){
+        console.log(this.playersList[0].id + 1);
+        this.scene.start('postGame', "Jugador "+(this.playersList[0].id + 1));
     }
 
     update(time, delta){
+
+        if(this.matchEnd)
+            delta = delta / 5;
+
         this.updatePlayers(delta);
         this.updateBalls(delta);
 
@@ -208,7 +227,7 @@ class StadiumGame extends Phaser.Scene {
     }
 
     updateClock(time, delta){
-        if(this.timeEnded)
+        if(this.timeEnded || this.matchEnd)
             return;
         
         this.acumulatedDelta += delta;

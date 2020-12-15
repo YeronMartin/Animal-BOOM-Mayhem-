@@ -21,7 +21,7 @@ class Player extends Phaser.GameObjects.Sprite{
     health = 3;
 
     throwAnimationDelay = 200;
-    hurtAnimationDelay = 250;
+    hurtAnimationDelay = 500;
     timeBetweenFlickeringCycles = 25;
     hurtInvulnerabilityDuration = 1000;
     crouchInvulnerabilityDuration = 500;
@@ -44,12 +44,10 @@ class Player extends Phaser.GameObjects.Sprite{
         this.setScale(0.4);
 
         //Añadir elemento a una lista en la escena
-        scene.playersGroup.add(this);
 
         this.setupAnimations(scene);
 
-        //this.play('idle'+this.id+this.sheetKey);
-        this.play('idle'+this.id);
+        this.anims.play('idle'+this.id, true);
 
         this.setupInputEvents(scene, id);
 
@@ -81,42 +79,42 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     setupAnimations(scene){
-        this.anim0 = this.scene.anims.create({
+        this.scene.anims.create({
             key: 'idle'+this.id,
             frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [0]}),
             frameRate: 0,
             repeat: 1
         });
 
-        this.anim1 = this.scene.anims.create({
+        this.scene.anims.create({
             key: 'walk'+this.id,
             frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [1, 2, 3]}),
             frameRate: 10,
             repeat: -1
         });
 
-        this.anim2 = this.scene.anims.create({
+        this.scene.anims.create({
             key: 'throw'+this.id,
             frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [6, 7]}),
             frameRate: 20,
             repeat: 0
         });
 
-        this.anim3 = this.scene.anims.create({
+        this.scene.anims.create({
             key: 'aim'+this.id,
             frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [6]}),
             frameRate: 10,
             repeat: 0
         });
 
-        this.anim4 = this.scene.anims.create({
+        this.scene.anims.create({
             key: 'crouch'+this.id,
             frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [4, 5]}),
             frameRate: 10,
             repeat: 0
         });
 
-        this.anim5 = this.scene.anims.create({
+        this.scene.anims.create({
             key: 'hurt'+this.id,
             frames: this.scene.anims.generateFrameNames('juani_sheet'+this.id, {frames: [8]}),
             frameRate: 0,
@@ -128,6 +126,8 @@ class Player extends Phaser.GameObjects.Sprite{
         scene.physics.world.enableBody(this);
         this.body.collideWorldBounds = true;
         this.body.bounce.set(false);
+
+        scene.playersGroup.add(this);
     }
 
     setupInputEvents(scene, id){
@@ -169,10 +169,10 @@ class Player extends Phaser.GameObjects.Sprite{
         scene.input.keyboard.on('keyup_'+this.keyCrouch, this.releaseCrouch, this);
     }
     
-    update(){
+    update(delta){
         this.updateLifebarPosition();
 
-        this.updatePosition();
+        this.updatePosition(delta);
         this.updateBallPosition();
         this.updateAnimations();
 
@@ -181,7 +181,7 @@ class Player extends Phaser.GameObjects.Sprite{
         }
     }
 
-    updatePosition(){
+    updatePosition(delta){
 
         this.playerItem.update();
 
@@ -203,8 +203,10 @@ class Player extends Phaser.GameObjects.Sprite{
         if (this.pressingRight)
             newVelocityX += this.speed;
 
+
         this.body.velocity.x = newVelocityX;
         this.body.velocity.y = newVelocityY;
+        
 
         if(this.ball == null && this.playerItem.id == 'potato'){
             this.playerItem.destroy();
@@ -237,7 +239,7 @@ class Player extends Phaser.GameObjects.Sprite{
 
         //CAMBIAR A TENER EN CUENTA LA DIRECCIÓN Y LA BOLA EN MANO
         if(this.aiming){
-            this.play('aim'+this.id);
+            this.anims.play('aim'+this.id, true);
             this.playerItem.playAim();
         }
 
@@ -245,10 +247,11 @@ class Player extends Phaser.GameObjects.Sprite{
             return;
 
         if(this.body.velocity.x == 0 && this.body.velocity.y == 0){
-            this.play('idle'+this.id);
+            this.anims.play('idle'+this.id, true);
             this.playerItem.playIdle();
-        }else if(this.anims.getCurrentKey() != 'walk'+this.id){
-            this.play('walk'+this.id);
+        }else{
+            this.anims.play('walk'+this.id, true);
+            //this.anims.play(this.walkAnim, true);
             this.playerItem.playWalk();
         }
     }
@@ -330,7 +333,7 @@ class Player extends Phaser.GameObjects.Sprite{
                 this.playerItem = new PlayerItem(this.scene, this.x, this.y, this, 'potato');
             }
 
-            this.play('crouch'+this.id);
+            this.anims.play('crouch'+this.id, true);
             this.playerItem.playCrouch();
 
             this.stunned = true;
@@ -394,7 +397,7 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     playThrowAnimation(){
-        this.play('throw'+this.id);
+        this.anims.play('throw'+this.id, true);
         this.playerItem.playThrow();
 
         this.stunned = true;
@@ -416,7 +419,7 @@ class Player extends Phaser.GameObjects.Sprite{
         this.health --;
 
         if(this.health <= 0){
-            this.play('hurt'+this.id);
+            this.anims.play('hurt'+this.id, true);
             this.playerItem.playHurt();
 
             this.removeFromSceneLists();
@@ -465,7 +468,7 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     enterHurtState(){
-        this.play('hurt'+this.id);
+        this.anims.play('hurt'+this.id);
         this.playerItem.playHurt();
 
         var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
@@ -498,7 +501,7 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     endHurtAnimation(){
-        this.play('idle'+this.id);
+        this.anims.play('idle'+this.id);
         this.playerItem.playIdle();
 
         this.stunned = false;
@@ -510,12 +513,13 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.crouching = true;
 
-        this.play('crouch'+this.id);
+        this.anims.play('crouch'+this.id);
         this.playerItem.playCrouch();
 
         this.setBodyVelocityToCero();
-
+       
         this.startInvulnerableFrames(this.crouchInvulnerabilityDuration);
+ 
     }
 
     endCrouchInvulnerability(){
@@ -524,17 +528,18 @@ class Player extends Phaser.GameObjects.Sprite{
 
     addToGroupIfIsNotAddedYet(){
         if(!this.scene.playersGroup.contains(this)){
-            this.scene.playersGroup.add(this, true);
+            this.scene.playersGroup.add(this);
         }
     }
 
     releaseCrouch(){
         this.crouching = false;
 
-        this.play('idle'+this.id);
+        this.anims.play('idle'+this.id);
         this.playerItem.playIdle();
 
         this.addToGroupIfIsNotAddedYet();
+
         this.flickeringEnded = true;
     }
 

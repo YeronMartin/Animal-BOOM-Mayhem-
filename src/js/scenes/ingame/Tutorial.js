@@ -23,8 +23,7 @@ class Tutorial extends Phaser.Scene {
 
         this.load.spritesheet('explosion_sheet', "././././resources/img/explosion_sheet.png", { frameWidth: 431, frameHeight: 400 });
 
-        this.load.image('fondo_texto', '././././resources/img/interfaces/character_description_area.png');
-
+        this.load.image('fondo_texto', "././././resources/img/interfaces/areas/character_description_area.png");
         this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
     }
 

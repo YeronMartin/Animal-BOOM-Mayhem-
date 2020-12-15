@@ -42,7 +42,7 @@ hacerse con la “​ _corona explosiva_ ​”.
 ## ÍNDICE
 
 1. Cambios
-  1.1 Segunda revisión    
+  1.1 Segunda revisión       
 2. Introducción  
   2.1 Inspiración  
   2.2 Plataforma  
@@ -55,10 +55,10 @@ hacerse con la “​ _corona explosiva_ ​”.
   2.9 Alcance
 3. Mecánicas  
   3.1 Flujo de juego  
-  3.2 Personajes  
-    3.2.1. La Juani  
-    3.2.2 Juani Cursed
-  3.3 Tipo de cámara  
+  3.2 Personajes     
+    3.2.1. La Juani     
+    3.2.2 Juani Cursed   
+  3.3 Tipo de cámara     
   3.4 Controles  
   3.5 Colisiones  
   3.6 Reglas de interacciones  
@@ -92,10 +92,10 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.2.10 Tutorial  
     4.2.11 Pantalla de batalla  
     4.2.12 Ventana de victoria
-5. Arte 2D
-  5.1 Personajes
-    5.1.1 Concept art
-    5.1.2 Animaciones
+5. Arte 2D   
+  5.1 Personajes   
+    5.1.1 Concept art   
+    5.1.2 Animaciones   
      
 
 ## 1. Cambios

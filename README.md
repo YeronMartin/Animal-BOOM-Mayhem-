@@ -123,9 +123,8 @@ _Animal BOOM Mayhem_ es un videojuego inspirado en los típicos juegos de arcade
 _Animal BOOM Mayhem_ es un videojuego competitivo en línea para PC. Esta va a ser su plataforma principal y no se tiene pensado sacarlo para otras.
 
 ### 2.3. Concepto del juego
-_Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
-toma el control de un animal que competirá en un torneo de balón prisionero para
-hacerse con la “​ _corona explosiva_ ​”.
+_Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador toma el control de un animal que competirá en un torneo de balón prisionero. Los jugadores deben de competir entre sí por ser el último jugador en pie de la partida y ganar la _“corona explosiva”_. Este sería el objetivo principal de _Animal BOOM Mayhem_.
+
 ### 2.4. Características principales
 El juego presenta las siguientes características principales:  
 

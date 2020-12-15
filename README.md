@@ -28,10 +28,6 @@ mariabusto
 YeronMartin
 ```
 
-```
-Link tablero Trello:
-https://trello.com/invite/b/2Tsoctm0/5cae209d5612923d2164bc1ed26971af/juegos-en-red
-```
 ----
 _Animal BOOM Mayhem_ es un juego competitivo en línea en el que cada jugador
 toma el control de un animal que competirá en un torneo de balón prisionero para
@@ -891,6 +887,19 @@ Principal_ ​.
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/hud/marcador.png)
   
+  ### 5.4. Interfaz
+  Por último respecto a la parte de arte, se realizaron diversos dibujos para incluir en la interfaz.
   
+  En primer lugar, se hizo un dibujo para incluir en el menú principal como portada del juego. Este incluye el título del videojuego _Animal BOOM Mayhem_ y una pila
+  de personajes derrotados sobre los que se encuentra la Juani, vencedora del torneo y ganadora de la _"corona explosiva"_.
+  
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/sceneBackground/mainMenu_background.png)
+  
+  
+  Por otro lado, para la pantalla de selección de personajes, se realizaron los siguientes dibujos de los dos personajes disponibles en esta fase, la Juani y la Juani Cursed:
+  
+  ![No carga la imagen]()
+  
+  ![No carga la imagen]()
   
   

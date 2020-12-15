@@ -294,20 +294,26 @@ partidas.
   
  #### 3.2.1. La Juani  
    
- La Juani es el personaje estrella del juego al ser el primero personaje diseñado.  
- La Juani es una maruja ama de casa que tras limpiar, cocinar, cuidar a sus 4302  
- palomas y salir de su 'AEROBIC ULTRA INTENSIVE class' está lista para participar  
- en la quingentésimo trigésimo novena edición del campeonato Animal BOOM Mayhem y  
- coronarse vencedora por octavo año consecutivo.  
+La Juani es el personaje estrella del juego al ser el primer personaje diseñado. La Juani 
+es una maruja ama de casa que tras limpiar, cocinar, cuidar a sus 4302 palomas y salir de 
+su 'AEROBIC ULTRA INTENSIVE class' está lista para participar en la quingentésimo trigésimo 
+novena edición del campeonato Animal BOOM Mayhem y coronarse vencedora por octavo año consecutivo.  
+ 
+Como se ha mencionado en la historia, a la Juani le encanta el aerobic. Por ello, a 
+la hora de diseñar el personaje hemos optado por vestirla con el típico traje de aerobic 
+de los años 80.
  
   #### 3.2.2. Juani  Cursed
    
- Juani Cursed fue una vez una fan acosadora de la Juani, no obstante, después de  
- intentar llamar la atención de ésta y no conseguirlo juró robarla la identidad  
- y ser 'La Juani' original. Vive obsesionada con destruirla y saber lo que piensa  
- de ella.  
+Juani Cursed fue una vez una fan acosadora de la Juani, no obstante, después de intentar 
+llamar la atención de ésta y no conseguirlo juró robarla la identidad y ser 'La Juani' 
+original. Vive obsesionada con destruirla y saber lo que piensa de ella.  
  
- "Todo lo que diga de mí es mentira"
+"Todo lo que diga de mí es mentira"
+ 
+ 
+Estos son los personajes disponibles en la fase 2. Para posteriores entregas, tenemos 
+pensado incluir nuevos personajes como: un gato, una morsa y un cuervo.
   
 ### 3.3. Tipo de cámara  
 

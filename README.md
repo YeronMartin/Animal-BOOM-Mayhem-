@@ -921,7 +921,36 @@ Principal_ ​.
   
   ## 6. Música y efectos de sonido
   
+  Con respecto a la música y efectos sonoros, hemos optado por emplear música y sonidos coherentes con la estética cómica y divertida de _Animal BOOM Mayhem_. 
+  
+  La música para el menú principal y la pantalla de juego la hemos sacado de la página Adobe Stock, una página de la que puedes descargar música sin derechos de autor. 
+  
+  ● **Menú principal:** Para la música del menú principal, como se mencionó anteriormente, hemos optado por una canción cómica pero con cierto ritmo de acuerdo al 
+  concepto  del juego: torneo de balón prisionero entre animales cartoon. Aún así, hemos querido que la canción fuese algo relajada pues todavía no se está entrando 
+  en el juego como tal.
+  
+  ● **Pantalla de juego:** Para la música de la pantalla de juego, hemos escogido una música con mucho ritmo y cañera para que sea coherente con el ambiente de 
+  batalla y torneo del juego.
+  
+ 
+  Por otro lado, los efectos de sonido del juego los hemos sacado de la página: freesound.org. Para los efectos de sonido hemos optado, de nuevo, por sonidos 
+  de estilo cartoon que sean graciosos. Hemos incluido los siguientes efectos de sonido:
+  
+  ● Un sonido para cuando el personaje es golpeado.
+  ● Un sonido para cuando el jugador realiza los pasos del tutorial correctamente.
+  ● Un sonido para cuando las bombas o las patatas explotan.
+
+  
   ## 7. Referencias
+  La música se ha obtenido de la siguiente página:
+  
+   ● https://stock.adobe.com/es/
+   
+  Los efectos de sonido se han obtenido de la siguiente página:
+  
+  ● https://freesound.org/
+  
+
   
    
   

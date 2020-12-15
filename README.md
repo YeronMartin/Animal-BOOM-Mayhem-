@@ -106,7 +106,7 @@ hacerse con la “​ _corona explosiva_ ​”.
 ​En este apartado se mostrarán las versiones del documento de diseño del juego.  
 
 ### 1.1 Segunda versión  
-A día 26 de Diciembre de 2020 se han realizado cambios en el readme respecto a la integración de elementos que faltaban en la versión previa:
+A día 15 de Diciembre de 2020 se han realizado cambios en el readme respecto a la integración de elementos que faltaban en la versión previa:
 
     ● Se ha incluido un apartado de inspiración y juegos de referencia.
     ● Se ha incluido un apartado sobre la plataforma del juego.

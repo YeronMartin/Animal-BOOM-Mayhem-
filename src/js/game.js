@@ -2,7 +2,7 @@ var config = {
     type: Phaser.AUTO,
     width: 800,
     height: 600,
-    scene: [ mainMenu, options, credits, character, scenario,  postGame,  gameSettings,
+    scene: [mainMenu, options, credits, character, scenario,  postGame,  gameSettings,
         StadiumGame, Tutorial],
 
     physics: {
@@ -11,7 +11,7 @@ var config = {
             debug: false
         }
       },
-      
+
       audio: {
         disableWebAudio: true
     }

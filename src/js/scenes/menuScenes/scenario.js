@@ -16,7 +16,6 @@ class scenario extends Phaser.Scene{
         this.load.image("rep_estadio_background", "././resources/img/Interfaces/stageRep/rep_estadio_background.png");
         this.load.image("exit_arrow", "././resources/img/Interfaces/buttons/exit_arrow.png");
         this.load.image("exit_arrow_selected", "././resources/img/Interfaces/buttons/exit_arrow_selected.png")
-
     }
 
     create(){
@@ -119,15 +118,13 @@ class scenario extends Phaser.Scene{
           if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
             if (this.selectedButton != null) {
               if (this.selectedButton == 0) {
-                this.menuSelectSfx.play();
-
                 this.scene.start("character");
               } else if (this.selectedButton == 1){
-                this.menuSelectSfx.play();
-
-                this.scene.start("stadiumGame");
+                this.scene.start("stadiumGame", {players: 2, characters: ['juani', 'juani_cursed'], mode: 'local'});
               }
             }
+
+            this.menuSelectSfx.play();
           }
     };
 

@@ -11,93 +11,6 @@ class PlayerItem extends Phaser.GameObjects.Sprite{
         this.id = itemId;
 
         this.flipX = player.flipX;
-
-        this.scene.anims.create({
-            key: 'idle_'+itemId,
-            frames: this.scene.anims.generateFrameNames('player_'+this.id, {frames: [0]}),
-            frameRate: 0,
-            repeat: 1
-        });
-
-        this.scene.anims.create({
-            key: 'walk_'+itemId,
-            frames: this.scene.anims.generateFrameNames('player_'+this.id, {frames: [1, 2, 3]}),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.scene.anims.create({
-            key: 'throw_'+itemId,
-            frames: this.scene.anims.generateFrameNames('player_'+this.id, {frames: [6, 7]}),
-            frameRate: 20,
-            repeat: 0
-        });
-
-        this.scene.anims.create({
-            key: 'aim_'+itemId,
-            frames: this.scene.anims.generateFrameNames('player_'+this.id, {frames: [6]}),
-            frameRate: 10,
-            repeat: 0
-        });
-
-        this.scene.anims.create({
-            key: 'crouch_'+itemId,
-            frames: this.scene.anims.generateFrameNames('player_'+this.id, {frames: [4, 5]}),
-            frameRate: 300,
-            repeat: 0
-        });
-
-        this.scene.anims.create({
-            key: 'hurt_'+itemId,
-            frames: this.scene.anims.generateFrameNames('player_'+this.id, {frames: [8]}),
-            frameRate: 0,
-            repeat: -1
-        });
-
-        if(this.id == "potato"){
-            //Crear las animaciones de la patata versión roja
-            this.scene.anims.create({
-                key: 'idle_'+itemId+'_red',
-                frames: this.scene.anims.generateFrameNames('player_'+this.id+'_red', {frames: [0]}),
-                frameRate: 0,
-                repeat: 1
-            });
-    
-            this.scene.anims.create({
-                key: 'walk_'+itemId+'_red',
-                frames: this.scene.anims.generateFrameNames('player_'+this.id+'_red', {frames: [1, 2, 3]}),
-                frameRate: 10,
-                repeat: -1
-            });
-    
-            this.scene.anims.create({
-                key: 'throw_'+itemId+'_red',
-                frames: this.scene.anims.generateFrameNames('player_'+this.id+'_red', {frames: [6, 7]}),
-                frameRate: 20,
-                repeat: 0
-            });
-    
-            this.scene.anims.create({
-                key: 'aim_'+itemId+'_red',
-                frames: this.scene.anims.generateFrameNames('player_'+this.id+'_red', {frames: [6]}),
-                frameRate: 10,
-                repeat: 0
-            });
-    
-            this.scene.anims.create({
-                key: 'crouch_'+itemId+'_red',
-                frames: this.scene.anims.generateFrameNames('player_'+this.id+'_red', {frames: [4, 5]}),
-                frameRate: 300,
-                repeat: 0
-            });
-    
-            this.scene.anims.create({
-                key: 'hurt_'+itemId+'_red',
-                frames: this.scene.anims.generateFrameNames('player_'+this.id+'_red', {frames: [8]}),
-                frameRate: 0,
-                repeat: -1
-            });
-        }
     }
 
     state = '';
@@ -124,7 +37,7 @@ class PlayerItem extends Phaser.GameObjects.Sprite{
     }
 
     playWalk(){
-        this.play('walk_'+this.id+''+this.state);
+        this.play('walk_'+this.id+''+this.state, true);
     }
 
     playCrouch(){

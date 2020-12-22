@@ -12,6 +12,9 @@ class Explosion extends Phaser.GameObjects.Sprite {
         this.scene = scene;
         this.scene.add.existing(this);
 
+        this.colliderRadius = 100;
+        this.body.setCircle(this.colliderRadius, (this.width / 2) - this.colliderRadius, (this.height / 2) - this.colliderRadius);
+
         this.scene.explosionGroup.add(this, true);
 
         this.setDepth(4);

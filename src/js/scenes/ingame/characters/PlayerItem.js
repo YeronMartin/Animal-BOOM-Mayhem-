@@ -16,10 +16,10 @@ class PlayerItem extends Phaser.GameObjects.Sprite{
     state = '';
 
     update(){
-        //Mismo update que el jugador
         this.x = this.player.x;
         this.y = this.player.y;
 
+        //Caso específico para la patata
         if(this.id == 'potato' && this.player.ball != null){
             
             if(this.player.ball.redState && this.state != '_red'){

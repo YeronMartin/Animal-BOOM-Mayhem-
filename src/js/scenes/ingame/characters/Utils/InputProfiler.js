@@ -97,24 +97,24 @@ class InputProfiler{
     }
 
     releaseGrabOrThrow() {
-        if(!this.player.aiming || this.player.ball == null)
+        if(!this.player.aiming || this.player.ball == null){
+            this.player.aiming = false;
             return;
+        }
 
         this.player.throwBall();
     }
 
     inputCrouch(){
-        if(this.crouching || this.stunned)
+        if(this.player.crouching || this.player.stunned || this.player.aiming)
             return;
 
         this.player.enterCrouchMode();
     }
 
-
     releaseCrouch(){
        this.player.exitCrouchMode();
     }
-
 
     disableMovementInputs(){
         this.scene.input.keyboard.off('keydown_'+this.keyUp);

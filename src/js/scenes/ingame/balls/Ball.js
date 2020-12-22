@@ -13,16 +13,14 @@ class Ball extends Phaser.GameObjects.Sprite{
     constructor(scene, posX, posY, keyname){
         super(scene, posX, posY, keyname);
 
-        this.setDepth(2);
-        this.setScale(0.5);
+        this.setDepth(1);
+        this.setScale(0.4);
         this.setupPhysics(scene);
 
         this.scene = scene;
         scene.add.existing(this);
 
-        if(scene.timeEnded){
-            this.enterSuddenDeathMode();
-        }
+        this.enterSuddenDeathIfNeeded();
     }
 
     setupPhysics(scene)
@@ -30,6 +28,15 @@ class Ball extends Phaser.GameObjects.Sprite{
         scene.physics.world.enableBody(this);
         this.body.collideWorldBounds = true;
         this.body.bounce.set(1);
+
+        this.colliderRadius = 50;
+        this.body.setCircle(this.colliderRadius, (this.width / 2) - this.colliderRadius, (this.height / 2) - this.colliderRadius);
+    }
+
+    enterSuddenDeathIfNeeded(){
+        if(this.scene.timeEnded){
+            this.enterSuddenDeathMode();
+        }
     }
 
     update(elapsed){
@@ -37,16 +44,25 @@ class Ball extends Phaser.GameObjects.Sprite{
         if (this.onGround || this.heldByPlayer)
             return;
         
-        //Después de recorrer cierta distancia, que la bola quede en el suelo
+        this.updateTraveledDistance(elapsed);
+        this.updateDistanceToActivateCollisions(elapsed);
+
+        this.angle += 10;
+    }
+
+    updateTraveledDistance(elapsed){
         if(this.distanceToTravel > 0){
             this.distanceToTravel -= this.speed * elapsed;
 
+            //Después de recorrer cierta distancia, que la bola quede en el suelo
             if(this.distanceToTravel < 0){
                 this.setBallOnGround();
                 this.distanceToTravel = 0;        
             }
         }
+    }
 
+    updateDistanceToActivateCollisions(elapsed){
         if(this.distanceToActivateCollisions > 0){
             this.distanceToActivateCollisions -= this.speed * elapsed;
 
@@ -55,8 +71,11 @@ class Ball extends Phaser.GameObjects.Sprite{
                 this.distanceToActivateCollisions = 0;        
             }
         }
+    }
 
-        this.angle += 10;
+    addToPhysicsGroup ()
+    {
+        this.scene.ballsGroup.add(this, true);
     }
 
     setBallOnGround(){
@@ -77,21 +96,12 @@ class Ball extends Phaser.GameObjects.Sprite{
         this.distanceToActivateCollisions = 100000;
 
         this.body.velocity.set(this.dirX * this.speed, this.dirY * this.speed);
-
-        //Después de un pequeño retardo, añadimos la bola al grupo de bolas para colisiones
-        //var timedEvent = this.scene.time.addEvent({ delay: 200, callback: this.addToPhysicsGroup, callbackScope: this, loop: false });
-    }
-
-    addToPhysicsGroup ()
-    {
-        this.scene.ballsGroup.add(this, true);
     }
 
     //Llamado cuando la bola ha impactado contra un jugador
     impact(){
         this.setBallOnGround();
         this.scene.hitSfx.play();
-        //this.destroyFromScene()
     }
 
     //En caso de querer destruir por completo el objeto

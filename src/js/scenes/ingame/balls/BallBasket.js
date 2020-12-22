@@ -15,10 +15,7 @@ class BallBasket extends Ball{
         scene.add.existing(this);
 
         this.setDepth(1);
-
-        if(scene.timeEnded){
-            this.enterSuddenDeathMode();
-        }
+        this.enterSuddenDeathIfNeeded();
     }
 
 }

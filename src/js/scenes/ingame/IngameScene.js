@@ -1,7 +1,4 @@
 class IngameScene extends Phaser.Scene {
-    //constructor(){
-    //    super("ingame_scene");
-    //}
 
     //====================================================================================================
     // Precarga de cosas
@@ -34,7 +31,6 @@ class IngameScene extends Phaser.Scene {
 
     loadCharactersSprites(){
         for(var i = 0; i < this.charactersToLoad.length; i++){
-            console.log(this.charactersToLoad[i]);
             this.load.spritesheet(this.charactersToLoad[i], '././././resources/img/characters/'+this.charactersToLoad[i]+'_sheet.png', { frameWidth: 180, frameHeight: 250 } );
         }
     }
@@ -105,6 +101,7 @@ class IngameScene extends Phaser.Scene {
         this.maxBallsInScene = 10;
         this.noMorechetos = false;
         this.matchEnd = false;
+        this.timeEnded = false;
     }
 
     setupPlayers(){
@@ -128,10 +125,8 @@ class IngameScene extends Phaser.Scene {
     }
 
     setupCollisions(){
-        //Colisión jugador - bola
-        this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall);
-        //Colisión jugador - explosión
-        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion);
+        this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall, null, this);
+        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion, null, this);
     }
 
     //Cuando un boloncio choqua contra un jugador

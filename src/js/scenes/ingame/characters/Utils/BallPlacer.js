@@ -9,7 +9,7 @@ class BallPlacer{
             this.generateNewBall();
         }
 
-        var timedEvent = this.scene.time.addEvent({ delay: 1000, callback:  this.ballRespawnerTimerEnded, callbackScope: this, loop: true });
+        var timedEvent = this.scene.time.addEvent({ delay: 3000, callback:  this.ballRespawnerTimerEnded, callbackScope: this, loop: true });
     }
 
     generateNewBall(){
@@ -56,16 +56,13 @@ class BallPlacer{
         return ballPosition;
     }
 
+    getDistanceBetweenPoints(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
 
     ballRespawnerTimerEnded(){
         if(this.scene.ballsList.length < this.scene.maxBallsInScene){
             this.generateNewBall();
         }
     }
-
-    getDistanceBetweenPoints(x1, y1, x2, y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
-
-    
 }

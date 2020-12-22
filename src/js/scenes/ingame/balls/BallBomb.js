@@ -15,17 +15,7 @@ class BallBomb extends Ball{
         scene.add.existing(this);
 
         this.setDepth(1);
-
-        if(scene.timeEnded){
-            this.enterSuddenDeathMode();
-        }
-    }
-
-    setupPhysics(scene)
-    {
-        scene.physics.world.enableBody(this);
-        this.body.collideWorldBounds = true;
-        this.body.bounce.set(1);
+        this.enterSuddenDeathIfNeeded();
     }
 
     explode(player){
@@ -33,31 +23,16 @@ class BallBomb extends Ball{
         this.scene.explosionSfx.play();
     }
 
-    update(elapsed){
-        
-        if (this.onGround || this.heldByPlayer)
-            return;
-        
-        //Después de recorrer cierta distancia, que la bola quede en el suelo
+    updateTraveledDistance(elapsed){
         if(this.distanceToTravel > 0){
             this.distanceToTravel -= this.speed * elapsed;
 
+            //Después de recorrer cierta distancia, que la bola quede en el suelo
             if(this.distanceToTravel < 0){
                 this.explode();
                 this.destroyFromScene();        
             }
         }
-
-        if(this.distanceToActivateCollisions > 0){
-            this.distanceToActivateCollisions -= this.speed * elapsed;
-
-            if(this.distanceToActivateCollisions < 0){
-                this.addToPhysicsGroup();
-                this.distanceToActivateCollisions = 0;        
-            }
-        }
-
-        this.angle += 10;
     }
 
     impact(player){

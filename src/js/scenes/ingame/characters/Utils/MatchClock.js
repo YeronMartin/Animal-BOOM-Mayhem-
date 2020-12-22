@@ -1,5 +1,4 @@
 class MatchClock{
-
     constructor(scene, minutes, seconds){
         this.scene = scene;
 
@@ -27,6 +26,8 @@ class MatchClock{
 
         if(this.minutesRemaining < 10)
             text += '0'+this.minutesRemaining+":";
+        else
+            text += this.minutesRemaining+":";
 
         if(this.secondsRemaining < 10)
             text+= '0'+this.secondsRemaining;
@@ -52,7 +53,7 @@ class MatchClock{
             }
 
             if(this.secondsRemaining == 0 && this.minutesRemaining == 0){
-                this.timeEnded = true;
+                this.scene.timeEnded = true;
                 this.scene.activateSuddenDeath();
             }
 

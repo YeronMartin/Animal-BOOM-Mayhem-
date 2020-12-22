@@ -53,6 +53,8 @@ class Player extends Phaser.GameObjects.Sprite{
         this.body.collideWorldBounds = true;
         this.body.bounce.set(false);
 
+        this.body.setSize(100, 200)
+
         scene.playersGroup.add(this);
     }
     
@@ -87,7 +89,6 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     updateBallPosition(){
-        //En caso de llevar una bola encima
         if (this.ball != null) {
             this.ball.x = this.x;
             this.ball.y = this.y;
@@ -159,6 +160,20 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     throwBall(){
+        this.launchBall();
+
+        this.animator.ballLaunched();
+        this.animator.playThrow();
+
+        this.stunned = true;
+        this.aiming = false;
+
+        this.scene.throwSfx.play();
+
+        var throwAnimTimer = this.scene.time.addEvent({ delay: this.throwAnimationDelay, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
+    }
+
+    launchBall(){
         //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
         if(this.dirX == 0 && this.dirY == 0){
             if(this.flipX)
@@ -172,15 +187,6 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.ball.visible = true;
         this.ball = null;
-
-
-        this.animator.ballLaunched();
-        this.animator.playThrow();
-
-        this.stunned = true;
-        this.aiming = false;
-
-        var throwAnimTimer = this.scene.time.addEvent({ delay: this.throwAnimationDelay, callback: this.throwAnimationFinished, callbackScope: this, loop: false });
     }
 
     normaliceThrowDirection(){
@@ -211,8 +217,11 @@ class Player extends Phaser.GameObjects.Sprite{
     exitCrouchMode(){
         this.crouching = false;
         this.animator.playIdle();
-        this.addToGroupIfIsNotAddedYet();
-        this.flickeringEnded = true;
+
+        if(!this.hurted){
+            this.flickeringEnded = true;
+            this.addToGroupIfIsNotAddedYet();
+        }
     }
 
     //====================================================================================================
@@ -223,7 +232,12 @@ class Player extends Phaser.GameObjects.Sprite{
         this.health --;
 
         if(this.health > 0){
+
+            if(this.crouching)
+                this.exitCrouchMode();
+
             this.enterHurtState();
+           
             this.animator.lifebar.anims.play('lifebar_'+this.team+'_'+this.health);
         }else{
             //Muertini
@@ -251,9 +265,13 @@ class Player extends Phaser.GameObjects.Sprite{
 
     enterHurtState(){
         this.animator.playHurt();
-        var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
-        this.stunned = true;
 
+        this.stunned = true;
+        this.aiming = false;
+
+        var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
+
+        this.hurted = true;
         this.startInvulnerableFrames(this.hurtInvulnerabilityDuration);
     }
 
@@ -280,6 +298,7 @@ class Player extends Phaser.GameObjects.Sprite{
             var timedEvent = this.scene.time.addEvent({ delay: this.timeBetweenFlickeringCycles, callback: this.flickeringCicle, callbackScope: this, loop: false });
         }else{
             this.visible = true;
+            this.hurted = false;
             this.addToGroupIfIsNotAddedYet();
         }  
     }

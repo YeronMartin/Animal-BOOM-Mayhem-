@@ -89,13 +89,6 @@ class Tutorial extends IngameScene {
         this.playersList[0] = new Player(this, (config.width / 2) - 100, config.height / 2, 'juani', 0, 1);
     }
 
-    setupCollisions(){
-        //Colisión jugador - bola
-        this.physics.add.collider(this.playersGroup, this.ballsGroup, this.colisionPlayerBall, null, this);
-        //Colisión jugador - explosión
-        this.physics.add.collider(this.playersGroup, this.explosionGroup, this.colisionPlayerExplosion, null, this);
-    }
-
     colisionPlayerExplosion(player, explosion){
         player.takeDamage();
 

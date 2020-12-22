@@ -117,6 +117,10 @@ class IngameScene extends Phaser.Scene {
         this.ballsGroup = this.add.group();
 
         this.ballPlacer = new BallPlacer(this);
+
+        this.ballsList[0] = new FlamingBall(this, 50, 100);
+
+
         this.ballPlacer.createNewBallsByAmount(this.maxBallsInScene);
     }
 
@@ -217,7 +221,7 @@ class IngameScene extends Phaser.Scene {
     }
 
     escapePressed(){
-        this.scene.start("mainMenu");
+        this.scene.start("mainMenuScene");
     }
 
     chetosPressed(){

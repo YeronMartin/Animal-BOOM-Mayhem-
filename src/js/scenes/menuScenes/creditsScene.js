@@ -10,16 +10,24 @@ class creditsScene extends Phaser.Scene{
     }
 
     create(){
-        this.add.image(0, 0, "credits_background").setDepth(1).setOrigin(0, 0).setScale(1.3, 1.2);
-        this.add.text(config.width/2, 75, '¿Quiénes somos?', {fill: '#fff', font: "arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
-
-        this.add.text((config.width/2)- 35, config.height/3.4, "Somos un grupo de amigos haciendo \nnuestro primero juego en PHASER 3", {fill: '#fff', font: "arial", font: "16px"}).setDepth(2)
-        .setOrigin(0.5, 0.5);
-        this.add.text((config.width/2)- 35, config.height/2, "  !!MUCHAS GRACIAS \n       POR JUGAR!!", {fill: '#fff', font: "arial", font: "25px"}).setDepth(2).setOrigin(0.5, 0.5);
-
         this.initAnimArrow();
         this.exitButton = this.add.sprite(config.width/20, config.height/11).setScale(.1).setDepth(1);
         this.exitButton.play('white');
+
+        this.add.image(0, 0, "credits_background").setDepth(0).setOrigin(0, 0);
+        this.add.text(config.width/4.5, 25, '¿Quiénes somos?', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
+       
+        this.add.text((config.width / 2), config.height - 400, "Miembros del equipo", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+        
+        this.add.text((config.width / 2), config.height - 350, "Grupo 5:", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+
+        this.add.text((config.width / 2), config.height - 280, " Carlos del Águila Mateu\n Jesús David Rojo Martín\n María Busto Ramos\n Yerón Martín Sánchez", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+
+        this.add.text((config.width / 2), config.height - 100, "!MUCHAS GRACIAS POR JUGAR!", {fill: '#fff', font: "Arial", font:  "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+
+
+
+
         //Flechas A y D
         this.key_LEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.key_RIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);

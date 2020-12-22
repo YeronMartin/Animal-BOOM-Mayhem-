@@ -27,12 +27,13 @@ class scenario extends Phaser.Scene{
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setScale(.1);
         this.estadioButton = new stageCard( this, config.width/2, config.height/1.12, "rep_estadio", "rep_estadio_selected", "rep_estadio_background");
 
+        /*
         //Setteo de la interactividad
         this.exitButton.setInteractive();
         this.estadioButton.stageImageButton.setInteractive();
 
         //pointerdown
-        this.exitButton.on('pointerdown', () => this.scene.start('character'));
+        this.exitButton.on('pointerdown', () => this.scene.start('characterScene'));
 
         //pointerover
         this.exitButton.on('pointerover', () =>
@@ -41,7 +42,7 @@ class scenario extends Phaser.Scene{
         //pointerout
         this.exitButton.on('pointerout', () =>
         this.exitButton = this.add.image(config.width/20, config.height/11, "exit_arrow").setDepth(1).setScale(.1));
-
+*/
         //Flechas
         this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
@@ -110,7 +111,7 @@ class scenario extends Phaser.Scene{
               this.renderButtons();
             }
         }if(Phaser.Input.Keyboard.JustDown(this.key_ESC)){ //Si se pulsa la felcha izquierda
-          this.scene.start("character");
+          this.scene.start("characterScene");
       }
     };
 
@@ -118,7 +119,7 @@ class scenario extends Phaser.Scene{
           if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
             if (this.selectedButton != null) {
               if (this.selectedButton == 0) {
-                this.scene.start("character");
+                this.scene.start("characterScene");
               } else if (this.selectedButton == 1){
                 this.scene.start("stadiumGame", {players: 2, characters: ['juani', 'juani_cursed'], mode: 'local'});
               }

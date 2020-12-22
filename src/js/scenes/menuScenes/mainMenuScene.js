@@ -41,6 +41,18 @@ class mainMenuScene extends Phaser.Scene{
         this.playButton.play('play');
         this.tutorialButton.play('tutorial');
         this.creditsButton.play('credits');
+
+        this.menuSelectSfx = this.sound.add('menuSelectSfx');
+        this.menuSelectSfx.setVolume(0.3);
+
+        this.game.sound.stopAll();
+        
+        this.menuBgm = this.sound.add('menu_bgm');
+        //this.menuBgm.setVolume(0.1);
+        //this.menuBgm.play();
+
+        this.game.sound.play('menu_bgm', {volume: 0.1});
+        this.game.sound.volume = 0.1;
     };
 
     update(){
@@ -111,12 +123,15 @@ class mainMenuScene extends Phaser.Scene{
       if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
         if (this.selectedButton != null) {
           if (this.selectedButton == 0) {
+            this.menuSelectSfx.play();
             this.scene.start("characterScene");
             this.selectedButton = null;
           }else if (this.selectedButton == 2){
+            this.menuSelectSfx.play();
             this.scene.start("creditsScene");
             this.selectedButton = null;
           }else if (this.selectedButton == 1){
+            this.menuSelectSfx.play();
             this.scene.start("tutorial");
             this.selectedButton = null;
           }

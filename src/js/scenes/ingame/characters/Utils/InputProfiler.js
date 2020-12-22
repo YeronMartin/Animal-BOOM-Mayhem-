@@ -149,6 +149,4 @@ class InputProfiler{
         this.scene.input.keyboard.off('keydown_'+this.keyCrouch);
         this.scene.input.keyboard.off('keyup_'+this.keyCrouch);
     }
-
-
 }

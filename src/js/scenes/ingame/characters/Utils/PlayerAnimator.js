@@ -119,7 +119,7 @@ class PlayerAnimator{
     }
 
     ballObtained(ball){
-        if(ball.id == "BallBasket"){
+        if(ball.id == "BallBasket" || ball.id == "FlamingBall"){
             this.playerItem = new Phaser.GameObjects.Sprite(this.scene, this.player.x, this.player.y, 'basketball');
             this.ballInHand = 'basketball';
         }else if(ball.id == 'BallBomb'){

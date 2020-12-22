@@ -45,7 +45,7 @@ class postGame extends Phaser.Scene{
     toMenuScene(){
         this.game.sound.stopAll();
         this.game.sound.play('menu_bgm', {volume: 0.1});
-        this.scene.start("mainMenu");
+        this.scene.start("mainMenuScene");
     }
 
     toCharacterScene(){

@@ -46,6 +46,9 @@ class Player extends Phaser.GameObjects.Sprite{
         this.setupPhysics(scene);
 
         this.animator.playIdle();
+
+        //Lista de objetos o elementos que van a modificar la trayectoria del jugador
+        this.atractedList = [];
     }
 
     setupPhysics(scene){
@@ -65,27 +68,67 @@ class Player extends Phaser.GameObjects.Sprite{
         this.animator.update(delta);
     }
 
+    addObjectToAtractionList(item){
+        if(!this.atractedList.includes(item)){
+            this.atractedList[this.atractedList.length] = item;
+        }
+    }
+
+    removeObjectFromAtractionList(item){
+        if(this.atractedList.includes(item)){
+            this.atractedList.splice(this.atractedList.lastIndexOf(item), 1);
+        }
+    }
+
+    AtractionForces(){
+
+        var totalforceVector = new Phaser.Math.Vector2(0, 0);
+
+        for(var i = 0; i < this.atractedList.length; i++){
+            var forceVector = new Phaser.Math.Vector2(0, 0);
+
+            var distance = (this.getDistanceBetweenPoints(this.x, this.y, this.atractedList[i].x, this.atractedList[i].y));
+            var distanceVector = new Phaser.Math.Vector2((this.atractedList[i].x - this.x), (this.atractedList[i].y - this.y));
+
+            distanceVector.x /= distance;
+            distanceVector.y /= distance;
+
+            var atractionModifier = this.atractedList[i].atractionForce * 1000 / distance;
+
+            forceVector.x = distanceVector.x * atractionModifier; 
+            forceVector.y = distanceVector.y * atractionModifier; 
+
+            totalforceVector.add(forceVector);
+        }
+
+       return totalforceVector;
+    }
+
     updatePosition(delta){
         if (this.aiming || this.stunned || this.crouching)
             return;
 
-        var newVelocityX = 0;
-        var newVelocityY = 0;
+        var newVelocity = new Phaser.Math.Vector2(0, 0);
 
         if (this.pressingUp)
-            newVelocityY -= this.speed;
+            newVelocity.y -= this.speed;
 
         if (this.pressingDown)
-            newVelocityY += this.speed;
+            newVelocity.y += this.speed;
 
         if (this.pressingLeft)
-            newVelocityX -= this.speed;
+            newVelocity.x -= this.speed;
 
         if (this.pressingRight)
-            newVelocityX += this.speed;
+            newVelocity.x += this.speed;
 
-        this.body.velocity.x = newVelocityX;
-        this.body.velocity.y = newVelocityY;
+        newVelocity.add(this.AtractionForces());
+
+        this.body.velocity = newVelocity;
+    }
+
+    getDistanceBetweenPoints(x1, y1, x2, y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
 
     updateBallPosition(){
@@ -229,6 +272,9 @@ class Player extends Phaser.GameObjects.Sprite{
     //====================================================================================================
 
     takeDamage(){
+        if(this.hurted)
+            return;
+
         this.health --;
 
         if(this.health > 0){

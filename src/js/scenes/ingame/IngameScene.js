@@ -8,6 +8,8 @@ class IngameScene extends Phaser.Scene {
         this.numberOfPlayers = msj.players;
         this.charactersToLoad = msj.characters;
         this.gameMode = msj.mode;
+
+        this.ballsToLoad = ['basketball', 'bomb', 'potato', 'potato_red', 'flaming_ball', 'mini_black_hole'];
     }
 
     preload(){
@@ -46,11 +48,18 @@ class IngameScene extends Phaser.Scene {
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
         this.load.spritesheet('explosion_sheet', "././././resources/img/effects/explosion_sheet.png", { frameWidth: 431, frameHeight: 400 });
 
+        this.load.image("bola_flamigera", "././././resources/img/balls/Pelota_flamigera.png");
+        this.load.image("mini_agujero_negro", "././././resources/img/balls/Mini_agujero_negro.png");
+
+
         this.load.spritesheet('player_none', '././././resources/img/balls/player_none.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_basketball', '././././resources/img/balls/player_basketball.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_bomb', '././././resources/img/balls/player_bomb.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_potato', '././././resources/img/balls/player_potato1.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_potato_red', '././././resources/img/balls/player_potato2.png', { frameWidth: 180, frameHeight: 250 } );
+    
+        this.load.spritesheet('player_flaming_ball', '././././resources/img/balls/player_bola_flamigera.png', { frameWidth: 180, frameHeight: 250 } );
+        this.load.spritesheet('player_mini_black_hole', '././././resources/img/balls/player_mini_agujero_negro.png', { frameWidth: 180, frameHeight: 250 } );
     }
    
     loadHud(){
@@ -82,13 +91,25 @@ class IngameScene extends Phaser.Scene {
         this.setupPlayers();
         this.setupBalls();
         this.setupExplosionGroup();
+        this.setupBlackHoleAreasList();
+
 
         this.setupCollisions();
 
         this.setupBallAnimations();
+        this.setupParticleAnimations();
+
+
         this.setupInputControls();
 
         this.setupSFX();
+
+
+
+    }
+
+    setupBlackHoleAreasList(){
+        this.blackHoleAreasList = [];
     }
 
     createBackground(){
@@ -108,18 +129,18 @@ class IngameScene extends Phaser.Scene {
         this.playersGroup = this.add.group();
         this.playersList = [];
 
-        this.playersList[0] = new Player(this, (config.width / 2) - 100, config.height / 2, 'juani', 0, 1);
-        this.playersList[1] = new Player(this, (config.width / 2) + 100, config.height / 2, 'juani_cursed', 1, 2);
+        this.playersList[0] = new Player(this, (config.width / 2) - 150, config.height / 2, 'juani', 0, 1);
+        this.playersList[1] = new Player(this, (config.width / 2) + 150, config.height / 2, 'juani_cursed', 1, 2);
     }
 
     setupBalls(){
         this.ballsList = [];
         this.ballsGroup = this.add.group();
 
-        this.ballPlacer = new BallPlacer(this);
+        this.ballsList[0] = new BlackHoleBall(this, 100, 100);
+        this.ballsList[1] = new FlamingBall(this, 100, 200);
 
-        this.ballsList[0] = new FlamingBall(this, 50, 100);
-
+        this.ballPlacer = new BallPlacer(this, this.ballsToLoad);
 
         this.ballPlacer.createNewBallsByAmount(this.maxBallsInScene);
     }
@@ -144,52 +165,75 @@ class IngameScene extends Phaser.Scene {
     }
 
     setupBallAnimations(){
-        //Suponiendo que estamos cargando todas las pelotas disponibles
-        var balls = ['basketball', 'bomb', 'potato', 'potato_red'];
-
-        for(var i = 0; i < balls.length; i++){
+        for(var i = 0; i < this.ballsToLoad.length; i++){
             this.anims.create({
-                key: balls[i] + '_idle',
-                frames: this.anims.generateFrameNames('player_'+balls[i], {frames: [0]}),
+                key: this.ballsToLoad[i] + '_idle',
+                frames: this.anims.generateFrameNames('player_'+this.ballsToLoad[i], {frames: [0]}),
                 frameRate: 0,
                 repeat: 1
             });
         
             this.anims.create({
-                key: balls[i] + '_walk',
-                frames: this.anims.generateFrameNames('player_'+balls[i], {frames: [1, 2, 3]}),
+                key: this.ballsToLoad[i] + '_walk',
+                frames: this.anims.generateFrameNames('player_'+this.ballsToLoad[i], {frames: [1, 2, 3]}),
                 frameRate: 10,
                 repeat: -1
             });
         
             this.anims.create({
-                key: balls[i] + '_throw',
-                frames: this.anims.generateFrameNames('player_'+balls[i], {frames: [6, 7]}),
+                key: this.ballsToLoad[i] + '_throw',
+                frames: this.anims.generateFrameNames('player_'+this.ballsToLoad[i], {frames: [6, 7]}),
                 frameRate: 20,
                 repeat: 0
             });
         
             this.anims.create({
-                key: balls[i] + '_aim',
-                frames: this.anims.generateFrameNames('player_'+balls[i], {frames: [6]}),
+                key: this.ballsToLoad[i] + '_aim',
+                frames: this.anims.generateFrameNames('player_'+this.ballsToLoad[i], {frames: [6]}),
                 frameRate: 10,
                 repeat: 0
             });
         
             this.anims.create({
-                key: balls[i] + '_crouch',
-                frames: this.anims.generateFrameNames('player_'+balls[i], {frames: [4, 5]}),
+                key: this.ballsToLoad[i] + '_crouch',
+                frames: this.anims.generateFrameNames('player_'+this.ballsToLoad[i], {frames: [4, 5]}),
                 frameRate: 300,
                 repeat: 0
             });
         
             this.anims.create({
-                key: balls[i] + '_hurt',
-                frames: this.anims.generateFrameNames('player_'+balls[i], {frames: [8]}),
+                key: this.ballsToLoad[i] + '_hurt',
+                frames: this.anims.generateFrameNames('player_'+this.ballsToLoad[i], {frames: [8]}),
                 frameRate: 0,
                 repeat: -1
             });
         }
+    }
+
+    setupParticleAnimations(){
+        //Explosión
+        this.anims.create({
+            key: 'explosion_anim',
+            frames: this.anims.generateFrameNames('explosion_sheet', {frames: [0,1]}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        //Pilar fuego
+        this.anims.create({
+            key: 'firePillar_anim',
+            frames: this.anims.generateFrameNames('explosion_sheet', {frames: [0,1]}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        //Área del agujero negro
+        this.anims.create({
+            key: 'blackHoleArea_anim',
+            frames: this.anims.generateFrameNames('explosion_sheet', {frames: [0,1]}),
+            frameRate: 10,
+            repeat: -1
+        });
     }
 
     setupLifeBarsAnims(){
@@ -254,6 +298,8 @@ class IngameScene extends Phaser.Scene {
     update(time, delta){
         this.updatePlayers(delta);
         this.updateBalls(delta);
+
+        this.updateBlackHoleAreas(delta);
         this.matchClock.updateClock(time, delta);
     }
 
@@ -266,6 +312,12 @@ class IngameScene extends Phaser.Scene {
     updateBalls(delta){
         for (var i = this.ballsList.length - 1; i >= 0; i--) {
             this.ballsList[i].update(delta);
+        }
+    }
+
+    updateBlackHoleAreas(delta){
+        for (var i = this.blackHoleAreasList.length - 1; i >= 0; i--) {
+            this.blackHoleAreasList[i].update(delta);
         }
     }
 

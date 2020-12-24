@@ -11,44 +11,28 @@ class Explosion extends Phaser.GameObjects.Sprite {
 
         this.scene = scene;
         this.scene.add.existing(this);
-
-        this.colliderRadius = 100;
-        this.body.setCircle(this.colliderRadius, (this.width / 2) - this.colliderRadius, (this.height / 2) - this.colliderRadius);
-
-        this.scene.explosionGroup.add(this, true);
-
         this.setDepth(4);
 
-        this.setupAnimations();
+        this.anims.play('explosion_anim');
         
         var timedEvent = this.scene.time.addEvent({ delay: 500, callback: this.removeExplosion, callbackScope: this, loop: false });
-    }
-
-    setupAnimations(){
-        this.scene.anims.create({
-            key: 'explosion_anim',
-            frames: this.scene.anims.generateFrameNames('explosion_sheet', {frames: [0,1]}),
-            frameRate: 10,
-            repeat: -1
-        });
-
-        this.play('explosion_anim');
     }
     
     setupPhysics(scene)
     {
         scene.physics.world.enableBody(this);
-        //this.body.collideWorldBounds = true;
         this.body.bounce.set(0);
         this.body.setImmovable(true);
+
+        this.colliderRadius = 100;
+        this.body.setCircle(this.colliderRadius, (this.width / 2) - this.colliderRadius, (this.height / 2) - this.colliderRadius);
+
+        this.scene.explosionGroup.add(this, true);
     }
     
     removeExplosion(){
         this.scene.explosionGroup.remove(this);
-        this.Destroy();
-    }
-    
-    Destroy(){
         this.destroy();
     }
+
 }

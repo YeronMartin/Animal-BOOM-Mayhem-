@@ -5,7 +5,7 @@ class FlamingBall extends Ball{
     distanceToActivateCollisions = 100000;
 
     constructor(scene, posX, posY){
-        super(scene, posX, posY, "pelota");
+        super(scene, posX, posY, "bola_flamigera");
 
         this.setScale(0.4);
         this.setupPhysics(scene);
@@ -34,9 +34,6 @@ class FlamingBall extends Ball{
     currentTimeBetweenFireCycles = 0;
 
     updatePathOfFire(elapsed){
-        //Cada x tiempo, generar una explosión petit en esta posición
-
-
         if(this.initialDistanceToStartFire > 0){
             this.initialDistanceToStartFire -= elapsed;
             return;
@@ -47,8 +44,7 @@ class FlamingBall extends Ball{
         if(this.currentTimeBetweenFireCycles > this.timeBetweenFireCycles){
             this.currentTimeBetweenFireCycles = 0;
 
-            var explosion = new Explosion(this.scene, this.x, this.y, 'bomb', 500);
-            explosion.setScale(0.2);
+            var pillar = new FirePillar(this.scene, this.x, this.y);
         }
     }
 

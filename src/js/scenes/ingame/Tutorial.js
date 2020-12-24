@@ -7,9 +7,21 @@ class Tutorial extends IngameScene {
     // Precarga de cosas
     //====================================================================================================
 
+    /*
+    PROHIBIDAS LAS BOLAS:
+    - FLAMING BALL
+    - BLACK_HOLE_BALL
+
+    PARA HACERLO MÁS SIMPLE COÑO
+    */
+
+
     init(music){
         this.charactersToLoad = ['juani', 'juani_cursed'];
         this.music = music.bgm;
+
+
+        this.ballsToLoad = ['basketball', 'bomb', 'potato', 'potato_red'];
     }
 
     loadSfx(){
@@ -37,10 +49,13 @@ class Tutorial extends IngameScene {
         this.setupPlayers();
         this.setupBalls();
         this.setupExplosionGroup();
+        this.setupBlackHoleAreasList();
 
         this.setupCollisions();
 
         this.setupBallAnimations();
+        this.setupParticleAnimations()
+
         this.setupInputControls();
 
         this.setupSFX();
@@ -54,7 +69,7 @@ class Tutorial extends IngameScene {
         this.ballsList = [];
         this.ballsGroup = this.add.group();
 
-        this.ballPlacer = new BallPlacer(this);
+        this.ballPlacer = new BallPlacer(this, this.ballsToLoad);
         
         this.ballsList[0] = new BallBasket(this, 30, 100);
         this.maxBallsInScene = 1;
@@ -120,6 +135,8 @@ class Tutorial extends IngameScene {
     update(time, delta){
         this.updatePlayers(delta);
         this.updateBalls(delta);
+
+        this.updateBlackHoleAreas(delta);
 
         this.updateTutorialState();
     }

@@ -1,12 +1,12 @@
-class BallBomb extends Ball{
+class BlackHoleBall extends Ball{
 
-    id = "BallBomb"
+    id = "BlackHoleBall"
     speed = 700;
     distanceToTravel = 2000000;
     distanceToActivateCollisions = 100000;
 
     constructor(scene, posX, posY){
-        super(scene, posX, posY, "bomba");
+        super(scene, posX, posY, "mini_agujero_negro");
 
         this.setScale(0.4);
         this.setupPhysics(scene);
@@ -19,8 +19,8 @@ class BallBomb extends Ball{
     }
 
     explode(){
-        var explosion = new Explosion(this.scene, this.x, this.y, 'bomb');
-        this.scene.explosionSfx.play();
+        var blackHole = new BlackHoleArea(this.scene, this.x, this.y);
+        //this.scene.explosionSfx.play();
     }
 
     updateTraveledDistance(elapsed){
@@ -30,7 +30,7 @@ class BallBomb extends Ball{
             //Después de recorrer cierta distancia, que la bola quede en el suelo
             if(this.distanceToTravel < 0){
                 this.explode();
-                this.destroyFromScene();        
+                this.destroyFromScene();
             }
         }
     }

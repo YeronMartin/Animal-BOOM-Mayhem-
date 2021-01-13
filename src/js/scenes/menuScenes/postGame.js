@@ -18,7 +18,7 @@ class postGame extends Phaser.Scene{
 
     create(){
 
-        this.add.image(0, 0, "character_background").setOrigin(0, 0);
+        this.add.image(0, 0, "character_background").setOrigin(0, 0).setScale(1.3);
         this.add.text(config.width/3 -10, config.height/18, 'Ganador', {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1);
         this.add.text(config.width/20, config.height/1.4, 'Pulsa M para ir al menú\nprincipal', {fill: '#fff', font: "Arial", font: "16px"}).setDepth(2);
         this.add.text(config.width/20, config.height/1.4 +40, 'Pulsa N para ir a la\npantalla de selección\nde personaje', {fill: '#fff', font: "Arial", font: "16px"}).setDepth(2);
@@ -53,7 +53,7 @@ class postGame extends Phaser.Scene{
         this.game.sound.play('menu_bgm', {volume: 0.1});
         this.scene.start("character");
     }
-    
+
     toGameScene(){
         this.scene.start("stadiumGame");
     }

@@ -14,7 +14,7 @@ class characterScene extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(0, 0, "character_background").setOrigin(0, 0).setDepth(0);
+    this.add.image(0, 0, "character_background").setOrigin(0, 0).setDepth(0).setScale(1.3);
     this.textoTitulo = this.add.text(config.width / 2, config.height / 11, 'Personajes', {
       fill: '#fff',
       font: "Arial",

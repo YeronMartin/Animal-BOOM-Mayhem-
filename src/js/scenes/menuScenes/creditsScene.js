@@ -14,16 +14,16 @@ class creditsScene extends Phaser.Scene{
         this.exitButton = this.add.sprite(config.width/20, config.height/11).setScale(.1).setDepth(1);
         this.exitButton.play('white');
 
-        this.add.image(0, 0, "credits_background").setDepth(0).setOrigin(0, 0);
-        this.add.text(config.width/4.5, 25, '¿Quiénes somos?', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
-       
-        this.add.text((config.width / 2), config.height - 400, "Miembros del equipo", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
-        
-        this.add.text((config.width / 2), config.height - 350, "Grupo 5:", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+        this.add.image(0, 0, "credits_background").setDepth(0).setOrigin(0, 0).setScale(1.3);
+        this.add.text(config.width/2, config.height/10, '¿Quiénes somos?', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
 
-        this.add.text((config.width / 2), config.height - 280, " Carlos del Águila Mateu\n Jesús David Rojo Martín\n María Busto Ramos\n Yerón Martín Sánchez", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+        this.add.text((config.width / 2),config.height/3, "Miembros del equipo", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
 
-        this.add.text((config.width / 2), config.height - 100, "!MUCHAS GRACIAS POR JUGAR!", {fill: '#fff', font: "Arial", font:  "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+        this.add.text((config.width / 2),config.height/3 +50, "Grupo 5:", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+
+        this.add.text((config.width / 2), config.height/3 + 150, " Carlos del Águila Mateu\n Jesús David Rojo Martín\n María Busto Ramos\n Yerón Martín Sánchez", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+
+        this.add.text((config.width / 2), config.height/3 + 250, "!MUCHAS GRACIAS POR JUGAR!", {fill: '#fff', font: "Arial", font:  "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
 
 
 

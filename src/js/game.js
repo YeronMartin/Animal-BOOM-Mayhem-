@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
     scene: [loadingRenderScene, loadingScene, mainMenuScene, options, creditsScene, characterScene, stageScene,  postGame,  gameSettings,
         StadiumGame, Tutorial],
 

@@ -16,7 +16,7 @@ class mainMenuScene extends Phaser.Scene{
 
      create(){
 
-        this.add.image(-config.width/14, 0, "mainMenu_background").setOrigin(0, 0).setDepth(0).setScale(.4);
+        this.add.image(-config.width/14, 0, "mainMenu_background").setOrigin(0, 0).setDepth(0).setScale(.52);
 
         //Flechas
         this.key_S = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -34,9 +34,9 @@ class mainMenuScene extends Phaser.Scene{
 
         this.initAnimButtons();
 
-        this.playButton = this.add.sprite(config.width/2 -15, config.height/1.3).setScale(.15).setDepth(2);
-        this.tutorialButton = this.add.sprite(config.width/2 -15, config.height/1.3 +50).setScale(.15).setDepth(2);
-        this.creditsButton = this.add.sprite(config.width/2 -15, config.height/1.3 + 100).setScale(.15).setDepth(2);
+        this.playButton = this.add.sprite(config.width/2 -10, config.height/1.25).setScale(.17).setDepth(2);
+        this.tutorialButton = this.add.sprite(config.width/2 -10, config.height/1.25 +50).setScale(.17).setDepth(2);
+        this.creditsButton = this.add.sprite(config.width/2 -10, config.height/1.25 + 100).setScale(.17).setDepth(2);
 
         this.playButton.play('play');
         this.tutorialButton.play('tutorial');
@@ -46,7 +46,7 @@ class mainMenuScene extends Phaser.Scene{
         this.menuSelectSfx.setVolume(0.3);
 
         this.game.sound.stopAll();
-        
+
         this.menuBgm = this.sound.add('menu_bgm');
         //this.menuBgm.setVolume(0.1);
         //this.menuBgm.play();

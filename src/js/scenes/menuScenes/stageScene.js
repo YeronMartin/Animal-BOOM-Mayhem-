@@ -14,7 +14,7 @@ class stageScene extends Phaser.Scene{
 
     create(){
       //Creacion de la imagenes
-        this.add.image(0, 0, "stage_background").setOrigin(0, 0);
+        this.add.image(0, 0, "stage_background").setOrigin(0, 0).setScale(1.3);
         this.add.text(config.width/6, config.height/18, 'Selecciona el escenario', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
 
         //Seteo de los botones

@@ -6,7 +6,10 @@ class TextboxTests extends Phaser.Scene {
     preload() {
         console.log("LOADING");
 
-        this.load.html('nameform', '././nickform.html');
+        //this.load.html('nameform', '././html/nickform.html');
+
+        //Por algún motivo, la búsqueda se hace desde la raíz del proyecto
+        this.load.html('nameform', 'src/html/nickform.html');
     }
 
     create() {
@@ -32,8 +35,6 @@ class TextboxTests extends Phaser.Scene {
 
                     //  Hide the login element
                     this.setVisible(false);
-
-                    
 
                     //  Populate the text with whatever they typed in
                     text.setText('Welcome ' + inputText.value);

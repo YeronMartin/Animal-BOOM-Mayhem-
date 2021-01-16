@@ -23,12 +23,10 @@ class IngameScene extends Phaser.Scene {
 
         this.loadStageBackground();
 
+        this.loadObstacles();
+
         //Cargar sonidos y efectos
         this.loadSfx();
-    }
-
-    loadStageBackground(){
-        this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
     }
 
     loadCharactersSprites(){
@@ -67,6 +65,14 @@ class IngameScene extends Phaser.Scene {
         this.load.image('fondo_texto', "././././resources/img/interfaces/areas/character_description_area.png");
     }
 
+    loadStageBackground(){
+        this.load.image("background", "././././resources/img/scenarios/stadium_background.png");
+    }
+
+    loadObstacles(){
+        //Dependerá del escenario
+    }
+
     loadSfx(){
         this.load.audio('hit', ['././././resources/audio/sonido/hit.ogg']);
         this.load.audio('throwsfx', ['././././resources/audio/sonido/346373__denao270__throwing-whip-effect.wav']);
@@ -93,19 +99,17 @@ class IngameScene extends Phaser.Scene {
         this.setupExplosionGroup();
         this.setupBlackHoleAreasList();
 
+        this.setupObstaclesGroup();
 
         this.setupCollisions();
 
         this.setupBallAnimations();
         this.setupParticleAnimations();
-
+        this.setupObstacleAnimations();
 
         this.setupInputControls();
 
         this.setupSFX();
-
-
-
     }
 
     setupBlackHoleAreasList(){
@@ -147,6 +151,10 @@ class IngameScene extends Phaser.Scene {
 
     setupExplosionGroup(){
         this.explosionGroup = this.add.group();
+    }
+
+    setupObstaclesGroup(){
+        //Dependerá del escenario
     }
 
     setupCollisions(){
@@ -236,6 +244,10 @@ class IngameScene extends Phaser.Scene {
         });
     }
 
+    setupObstacleAnimations(){
+        //Dependerá del escenario
+    }
+
     setupLifeBarsAnims(){
         var lifebarColors = [1, 2];
 
@@ -296,11 +308,17 @@ class IngameScene extends Phaser.Scene {
     //====================================================================================================
 
     update(time, delta){
+        this.updateStage(delta);
+
         this.updatePlayers(delta);
         this.updateBalls(delta);
 
         this.updateBlackHoleAreas(delta);
         this.matchClock.updateClock(time, delta);
+    }
+
+    updateStage(delta){
+        //Dependerá del escenario
     }
 
     updatePlayers(delta){

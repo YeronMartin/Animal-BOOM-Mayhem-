@@ -15,7 +15,6 @@ class mainMenuScene extends Phaser.Scene{
     }
 
      create(){
-
         this.add.image(-config.width/14, 0, "mainMenu_background").setOrigin(0, 0).setDepth(0).setScale(.52);
 
         //Flechas
@@ -26,9 +25,7 @@ class mainMenuScene extends Phaser.Scene{
         this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-
         this.key_T = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
-
 
         this.selected_button = null;
 
@@ -51,48 +48,13 @@ class mainMenuScene extends Phaser.Scene{
         //this.menuBgm.setVolume(0.1);
         //this.menuBgm.play();
 
-        this.player = "Paco";
+        this.player = "";
         this.game.sound.play('menu_bgm', {volume: 0.1});
         this.game.sound.volume = 0.1;
 
+        //this.nicknameBox = this.add.dom(400, 200).createFromCache('nameform');
 
-
-        this.nicknameBox = this.add.dom(400, 200).createFromCache('nameform');
-
-        /*
-        element.on('click', function (event) {
-
-          if (event.target.name === 'playButton') {
-              var inputText = this.getChildByName('nameField');
-
-              //  Have they entered anything?
-              if (inputText.value !== '') {
-                  //  Turn off the click events
-                  this.removeListener('click');
-
-                  //  Hide the login element
-                  this.setVisible(false);
-
-                  //  Populate the text with whatever they typed in
-                  text.setText('Welcome ' + inputText.value);
-
-                  // Si te lo quieres cargar
-                  //this.destroy();
-              }
-              else {
-                  //  Flash the prompt
-                  this.scene.tweens.add({
-                      targets: text,
-                      alpha: 0.2,
-                      duration: 250,
-                      ease: 'Power3',
-                      yoyo: true
-                  });
-              }
-          }
-
-      });
-      */
+        this.inputBoxActive = false;
   }
 
     update(){
@@ -134,6 +96,9 @@ class mainMenuScene extends Phaser.Scene{
 }
 
   toSelectButton(){
+    if(this.inputBoxActive)
+      return;
+
       if(Phaser.Input.Keyboard.JustDown(this.key_S)){
           if (this.selectedButton == null){
             this.selectedButton = 0;
@@ -159,21 +124,24 @@ class mainMenuScene extends Phaser.Scene{
           }
       }
   }
+
   toEnterButton(){
       if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
         if (this.selectedButton != null) {
           if (this.selectedButton == 0) {
 
-            if(this.validName()){
+            if(this.player == "" && !this.inputBoxActive){
+              this.menuSelectSfx.play();
+              this.hideUI();
+            }else if(this.validName()){
               this.menuSelectSfx.play();
 
               console.log(this.nicknameBox.getChildByName('nameField').value);
               this.scene.start("characterScene", {player : this.nicknameBox.getChildByName('nameField').value});
               this.selectedButton = null;
+
+              this.inputBoxActive = false;
             }
-
-
-
           }else if (this.selectedButton == 2){
             this.menuSelectSfx.play();
             this.scene.start("creditsScene");
@@ -187,6 +155,15 @@ class mainMenuScene extends Phaser.Scene{
       }
     };
 
+  hideUI(){
+    this.input.keyboard.removeCapture('W,A,S,D,R,T,U,H,J,K,O,P');
+
+    //Mostrar input de texto y texto de, introduce un nick y pulsa ENTER
+    var text = this.add.text(config.width / 2 , (config.height / 2) - 50, 'Pulsa ENTER o SPACE para confirmar', { color: 'white', fontSize: 'bold 25px'}).setOrigin(0.5, 0.5);
+    this.nicknameBox = this.add.dom((config.width / 2) + 150, (config.height / 2)).createFromCache('nameform').setOrigin(0.5, 0.5);
+
+    this.inputBoxActive = true;
+  }
 
 validName(){
   var inputText = this.nicknameBox.getChildByName('nameField');

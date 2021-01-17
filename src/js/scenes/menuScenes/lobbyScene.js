@@ -9,7 +9,6 @@ class lobbyScene extends Phaser.Scene{
         var nextScene_timer;
         var show_timer;
         var player;
-
     }
 
     init(data){

@@ -1,4 +1,4 @@
-class carrousel extends Phaser.Class{
+class carrousel extends Phaser.GameObjects.Sprite{
   constructor(scene, front, back, left, right, numCharacter){
     super (scene, 0, 0, 'carrousel');
 

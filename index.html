@@ -8,9 +8,10 @@
 
     <link rel="stylesheet" href="/src/css/style.css">
 
-	<link rel="icon" href="././resources/img/balls/Bomba.png" sizes="50x50" type="image/png">
+	  <link rel="icon" href="././resources/img/balls/Bomba.png" sizes="50x50" type="image/png">
     <script type="text/javascript" src="/src/js/phaser.js"></script>
 
+    <!--JUEGO-->
     <script type="text/javascript" src="/src/js/scenes/menuScenes/mainMenuScene.js"></script>
     <script type="text/javascript" src="/src/js/scenes/menuScenes/characterScene.js"></script>
 
@@ -20,15 +21,17 @@
 
     <script type="text/javascript" src="/src/js/scenes/menuScenes/postGame.js"></script>
     <script type="text/javascript" src="/src/js/scenes/menuScenes/stageScene.js"></script>
-
     <script type="text/javascript" src="/src/js/scenes/menuScenes/loadingScene.js"></script>
     <script type="text/javascript" src="/src/js/scenes/menuScenes/loadingRenderScene.js"></script>
+    <script type="text/javascript" src="/src/js/scenes/menuScenes/lobbyScene.js"></script>
+
+    <script type="text/javascript" src="/src/js/serverInfo/serverPlayer.js"></script>
 
 
     <script type="text/javascript" src="/src/js/characterCard.js"></script>
     <script type="text/javascript" src="/src/js/stageCard.js"></script>
     <script type="text/javascript" src="/src/js/carrousel.js"></script>
-
+    <script type="text/javascript" src="/src/js/playerLobby.js"></script>
 
     <script type="text/javascript" src="/src/js/scenes/ingame/balls/Ball.js"></script>
     <script type="text/javascript" src="/src/js/scenes/ingame/balls/BallBasket.js"></script>
@@ -60,7 +63,13 @@
     <script type="text/javascript" src="/src/js/scenes/ingame/characters/PlayerItem.js"></script>
 
     <script type="text/javascript" src="src/js/game.js"></script>
+
+    <!--JQUERY-->
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"> </script>
 </head>
 <body style="background-color:powderblue;">
+  <form autocomplete="off">
+      <input type="text" name="username" id="nickname" autocomplete="off">
+  </form>
 </body>
 </html>

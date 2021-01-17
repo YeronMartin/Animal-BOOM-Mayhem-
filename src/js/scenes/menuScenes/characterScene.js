@@ -8,9 +8,16 @@ class characterScene extends Phaser.Scene {
     var selectedButton;
     var descriptionText;
     var descriptionArea;
+    var player;
+  }
+
+  init(data){
+    this.player = new serverPlayer();
+    this.player.name = data.player;
   }
 
   preload() {
+
   }
 
   create() {
@@ -51,6 +58,8 @@ class characterScene extends Phaser.Scene {
     this.keys2.setOrigin(1, 0);
     this.keys2.setDepth(1);
     this.keys2.setScale(0.3);
+
+
 
     //Inicalizacion de varibales de seleccion
     this.selectedButton = null;
@@ -149,30 +158,29 @@ class characterScene extends Phaser.Scene {
     }
   }
 
+
   toEnterButton() {
     if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
       if (this.selectedButton != null) {
         if (this.selectedButton == 1) {
           this.selectedButton = null;
           this.lastSelectedButton = null;
-
           this.menuSelectSfx.play();
+          this.player.character = "rep_Juani";
+          this.scene.start("stageScene", {player : this.player});
 
-          this.scene.start("stageScene");
         } else if (this.selectedButton == 0) {
           this.selectedButton = null;
           this.lastSelectedButton = null;
-
           this.menuSelectSfx.play();
-
           this.scene.start("mainMenuScene");
+
         } else if (this.selectedButton == 2) {
           this.selectedButton = null;
           this.lastSelectedButton = null;
-
           this.menuSelectSfx.play();
-
-          this.scene.start("stageScene");
+          this.player.character = "rep_Juani_cursed";
+          this.scene.start("stageScene", {player : this.player});
         }
       }
     }

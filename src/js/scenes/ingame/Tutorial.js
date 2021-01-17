@@ -28,7 +28,7 @@ class Tutorial extends IngameScene {
         this.load.audio('soniquete', [
             '././././resources/audio/sonido/476178__unadamlar__correct-choice.wav'
         ]);
-      
+
         this.load.audio('throwsfx', ['././././resources/audio/sonido/346373__denao270__throwing-whip-effect.wav']);
         this.load.audio('hit', ['././././resources/audio/sonido/hit.ogg']);
 
@@ -44,7 +44,7 @@ class Tutorial extends IngameScene {
         this.setupMatchValues();
 
         this.physics.world.setBoundsCollision();
-        
+
         this.setupLifeBarsAnims();
         this.setupPlayers();
         this.setupBalls();
@@ -70,7 +70,7 @@ class Tutorial extends IngameScene {
         this.ballsGroup = this.add.group();
 
         this.ballPlacer = new BallPlacer(this, this.ballsToLoad);
-        
+
         this.ballsList[0] = new BallBasket(this, 30, 100);
         this.maxBallsInScene = 1;
     }

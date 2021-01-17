@@ -1,4 +1,17 @@
 canvas {
-    display : block;   
+    display : block;
     margin : auto;
+}
+
+#nickname{
+  position: absolute;
+  top: 70%;
+  height: 70px;
+  width: 300px;
+  left: 50%;
+  outline: none;
+  font-size: 30px;
+  border-radius: 2000px;
+  text-align: center;
+  visibility:hidden;
 }

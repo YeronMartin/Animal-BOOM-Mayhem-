@@ -18,10 +18,10 @@ class FlamingBall extends Ball{
     }
 
     update(elapsed){
-        
+
         if (this.onGround || this.heldByPlayer)
             return;
-        
+
         this.updatePathOfFire(elapsed);
         this.updateTraveledDistance(elapsed);
         this.updateDistanceToActivateCollisions(elapsed);

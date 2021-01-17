@@ -7,6 +7,7 @@ class mainMenuScene extends Phaser.Scene{
         var button_vector;
         var selected_button;
         var tutorialButton;
+        var player;
     }
 
      preload(){
@@ -51,6 +52,7 @@ class mainMenuScene extends Phaser.Scene{
         //this.menuBgm.setVolume(0.1);
         //this.menuBgm.play();
 
+        this.player = "Paco";
         this.game.sound.play('menu_bgm', {volume: 0.1});
         this.game.sound.volume = 0.1;
     };
@@ -77,7 +79,7 @@ class mainMenuScene extends Phaser.Scene{
   }
   switch (this.lastSelectedButton) {
     case 0:
-      this.playButton.play('play')
+      this.playButton.play('play', {player : this.player})
       break;
     case 1:
       this.tutorialButton.play('tutorial')
@@ -124,7 +126,7 @@ class mainMenuScene extends Phaser.Scene{
         if (this.selectedButton != null) {
           if (this.selectedButton == 0) {
             this.menuSelectSfx.play();
-            this.scene.start("characterScene");
+            this.scene.start("characterScene", {player : this.player});
             this.selectedButton = null;
           }else if (this.selectedButton == 2){
             this.menuSelectSfx.play();

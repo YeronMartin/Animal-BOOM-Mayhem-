@@ -7,6 +7,11 @@ class stageScene extends Phaser.Scene{
         var gameSettingsButtonButtton;
         var selectedButton;
         var lastSelectedButton;
+        var player;
+    }
+
+    init(data){
+      this.player = data.player;
     }
 
     preload(){
@@ -107,7 +112,7 @@ class stageScene extends Phaser.Scene{
               if (this.selectedButton == 0) {
                 this.scene.start("characterScene");
               } else if (this.selectedButton == 1){
-                this.scene.start("stadiumGame", {players: 2, characters: ['juani', 'juani_cursed'], mode: 'local'});
+                this.scene.start("lobbyScene", {player: this.player});
               }
             }
 

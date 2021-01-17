@@ -129,16 +129,16 @@ class lobbyScene extends Phaser.Scene{
         console.log(lista.length);
         if(lista.length-1 >=0){
           this.playerMap.get(lista[lista.length-1]).show();
-          //this.playerMap.get(lista[lista.length-1]).move(50, 100);
+          this.playerMap.get(lista[lista.length-1]).move(50, 100);
         }
         if(lista.length-2 >= 0){
           this.playerMap.get(lista[lista.length-2]).show();
-          //this.playerMap.get(lista[lista.length-2]).move(400, 100);
+          this.playerMap.get(lista[lista.length-2]).move(400, 100);
         }
 
         if(lista.length-3 >= 0){
           this.playerMap.get(lista[lista.length-3]).show();
-          //this.playerMap.get(lista[lista.length-3]).move(750, 100);
+          this.playerMap.get(lista[lista.length-3]).move(750, 100);
         }
       }
     }

@@ -1,5 +1,6 @@
 var config = {
     type: Phaser.AUTO,
+    parent: 'Animal-boom',
     width: 1024,
     height: 768,
     scene: [ loadingRenderScene, loadingScene, mainMenuScene, options, creditsScene, characterScene, stageScene, lobbyScene,  postGame,  gameSettings,
@@ -12,6 +13,9 @@ var config = {
         }
       },
 
+      dom: {
+        createContainer: true
+    },
       audio: {
         disableWebAudio: true
     }

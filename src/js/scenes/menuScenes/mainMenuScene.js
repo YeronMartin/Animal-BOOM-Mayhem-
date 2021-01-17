@@ -10,9 +10,8 @@ class mainMenuScene extends Phaser.Scene{
         var player;
     }
 
-     preload(){
-
-
+    preload(){
+      this.load.html('nameform', 'src/html/nickform.html');
     }
 
      create(){
@@ -55,7 +54,46 @@ class mainMenuScene extends Phaser.Scene{
         this.player = "Paco";
         this.game.sound.play('menu_bgm', {volume: 0.1});
         this.game.sound.volume = 0.1;
-    };
+
+
+
+        this.nicknameBox = this.add.dom(400, 200).createFromCache('nameform');
+
+        /*
+        element.on('click', function (event) {
+
+          if (event.target.name === 'playButton') {
+              var inputText = this.getChildByName('nameField');
+
+              //  Have they entered anything?
+              if (inputText.value !== '') {
+                  //  Turn off the click events
+                  this.removeListener('click');
+
+                  //  Hide the login element
+                  this.setVisible(false);
+
+                  //  Populate the text with whatever they typed in
+                  text.setText('Welcome ' + inputText.value);
+
+                  // Si te lo quieres cargar
+                  //this.destroy();
+              }
+              else {
+                  //  Flash the prompt
+                  this.scene.tweens.add({
+                      targets: text,
+                      alpha: 0.2,
+                      duration: 250,
+                      ease: 'Power3',
+                      yoyo: true
+                  });
+              }
+          }
+
+      });
+      */
+  }
 
     update(){
       this.toSelectButton();
@@ -125,9 +163,17 @@ class mainMenuScene extends Phaser.Scene{
       if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
         if (this.selectedButton != null) {
           if (this.selectedButton == 0) {
-            this.menuSelectSfx.play();
-            this.scene.start("characterScene", {player : this.player});
-            this.selectedButton = null;
+
+            if(this.validName()){
+              this.menuSelectSfx.play();
+
+              console.log(this.nicknameBox.getChildByName('nameField').value);
+              this.scene.start("characterScene", {player : this.nicknameBox.getChildByName('nameField').value});
+              this.selectedButton = null;
+            }
+
+
+           
           }else if (this.selectedButton == 2){
             this.menuSelectSfx.play();
             this.scene.start("creditsScene");
@@ -140,6 +186,18 @@ class mainMenuScene extends Phaser.Scene{
         }
       }
     };
+
+
+validName(){
+  var inputText = this.nicknameBox.getChildByName('nameField');
+
+  //  Have they entered anything?
+  if (inputText.value !== '') {
+      return true;
+  }
+
+  return false;
+}
 
   initAnimButtons(){
       this.anims.create({

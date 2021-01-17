@@ -14,6 +14,8 @@ class characterScene extends Phaser.Scene {
   init(data){
     this.player = new serverPlayer();
     this.player.name = data.player;
+
+    console.log("Leido: "+data.player);
   }
 
   preload() {

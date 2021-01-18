@@ -1,18 +1,21 @@
 var config = {
     type: Phaser.AUTO,
+    parent: 'Animal-boom',
     width: 1024,
     height: 768,
     scene: [loadingRenderScene, loadingScene, mainMenuScene, options, creditsScene, characterScene, stageScene,  postGame,  gameSettings,
-        StadiumGame, Tutorial],
+        StadiumGame, Tutorial, lobbyScene],
 
     physics: {
         default: "arcade",
         arcade:{
             debug: true
         }
-      },
-
-      audio: {
+    },
+    dom: {
+        createContainer: true
+    },
+    audio: {
         disableWebAudio: true
     }
 };

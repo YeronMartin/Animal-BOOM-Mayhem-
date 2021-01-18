@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,9 +64,15 @@ public class GameController {
 			player.updateData(players.get(player.getName()).getWinnings(),
 					players.get(player.getName()).getDeaths(),
 					players.get(player.getName()).getTimesPerWeek());
-			playersInGame.replace(player.getName(), player);
+			//playersInGame.replace(player.getName(), player);
+			
+			playersInGame.put(player.getName(), player);
+			
+			System.out.println("Mira quien ha vuelto: "+player.getName());
 		}else {
 			playersInGame.put(player.getName(), player);
+			
+			System.out.println("Nuevo jugador: "+player);
 		}
 		return new  ResponseEntity <Boolean> (true, HttpStatus.CREATED);
 	}
@@ -74,7 +81,6 @@ public class GameController {
 	public List <Player2> getPlayers(@PathVariable ("player") String player){
 		if(this.playersInGame.containsKey(player)) {
 			this.playersInGame.get(player).time();
-			
 		}
 
 		return  new ArrayList <Player2> (this.playersInGame.values());
@@ -85,14 +91,14 @@ public class GameController {
 	public List <Player2> getPlayers2(){
 		
 		return  new ArrayList <Player2> (this.playersInGame.values());
-		
 	}
 	
 	
 	//SAVE
 	
 	public void saveAll() throws IOException {
-		FileWriter file = new FileWriter ("/Users/yeron/Desktop/pruebaCliente/PlayersFile.txt");
+		FileWriter file = new FileWriter ("PlayersFile.txt", StandardCharsets.UTF_8);
+		//FileWriter file = new FileWriter ("/Users/yeron/Desktop/pruebaCliente/PlayersFile.txt");
 		try {
 			List  <Player2>  playersList = new ArrayList (this.players.values());
 			file.write(playersList.size() + "\n");
@@ -104,7 +110,7 @@ public class GameController {
 				file.write(playersList.get(i).getDeaths() + "\n");
 			}
 			
-			System.out.println("Fichero escrito ");
+			//System.out.println("Fichero escrito ");
 			file.close();
 		}catch (Exception ex){
 			System.out.println("Mensaje de excepcion: " + ex.getMessage());
@@ -126,7 +132,7 @@ public class GameController {
 	
 	private void loadAll() {
 		try {
-			FileReader file = new FileReader ("/Users/yeron/Desktop/pruebaCliente/PlayersFile.txt");
+			FileReader file = new FileReader("PlayersFile.txt", StandardCharsets.UTF_8);
 			BufferedReader br = new BufferedReader (file);
 			String line;
 			int length = Integer.parseInt(br.readLine());
@@ -163,9 +169,8 @@ public class GameController {
 	  		for (int i = 0; i < playersList.size(); i++) {
 	  			if(time - playersList.get(i).getLastRequest()>=4000) {
 	  				savePlayer (playersList.get(i));
+	  				System.out.println("Se ha expulsado a "+playersList.get(i).getName());
 	  				playersInGame.remove(playersList.get(i).getName());
-	  				//System.out.println("time "+ time);
-	  				//System.out.println("time Player "+ playersList.get(0).getLastRequest());
 	  			}
 	  		} 
 	  		//System.out.println("eliminado");
@@ -190,7 +195,4 @@ public class GameController {
 			}
 		}
 	  };
-	
-	
-
 }

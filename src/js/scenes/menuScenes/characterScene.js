@@ -10,6 +10,13 @@ class characterScene extends Phaser.Scene {
     var descriptionArea;
   }
 
+  init(data){
+    this.player = new serverPlayer();
+    this.player.name = data.player;
+
+    console.log("Leido: "+data.player);
+  }
+
   preload() {
   }
 
@@ -155,29 +162,26 @@ class characterScene extends Phaser.Scene {
         if (this.selectedButton == 1) {
           this.selectedButton = null;
           this.lastSelectedButton = null;
-
           this.menuSelectSfx.play();
+          this.player.character = "rep_Juani";
+          this.scene.start("stageScene", {player : this.player});
 
-          this.scene.start("stageScene");
         } else if (this.selectedButton == 0) {
           this.selectedButton = null;
           this.lastSelectedButton = null;
-
           this.menuSelectSfx.play();
-
           this.scene.start("mainMenuScene");
+
         } else if (this.selectedButton == 2) {
           this.selectedButton = null;
           this.lastSelectedButton = null;
-
           this.menuSelectSfx.play();
-
-          this.scene.start("stageScene");
+          this.player.character = "rep_Juani_cursed";
+          this.scene.start("stageScene", {player : this.player});
         }
       }
     }
   };
-
 
   initAnimArrow() {
     this.anims.create({

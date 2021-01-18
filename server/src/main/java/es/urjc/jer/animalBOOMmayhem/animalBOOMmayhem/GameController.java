@@ -63,7 +63,7 @@ public class GameController {
 			player.updateData(players.get(player.getName()).getWinnings(),
 					players.get(player.getName()).getDeaths(),
 					players.get(player.getName()).getTimesPerWeek());
-			playersInGame.put(player.getName(), player);
+			playersInGame.replace(player.getName(), player);
 		}else {
 			playersInGame.put(player.getName(), player);
 		}

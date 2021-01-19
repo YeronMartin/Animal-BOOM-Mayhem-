@@ -103,8 +103,10 @@ hacerse con la “​ _corona explosiva_ ​”.
     5.3.2 Sprites de vida   
     5.3.3 Marcador   
   5.4 Interfaz 
-6. Música y efectos de sonido
-7. Referencias
+6. Música y efectos de sonido   
+7. Diagrama de clases y API REST   
+8. Instrucciones precisas para ejecutar la aplicación    
+9. Referencias
      
 
 ## 1. Cambios
@@ -1004,9 +1006,61 @@ Principal_ ​.
   ● Un sonido para cuando las bombas o las patatas explotan.   
   ● Un sonido para cuando el jugador pulsa los botones del menú principal.   
   ● Un sonido para cuando el jugador lanza una pelota.   
+  
+  
+  
+  ## 7. Diagrama de clases y API REST
+  
+  La aplicación presenta varias clases, pero, para esta práctica se han implementado cinco nuevas clases, tres para el servidor y dos para el cliente.
+
+  En el caso del servidor, las tres nuevas clases que se han implementado han sido: la clase Player2, la clase GameController y la clase Application. La 
+  clase Application es de tipo @SpringBootApplication y es la clase encargada de que el servidor se ejecute como una aplicación de Java.
+
+  Por otro lado, la clase Player2 es la clase que representa a los jugadores que se van a conectar al servidor. Tiene varios atributos para almacenar datos de 
+  cada jugador, como su nombre, que serán mostrados en el lobby y se guardarán y cargarán en ficheros.
+
+  Por último, también se ha implementado la clase GameController. Este es el controlador del juego y, por ello, esta clase se ha anotado como 
+  @RestController. Esta clase se encarga de varias funciones: gestionar la conexión de los jugadores al servidor, guardar y cargar los datos de estos 
+  jugadores en ficheros, etc… 
+
+  Para lograr esto, GameController tiene dos atributos fundamentales los cuales son mapas de jugadores. Uno de los mapas se encarga de almacenar únicamente 
+  a los jugadores que están conectados en ese momento en el servidor y eliminaría a los jugadores que se han desconectado. Este es el mapa front y es la lista que 
+  se emplea para mostrar en el lobby los jugadores que están actualmente conectados en la esquina inferior izquierda. El segundo mapa, por otro lado, funciona como 
+  un backup y  almacena a todos los jugadores que se han conectado al servidor aunque estos se hayan desconectado. De esta manera, si estos jugadores se volviesen 
+  a conectar, se podrían recuperar sus datos, pues se han almacenado en ficheros.
+
+  A continuación, se puede observar el diagrama de clases de la aplicación que muestra las relaciones existentes entre estas tres clases:
+
+  ![No carga la imagen]()
+  
+  
+  
+  ## 8. Instrucciones precisas para ejecutar la aplicación
+  
+  Para la ejecución de Animal BOOM Mayhem se debe descargar la IDE Eclipse y, concretamente, Spring Tool Suite. Spring Tool Suite es una versión enriquecida de 
+  Eclipse, basada en la versión Java EE de Eclipse, pensada para el desarrollo de aplicaciones con Spring. Esta ya tiene incorporadas el sistema de gestión de 
+  dependencias Maven y Spring, por lo que no hace falta descargar nada más. El servidor está estructurado con Maven y las dependencias que se han utilizado se 
+  pueden observar en el archivo pom.xml.
+
+  Cabe destacar que, en este caso, no se ha comprimido la aplicación en un .jar por lo que, para poder activar el servidor, se debe de abrir el código del servidor 
+  desde Eclipse y, una vez abierto, darle al botón de ejecutar como aplicación de Java. Con esto, el servidor se conectaría.
+
+  En cuanto al cliente, este se ha implementado empleando el framework Phaser cómo se hizo en la fase 2. También, se ha empleado Jquery para que el cliente se comunique 
+  con el servidor.
+
+  Respecto a la URL que debemos de cargar en el navegador para empezar a jugar, para poder abrir el videojuego en el navegador, lo único que se debe de hacer es poner 
+  en el navegador la dirección localhost:8081.
+
+  Como, en este caso, no hemos utilizado ngrok para que un cliente externo pueda conectarse al servidor que está en nuestro ordenador y poder jugar desde su casa, tenemos
+  que probar el juego en línea de manera local. Para ello, duplicamos la pantalla del juego en el navegador y veremos cómo en el lobby del juego, si el servidor está
+  activado, se registran dos jugadores. Si alguno de los jugadores se desconecta del servidor en el tiempo de duración del lobby, la información de este desaparecerá de la
+  pantalla.
+
+  En caso de que el servidor esté apagado, aparecería un error en la consola y ninguno de los jugadores se mostrarían en el lobby.
+
 
   
-  ## 7. Referencias
+  ## 9. Referencias
   La música se ha obtenido de la siguiente página:
   
    ● https://stock.adobe.com/es/

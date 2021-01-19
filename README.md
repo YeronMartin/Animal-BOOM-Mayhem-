@@ -88,6 +88,8 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.2.10 Tutorial  
     4.2.11 Pantalla de batalla  
     4.2.12 Ventana de victoria
+  4.3. Versión Actualizada con Spring
+    
 5. Arte 2D   
   5.1 Personajes   
     5.1.1 Concept art   
@@ -755,6 +757,52 @@ Principal_ ​.
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Victoria.png)
   
+   ## 4.3. Versión Actualizada con Spring
+   
+   En este apartado se expondrán las modificaciones que se han hecho de nuevo en la interfaz respecto a las anteriores versiones.
+   Las pantallas anteriores se mantienen durante esta versión.
+   
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Diagrama%20de%20flujo%20de%20juego%fase%3.png)
+   
+   ### 4.3.1 Pantalla de carga
+   
+   Tenemos una escena nueva al comienzo llamada _Escena de Carga_ donde se cargan todos los recursos y se muestra una barra de progreso.
+   
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/image4.png)
+   
+   ### 4.3.2 Introducir Nickname
+   
+   En la pantalla _Menú Principal_ cuando presionamos el botón _jugar_, aparece una caja de texto donde tenemos que introducir nuestro Nickname que aparecerá
+   una vez nos conectemos satisfactoriamente al servidor.
+   
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/image2.png)
+ 
+   Lista y descripción de todos los elementos de la pantalla:
+  
+   ● **Caja de texto**: Campo en el que podemos introducir nuestro _Nickname_.
+   
+   ### 4.3.3 Lobby
+   
+   Después de la pantalla _Selección de Escenario_ y antes de la pantalla _Pantalla de Batalla_, hemos añadido la escena _Lobby_ donde los jugadores se conectan
+   y esperan para comenzar la partida.
+   
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/image3.png)
+   
+   Lista y descripción de todos los elementos de la pantalla:
+   
+   ● **Jugador**: Jugador conectado al _Lobby_ con su _Nickname_.
+   
+   ● **Corona explosivas doradas**: Indica el número partidas ganadas por el _Jugador_.
+   
+   ● **Corona explosivas doradas**: Indica el número partidas ganadas por el _Jugador_.
+   
+   ● **Enemigos derrotados**: Indica el número de enemigos derrotados en partida por el _Jugador_.
+   
+   ● **Día**: Indica el número de veces que ha jugado esta semana el _Jugador_.
+   
+   
+   
+   
   
   ## 5. Arte 2D
   Para esta segunda fase, se han creado multitud de sprites e imágenes para poder montar el videojuego. A continuación, se especificarán

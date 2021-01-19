@@ -762,7 +762,7 @@ Principal_ ​.
    En este apartado se expondrán las modificaciones que se han hecho de nuevo en la interfaz respecto a las anteriores versiones.
    Las pantallas anteriores se mantienen durante esta versión.
    
-   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Diagrama%20de%20flujo%20de%20juego%20fase%203.png)
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Flujo%20del%20juego%20fase3.png)
    
    ### 4.3.1 Pantalla de carga
    

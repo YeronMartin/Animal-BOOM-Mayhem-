@@ -134,7 +134,7 @@ A día 19 de Enero de 2021 se han realizado cambios en el readme respecto a la i
     ● Se ha añadido un Lobby donde los jugadores esperan para poder comenzar la partida.
     ● Se ha añadido un sistema de mensajes para saber el estado del jugador o del servidor.
     ● Se ha añadido una escena de precarga de los elementos del juego junto con una barra de progreso.
-    ● Se ha actualizado el apartado de 4.Interfaz incluyendo una tercera versión con las nuevas pantallas incluidas en la fase 3.
+    ● Se ha actualizado el apartado 4.Interfaz incluyendo una tercera versión con las nuevas pantallas incluidas en la fase 3.
     ● Se ha incluido un apartado de diagrama de clases.
     ● Se ha incluido un apartado con instrucciones para ejecutar la aplicación.
 

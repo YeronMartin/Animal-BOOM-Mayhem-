@@ -327,7 +327,7 @@ es una maruja ama de casa que tras limpiar, cocinar, cuidar a sus 4302 palomas y
 su 'AEROBIC ULTRA INTENSIVE class' está lista para participar en la quingentésimo trigésimo 
 novena edición del campeonato Animal BOOM Mayhem y coronarse vencedora por octavo año consecutivo.  
  
-![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Concept%20art%20-%20La%20Juani.jpg)
+![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/Concept%20art%20-%20La%20Juani.jpg)
 
 Como se ha mencionado en la historia, a la Juani le encanta el aerobic. Por ello, a 
 la hora de diseñar el personaje hemos optado por vestirla con el típico traje de aerobic 
@@ -844,28 +844,14 @@ Principal_ ​.
   sprite sheets para poder implementar estas animaciones en el juego. A continuación, se muestran los sprite sheets que recogen todas estas animaciones
   tanto del jugador 1 como del jugador 2:
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_sheet1.PNG)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani_sheet.png)
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/juani_sheet2.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani_cursed_sheet.png)
    
   
-  También, cabe destacar que se realizaron los siguientes sprite sheets para la animación de cuando el personaje anda con alguna de las pelotas en la mano. Cada
-  sprite de la tira representaría donde se encontraría la pelota cuando el personaje está andando con ella.
-  
-  Sprite sheet de cuando el personaje tiene en la mano la pelota normal (balón de baloncesto):
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_basketball.PNG)
-  
-  Sprite sheet de cuando el personaje tiene en la mano la bomba:
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_bomb.PNG)
-  
-  Sprite sheet de cuando el personaje tiene en la mano la patata (bomba con temporizador):
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_potato1.PNG)
-  
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/player_potato2.PNG)
-  
+  También, cabe destacar que se realizaron sprite sheets para la animación de cuando el personaje anda con alguna de las pelotas en la mano. Cada sprite
+  de la tira representaría donde se encontraría la pelota cuando el personaje está andando con ella.
+   
   
   ### 5.2. Escenarios
   _Animal BOOM Mayhem_ es un videojuego competitivo en el que varios animales compiten en un torneo de balón prisionero. Debido a esto, el primer escenario

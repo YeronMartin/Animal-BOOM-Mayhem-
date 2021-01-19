@@ -89,7 +89,9 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.2.11 Pantalla de batalla  
     4.2.12 Ventana de victoria
   4.3. Versión Actualizada con Spring
-    
+    4.3.1 Pantalla de Carga
+    4.3.2 Introducir Nickname
+    4.3.3 Lobby
 5. Arte 2D   
   5.1 Personajes   
     5.1.1 Concept art   
@@ -762,7 +764,7 @@ Principal_ ​.
    En este apartado se expondrán las modificaciones que se han hecho de nuevo en la interfaz respecto a las anteriores versiones.
    Las pantallas anteriores se mantienen durante esta versión.
    
-   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Flujo%20del%20juego%20fase3.png)
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Version%20Implementada/Flujo%20del%20juego%20fase3.jpg)
    
    ### 4.3.1 Pantalla de carga
    

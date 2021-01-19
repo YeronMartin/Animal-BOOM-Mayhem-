@@ -86,12 +86,12 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.2.8 Menú de opciones de partida  
     4.2.9 Selección de escenario  
     4.2.10 Tutorial  
-    4.2.11 Pantalla de batalla  
-    4.2.12 Ventana de victoria
-  4.3. Versión Actualizada con Spring
-    4.3.1 Pantalla de Carga
-    4.3.2 Introducir Nickname
-    4.3.3 Lobby
+    4.2.11 Pantalla de batalla       
+    4.2.12 Ventana de victoria        
+  4.3. Versión Actualizada con Spring         
+    4.3.1 Pantalla de Carga          
+    4.3.2 Introducir Nickname          
+    4.3.3 Lobby         
 5. Arte 2D   
   5.1 Personajes   
     5.1.1 Concept art   

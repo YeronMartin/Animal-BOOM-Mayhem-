@@ -30,32 +30,13 @@ public class GameController {
 	
 	private Map <String, Player2>playersInGame =  new HashMap <> ();
 	private Map <String, Player2>players =  new HashMap <> ();
-	//Preguntar sobre borrar estas cosas y esperar a que se de el tema de los sockets
-	
-	//Para esta entrega: 
-	//Tener el servidor listo para que se puedan conectar clientes y poder devolver listas de clientes
-	//Hacer que el cliente pueda realizar peticiones
-	//Intercambio de informacion entre ellos, nombre, numero de veces concetado... (nombre, numero de veces que ha jugado durante la semana
-	// partidas ganadas, personaje)
-	//Guardar toda esta infromacion en un txt para que el servidor la pueda leer.
-	//(Mirar sobre lectura y escritura de ficheros en java)
-	
 	
 	public GameController() throws IOException {
-		
-		Player2 player1  =  new Player2 ("paco", 1, "jauni", 8, 0, 2);
-		Player2 player2  =  new Player2 ("almendro", 2, "gatoFinanzas", 5, 3, 23);
-		Player2 player3  =  new Player2 ("laPili", 3, "juaniCursed", 1, 1, 8);
-		this.playersInGame.put(player1.getName(), player1);
-		this.playersInGame.put(player2.getName(), player2);
-		this.playersInGame.put(player3.getName(), player3);
-		
 		loadAll();
 		Timer timer_UpdatePlayers = new Timer();
 		timer_UpdatePlayers.schedule(updatePlayers, 0 , 3000);
 		Timer  timer_savePlayer= new Timer();
 		timer_savePlayer.schedule(autoSave, 0, 6000);
-		
 	}
 	
 	@RequestMapping (value = "/players", method= RequestMethod.POST)
@@ -66,13 +47,15 @@ public class GameController {
 					players.get(player.getName()).getTimesPerWeek());
 			//playersInGame.replace(player.getName(), player);
 			
+			player.time();
 			playersInGame.put(player.getName(), player);
+			
 			
 			System.out.println("Mira quien ha vuelto: "+player.getName());
 		}else {
 			playersInGame.put(player.getName(), player);
 			
-			System.out.println("Nuevo jugador: "+player);
+			System.out.println("Nuevo jugador: "+player.getName());
 		}
 		return new  ResponseEntity <Boolean> (true, HttpStatus.CREATED);
 	}
@@ -80,6 +63,7 @@ public class GameController {
 	@RequestMapping (value = "/players/{player}", method= RequestMethod.GET)
 	public List <Player2> getPlayers(@PathVariable ("player") String player){
 		if(this.playersInGame.containsKey(player)) {
+			System.out.println("Petición GET de "+player);
 			this.playersInGame.get(player).time();
 		}
 
@@ -98,7 +82,7 @@ public class GameController {
 	
 	public void saveAll() throws IOException {
 		FileWriter file = new FileWriter ("PlayersFile.txt", StandardCharsets.UTF_8);
-		//FileWriter file = new FileWriter ("/Users/yeron/Desktop/pruebaCliente/PlayersFile.txt");
+
 		try {
 			List  <Player2>  playersList = new ArrayList (this.players.values());
 			file.write(playersList.size() + "\n");

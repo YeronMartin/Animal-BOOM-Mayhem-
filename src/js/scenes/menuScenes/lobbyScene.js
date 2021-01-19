@@ -30,10 +30,10 @@ class lobbyScene extends Phaser.Scene {
     //BACKGROUND
     this.add.image(0, 0, "stage_background").setDepth(0).setOrigin(0, 0).setScale(1.3);
 
-    this.add.text(config.width/2, config.height/10, 'ESPERANDO A OTROS JUGADORES', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
+    this.statusText = this.add.text(config.width/2, config.height/10, 'ESPERANDO A OTROS JUGADORES', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
 
     //Enviar al servidor un post con el nuevo jugador que entra en la sala
-    this.postPlayer(this.player);
+    this.postPlayer(this.player, this.statusText);
 
     //Creacion del mapa de jugadores
     this.playerMap = new Map();
@@ -45,8 +45,7 @@ class lobbyScene extends Phaser.Scene {
     this.time_text = this.add.text(20, config.height - 50, "Tiempo restante: "+this.timeOut, { fill: '#fff', font: "Arial", font: "40px" }).setOrigin(0, 0);
 
     //Creacion de eventos
-    this.timedEvent = this.time.addEvent({ delay: 500, callback: this.getPlayers, args : [this.player, this, this.playerMap],  loop: true });
-    //this.timedEvent = this.time.addEvent({ delay: 500, callback: this.getPlayers(this.player, this, this.playerMap), args: [this.player, this, this.playerMap], callbackScope: this, loop: true });
+    this.timedEvent = this.time.addEvent({ delay: 500, callback: this.getPlayers, args : [this.player, this, this.playerMap, this.statusText],  loop: true });
     //this.nextScene_timer = this.time.addEvent({ delay: 1000, callback: this.countDown, callbackScope: this, loop: true });
     this.show_timer = this.time.addEvent({ delay: 2000, callback: this.showPlayers, callbackScope: this, loop: true });
     
@@ -65,7 +64,7 @@ class lobbyScene extends Phaser.Scene {
     }
   }
 
-  getPlayers(player, scene, map) {
+  getPlayers(player, scene, map, statusText) {
 
     $(document).ready(function () {
       $.ajax({
@@ -75,11 +74,14 @@ class lobbyScene extends Phaser.Scene {
         error: function (request, status, error) {
           console.log("No se ha podido acceder al servidor");
           //alert("No se ha podido acceder al servidor");
+
+          statusText.setText("NO SE HA PODIDO CONECTAR AL SERVIDOR");
+          
         }
 
       }).done(function (data) {
         //Se obtienen los datos
-        console.log(data);
+        //console.log(data);
 
           //Insertar los jugadores en un mapa
           var newMap = new Map();
@@ -101,17 +103,10 @@ class lobbyScene extends Phaser.Scene {
           }
 
       })
-    })/*.fail(function (jqXHR, textStatus, errorThrown) {
-      //En caso de error
-      console.log("HERROW?");
-
-      console.log("No se ha podido acceder al servidor");
-      alert("No se ha podido acceder al servidor");
-      return;
-    })*/;
+    });
   };
 
-  postPlayer(player) {
+  postPlayer(player, statusText) {
     var d = '{"name" : ' + '"' + player.name + '", "character" : ' + '"' + player.character + '"' + "}'";
 
     $(document).ready(function () {
@@ -123,7 +118,7 @@ class lobbyScene extends Phaser.Scene {
       }).fail(function (jqXHR, textStatus, errorThrown) {
         //En caso de error
         console.log("No se ha podido acceder al servidor");
-        alert("No se ha podido acceder al servidor");
+        statusText.setText("NO SE HA PODIDO CONECTAR AL SERVIDOR");
       });
     })
   }

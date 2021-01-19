@@ -160,7 +160,7 @@ hideUI(){
 
   //Mostrar input de texto y texto de, introduce un nick y pulsa ENTER
   var text = this.add.text(config.width / 2 , (config.height / 2) - 50, 'Pulsa ENTER o SPACE para confirmar', { color: 'white', fontSize: 'bold 25px'}).setOrigin(0.5, 0.5);
-  this.nicknameBox = this.add.dom((config.width / 2) + 150, (config.height / 2)).createFromCache('nameform').setOrigin(0.5, 0.5);
+  this.nicknameBox = this.add.dom((config.width / 2), (config.height / 2)).createFromCache('nameform').setOrigin(0.5, 0.5);
 
   this.inputBoxActive = true;
 }

@@ -2,9 +2,7 @@ package es.urjc.jer.animalBOOMmayhem.animalBOOMmayhem;
 
 import org.springframework.stereotype.Component;
 
-public class Player2 {
-	
-	
+public class Player2 {	
 	private String name; // + nombre del jugador
 	private int ID; //+ ID del jugador 
 	private String character; //+ personaje 
@@ -12,9 +10,6 @@ public class Player2 {
 	private int winnings;
 	private int deaths;
 	private long lastRequest;
-
-	
-	
 
 	public Player2 () {}
 	

@@ -834,7 +834,7 @@ Principal_ ​.
   Para crear a la Juani, realizamos un concept art que representase la idea que teníamos en mente: una paloma a la que le gustase el aerobic y que fuese muy 
   fuerte. A continuación, se puede observar el concept art realizado:
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/juani/Concept%20art%20-%20La%20Juani.jpg)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/Concept%20art%20-%20La%20Juani.jpg)
   
   No hay ningún concept art de la Juani Cursed pues su diseño es el mismo que el de la Juani pero con un cambio de color. La Juani es el personaje que controlaría
   el jugador 1 y la Juani Cursed es el personaje que controlaría el jugador 2.
@@ -911,7 +911,7 @@ Principal_ ​.
   
   También, se crearon dos sprites para la animación de la explosión cuando las bombas explotan:
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Explosiones.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/effects/explosion_sheet.png)
 
   
   #### 5.3.2. Sprites de vida

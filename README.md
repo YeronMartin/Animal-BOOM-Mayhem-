@@ -1017,7 +1017,7 @@ Principal_ ​.
 
   A continuación, se puede observar el diagrama de clases de la aplicación que muestra las relaciones existentes entre estas tres clases:
 
-  ![No carga la imagen]()
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Diagrama%20UML_Fase%203.jpg)
   
   
   

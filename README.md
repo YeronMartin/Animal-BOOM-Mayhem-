@@ -88,7 +88,7 @@ hacerse con la “​ _corona explosiva_ ​”.
     4.2.10 Tutorial  
     4.2.11 Pantalla de batalla  
     4.2.12 Ventana de victoria
-    4.3. Versión Actualizada con Spring
+  4.3. Versión Actualizada con Spring
     4.3.1 Pantalla de Carga
     4.3.2 Introducir Nickname
     4.3.3 Lobby
@@ -122,6 +122,15 @@ A día 15 de Diciembre de 2020 se han realizado cambios en el readme respecto a 
     ● Se ha incluido un apartado de referencias.
     ● Integración del resultado de la implementación de los interfaces.
 
+### 1.2 Tercera versión
+A día 19 de Enero de 2021 se han realizado cambios en el readme respecto a la integración de elementos que faltaban en la versión previa:
+
+    ● Se ha integrado tecnologías Spring para montar un servidor para el multijugador.
+    ● Se ha integrado Jquery para la comunicación con el servior.
+    ● Se ha añadido en el menú principal una manera de introducir el nickname para identificar al jugador.
+    ● Se ha añadido un Lobby donde los jugadores esperan para poder comenzar la partida.
+    ● Se ha añadido un sistema de mensajes para saber el estado del jugador o del servidor.
+    ● Se ha añadido una escena de precarga de los elementos del juego junto con una barra de progreso.
 
 ## 2. Introducción
 Sirva este documento como documento de diseño del juego ​ _Animal BOOM

@@ -81,7 +81,7 @@ class lobbyScene extends Phaser.Scene {
 
       }).done(function (data) {
         //Se obtienen los datos
-        //console.log(data);
+        console.log(data);
 
           //Insertar los jugadores en un mapa
           var newMap = new Map();
@@ -101,7 +101,6 @@ class lobbyScene extends Phaser.Scene {
               map.delete(i);
             }
           }
-
       })
     });
   };

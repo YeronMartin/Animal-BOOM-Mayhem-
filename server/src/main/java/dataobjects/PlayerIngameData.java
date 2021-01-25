@@ -1,10 +1,8 @@
-package es.urjc.jer.animalBOOMmayhem.animalBOOMmayhem;
+package dataobjects;
 
-import org.springframework.stereotype.Component;
+import rest.Vector2;
 
-public class Player {
-	
-	
+public class PlayerIngameData {
 	private String name; // + nombre del jugador
 	private int ID; //+ ID del jugador 
 	private Vector2 position; //posicion del personaje
@@ -15,9 +13,9 @@ public class Player {
 	private int ballType;//int para bola
 	private boolean invulnerable;
 	
-	public Player () {}
+public PlayerIngameData () {}
 	
-	public Player (String name, int ID, Vector2 position, Vector2 direction, int health, String character, int mode) {
+	public PlayerIngameData (String name, int ID, Vector2 position, Vector2 direction, int health, String character, int mode) {
 		this.name = name;
 		this.ID = ID;
 		this.position = position;
@@ -27,7 +25,7 @@ public class Player {
 		this.mode = mode;
 	}
 	
-	public Player (String name, int ID, Vector2 position, Vector2 direction, String character, int mode) {
+	public PlayerIngameData (String name, int ID, Vector2 position, Vector2 direction, String character, int mode) {
 		this.name = name;
 		this.ID = ID;
 		this.position = position;
@@ -37,7 +35,7 @@ public class Player {
 		this.mode = mode;
 	}
 	
-	public Player (String name, int ID, Vector2 position, String character) {
+	public PlayerIngameData (String name, int ID, Vector2 position, String character) {
 		this.name = name;
 		this.ID = ID;
 		this.position = position;
@@ -46,7 +44,7 @@ public class Player {
 		this.mode = 0;
 	}
 	
-	public Player (String name, int ID, String character) {
+	public PlayerIngameData (String name, int ID, String character) {
 		this.name = name;
 		this.ID = ID;
 		this.health = 3;
@@ -116,8 +114,6 @@ public class Player {
 		this.direction = direction;
 		this.mode = mode;
 	}
-	
-	
 	
 	
 }

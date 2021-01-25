@@ -1,4 +1,4 @@
-package es.urjc.jer.animalBOOMmayhem.animalBOOMmayhem;
+package rest;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

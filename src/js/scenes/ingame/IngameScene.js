@@ -103,9 +103,6 @@ class IngameScene extends Phaser.Scene {
         this.setupInputControls();
 
         this.setupSFX();
-
-
-
     }
 
     setupBlackHoleAreasList(){

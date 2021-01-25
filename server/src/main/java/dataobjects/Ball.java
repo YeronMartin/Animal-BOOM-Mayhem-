@@ -1,4 +1,4 @@
-package es.urjc.jer.animalBOOMmayhem.animalBOOMmayhem;
+package dataobjects;
 
 public class Ball {
 	
@@ -6,6 +6,11 @@ public class Ball {
 	private Vector2 position;
 	private Vector2 direction;
 	private String type;
+	/*
+	 * distancia recorrida
+	 * velocidad
+	 * ...
+	 */
 	
 	public Ball () {}
 	

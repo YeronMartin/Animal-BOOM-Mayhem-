@@ -1,4 +1,4 @@
-package es.urjc.jer.animalBOOMmayhem.animalBOOMmayhem;
+package rest;
 
 public class Vector2 {
 	private float x;

@@ -1,4 +1,4 @@
-package es.urjc.jer.animalBOOMmayhem.animalBOOMmayhem;
+package rest;
 
 import org.springframework.stereotype.Component;
 

@@ -33,8 +33,9 @@ class lobbyScene extends Phaser.Scene {
     this.statusText = this.add.text(config.width/2, config.height/10, 'ESPERANDO A OTROS JUGADORES', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
 
     //Enviar al servidor un post con el nuevo jugador que entra en la sala
-    this.postPlayer(this.player, this.statusText);
-
+    this.setupConnection();
+    //this.postPlayer(this.player);
+      
     //Creacion del mapa de jugadores
     this.playerMap = new Map();
 
@@ -64,9 +65,10 @@ class lobbyScene extends Phaser.Scene {
     }
   }
 
-  getPlayers(player, scene, map, statusText) {
+  getPlayers(player, scene, map, msg) {
 
     $(document).ready(function () {
+        /*
       $.ajax({
         url: 'http://localhost:8080/players/' + player.name,
         method: 'GET',
@@ -82,13 +84,16 @@ class lobbyScene extends Phaser.Scene {
       }).done(function (data) {
         //Se obtienen los datos
         console.log(data);
-
+        */
+        
           //Insertar los jugadores en un mapa
+          var data = JSON.parse(msg.data);
           var newMap = new Map();
-          for (var i = 0; i < data.length; i++) {
+          for (var i = 0; i < msg.length; i++) {
             if (data[i] != null) {
               if (!map.has(data[i].name)) {
                 var p = new playerLobby(scene, 50, 100, data[i].name, data[i].character, data[i].winnings, data[i].deaths, data[i].timesPerWeek);
+                //var p = new playerLobby(scene, 50, 100, msg[i].name, msg[i].character, msg[i].winnings, msg[i].deaths, msg[i].timesPerWeek);
                 map.set(data[i].name, p);
                 map.get(data[i].name).hide();
               }
@@ -102,23 +107,13 @@ class lobbyScene extends Phaser.Scene {
             }
           }
       })
-    });
-  };
+    };
 
-  postPlayer(player, statusText) {
-    var d = '{"name" : ' + '"' + player.name + '", "character" : ' + '"' + player.character + '"' + "}'";
+  postPlayer(player) {
+    var passInfo = '{"name" : ' + '"' + player.name + '", "character" : ' + '"' + player.character + '"' + "}'";
 
     $(document).ready(function () {
-      $.ajax({
-        url: 'http://localhost:8080/players',
-        method: 'POST',
-        data: d,
-        contentType: "application/json; charset=utf-8"
-      }).fail(function (jqXHR, textStatus, errorThrown) {
-        //En caso de error
-        console.log("No se ha podido acceder al servidor");
-        statusText.setText("NO SE HA PODIDO CONECTAR AL SERVIDOR");
-      });
+        this.connection.send(passInfo);
     })
   }
 
@@ -155,5 +150,60 @@ class lobbyScene extends Phaser.Scene {
       }
     }
   }
+    
+processMessage(msg){
+    console.log(msg);
+    
+    switch(msg.type){
+        case "UPDATE_LOBBY":
+            this.getPlayers(msg);
+            break;
+        case "START":
+            this.connection.close();
+            //Meter aquí supongo que para cambiar de escena todos a la vez
+            break;
+    }
+        
+}
+
+setupConnection() {
+        this.connection = new WebSocket('ws://127.0.0.1:8080/lobby');
+    
+        this.connection.onopen = function(e){
+            this.postPlayer();
+        }
+        
+        this.connection.onerror = function(e) {
+            console.log("WS error: " + e);
+        }
+
+        this.connection.onmessage = function(msg) {
+            console.log("WS message: " + msg.data);
+            this.processMessage(msg);
+            /*
+            var message = JSON.parse(msg.data)
+            $('#chat').val($('#chat').val() + "\n" + message.name + ": " + message.message);
+            */
+            
+        }
+
+        this.connection.onclose = function() {
+            console.log("Closing socket");
+        }
+    
+        //Ejemplo de enviar mensaje (Sacado del ejercicio del chat)
+        
+        $('#send-btn').click(function() {
+            var msg = {
+                name : $('#name').val(),
+                message : $('#message').val()
+            }
+            $('#chat').val($('#chat').val() + "\n" + msg.name + ": " + msg.message);
+            connection.send(JSON.stringify(msg));
+        });
+        
+    }
 
 }
+
+

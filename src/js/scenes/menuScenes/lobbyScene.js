@@ -9,6 +9,8 @@ class lobbyScene extends Phaser.Scene {
     var nextScene_timer;
     var show_timer;
     var player;
+    var connection;
+    var data;
   }
 
   init(data) {
@@ -32,13 +34,12 @@ class lobbyScene extends Phaser.Scene {
 
     this.statusText = this.add.text(config.width/2, config.height/10, 'ESPERANDO A OTROS JUGADORES', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
 
-    //Enviar al servidor un post con el nuevo jugador que entra en la sala
-    this.setupConnection();
-    //this.postPlayer(this.player);
-      
     //Creacion del mapa de jugadores
     this.playerMap = new Map();
-
+      
+    //Enviar al servidor un post con el nuevo jugador que entra en la sala
+    this.setupConnection(this, this.player, this.playerMap, this.data);
+      
     //Tiempo de espera y boton de jugar
     this.timeOut = 60;
     this.add.image(config.width - 150, config.height - 50, "play_button_selected").setScale(.15).setDepth(3);
@@ -46,9 +47,9 @@ class lobbyScene extends Phaser.Scene {
     this.time_text = this.add.text(20, config.height - 50, "Tiempo restante: "+this.timeOut, { fill: '#fff', font: "Arial", font: "40px" }).setOrigin(0, 0);
 
     //Creacion de eventos
-    this.timedEvent = this.time.addEvent({ delay: 500, callback: this.getPlayers, args : [this.player, this, this.playerMap, this.statusText],  loop: true });
+    //this.timedEvent = this.time.addEvent({ delay: 500, callback: this.getPlayers, args : [this.player, this, this.playerMap, this.statusText],  loop: true });
     //this.nextScene_timer = this.time.addEvent({ delay: 1000, callback: this.countDown, callbackScope: this, loop: true });
-    this.show_timer = this.time.addEvent({ delay: 2000, callback: this.showPlayers, callbackScope: this, loop: true });
+    //this.show_timer = this.time.addEvent({ delay: 2000, callback: this.showPlayers, callbackScope: this, loop: true });
     
     //Tecla ENTER
     this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -65,56 +66,40 @@ class lobbyScene extends Phaser.Scene {
     }
   }
 
-  getPlayers(player, scene, map, msg) {
-
-    $(document).ready(function () {
-        /*
-      $.ajax({
-        url: 'http://localhost:8080/players/' + player.name,
-        method: 'GET',
-
-        error: function (request, status, error) {
-          console.log("No se ha podido acceder al servidor");
-          //alert("No se ha podido acceder al servidor");
-
-          statusText.setText("NO SE HA PODIDO CONECTAR AL SERVIDOR");
-          
-        }
-
-      }).done(function (data) {
-        //Se obtienen los datos
-        console.log(data);
-        */
+getPlayers(player, scene, playerMap, data){
         
+          
+          
+          console.log(data.players);
+          console.log("Prueba 1: " +data.players[0].nick);
+          console.log("Prueba 2: " +data.players.length);
           //Insertar los jugadores en un mapa
-          var data = JSON.parse(msg.data);
           var newMap = new Map();
-          for (var i = 0; i < msg.length; i++) {
-            if (data[i] != null) {
-              if (!map.has(data[i].name)) {
-                var p = new playerLobby(scene, 50, 100, data[i].name, data[i].character, data[i].winnings, data[i].deaths, data[i].timesPerWeek);
-                //var p = new playerLobby(scene, 50, 100, msg[i].name, msg[i].character, msg[i].winnings, msg[i].deaths, msg[i].timesPerWeek);
-                map.set(data[i].name, p);
-                map.get(data[i].name).hide();
+          var x = 0;
+          for (var i = 0; i < data.players.length; i++) {
+            if (data.players[i] != null) {
+              if (!playerMap.has(data.players[i].nick)) {
+                var p = new playerLobby(scene, 50, 100, data.players[i].nick, data.players[i].character, data.players[i].victories, data.players[i].eliminations, data.players[i].times_played);
+                playerMap.set(data.players[i].nick, p);99
+                playerMap.get(data.players[i].nick).hide();
+                console.log(playerMap);
               }
-              newMap.set(data[i].name, 0);
+              newMap.set(data.players[i].nick, 0);
             }
           }
-          for (var i of map.keys()) {
+          for (var i of playerMap.keys()) {
             if (!newMap.has(i)) {
-              map.get(i).destroy();
-              map.delete(i);
+              playerMap.get(i).destroy();
+              playerMap.delete(i);
             }
           }
-      })
+    scene.showPlayers(playerMap);
     };
 
-  postPlayer(player) {
+postPlayer(player, connection){
     var passInfo = '{"name" : ' + '"' + player.name + '", "character" : ' + '"' + player.character + '"' + "}'";
+    connection.send(passInfo);
 
-    $(document).ready(function () {
-        this.connection.send(passInfo);
-    })
   }
 
   countDown() {
@@ -127,6 +112,9 @@ class lobbyScene extends Phaser.Scene {
   }
 
   showPlayers() {
+      console.log("Estoy entrando en showPlayers");
+      
+      
     this.playerMap.forEach((item, i) => {
       this.playerMap.get(i).hide();
     });
@@ -151,12 +139,11 @@ class lobbyScene extends Phaser.Scene {
     }
   }
     
-processMessage(msg){
-    console.log(msg);
+processMessage(scene, player, playerMap, data){
     
-    switch(msg.type){
+    switch(data.type){
         case "UPDATE_LOBBY":
-            this.getPlayers(msg);
+            this.getPlayers(player, scene, playerMap, data);
             break;
         case "START":
             this.connection.close();
@@ -166,41 +153,33 @@ processMessage(msg){
         
 }
 
-setupConnection() {
-        this.connection = new WebSocket('ws://127.0.0.1:8080/lobby');
+setupConnection(scene, player, playerMap, data){
+        var connection = new WebSocket('ws://127.0.0.1:8080/lobby');
     
-        this.connection.onopen = function(e){
-            this.postPlayer();
+        connection.onopen = function(e){
+            console.log("Conexión realizada");
+            scene.postPlayer(player, connection);
         }
         
-        this.connection.onerror = function(e) {
+        connection.onerror = function(e) {
             console.log("WS error: " + e);
         }
 
-        this.connection.onmessage = function(msg) {
-            console.log("WS message: " + msg.data);
-            this.processMessage(msg);
+        connection.onmessage = function(msg) {
+            data = JSON.parse(msg.data);
+            console.log("Mensaje.data: " +msg.type);
+            
+            scene.processMessage(scene, player, playerMap, data);
             /*
             var message = JSON.parse(msg.data)
             $('#chat').val($('#chat').val() + "\n" + message.name + ": " + message.message);
-            */
-            
+            */ 
         }
 
-        this.connection.onclose = function() {
+        connection.onclose = function() {
             console.log("Closing socket");
         }
-    
-        //Ejemplo de enviar mensaje (Sacado del ejercicio del chat)
-        
-        $('#send-btn').click(function() {
-            var msg = {
-                name : $('#name').val(),
-                message : $('#message').val()
-            }
-            $('#chat').val($('#chat').val() + "\n" + msg.name + ": " + msg.message);
-            connection.send(JSON.stringify(msg));
-        });
+
         
     }
 

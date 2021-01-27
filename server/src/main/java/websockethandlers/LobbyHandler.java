@@ -20,6 +20,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -39,6 +40,9 @@ public class LobbyHandler extends TextWebSocketHandler {
 	
 	//Mapa de jugadores activos en el lobby
 	private ArrayList<PlayerLobby> lobby_players = new ArrayList<PlayerLobby>();
+	
+	private ObjectMapper mapper = new ObjectMapper();
+	
 	
 	public LobbyHandler() {
 		loadStoredPlayers();
@@ -81,6 +85,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("Nueva conexión: " + session.getId());
 		active_player_sessions.put(session.getId(), session);
+		
 	}
 	
 	//==========================================================
@@ -129,9 +134,13 @@ public class LobbyHandler extends TextWebSocketHandler {
 		
 		
 		//TRATAR EL MENSAJE
+		System.out.println("Mensaje recibido: " + message.getPayload());
+		JsonNode node = mapper.readTree(message.getPayload());
+		String nick = node.get("name").asText();
+		String character = node.get("character").asText();	
+				
 		
-		
-		addPlayerToLobby(session, "nick", "character");
+		addPlayerToLobby(session, nick, character);
 		sendLobbyDataToAllPlayers();
 	}
 	
@@ -144,6 +153,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 		}else {
 			p = new PlayerLobby(s, stored_players.size(), nick, character);
 			System.out.println("Nuevo jugador registrado: "+p.getName()+" con id "+p.getID());
+			stored_players.put(p.getName(), p);
 		}
 		
 		lobby_players.add(p);
@@ -156,32 +166,39 @@ public class LobbyHandler extends TextWebSocketHandler {
 	
 	private void sendLobbyDataToAllPlayers(){
 		//Confeccionar mensaje
-		String msg = "";
 		
-		/*
-		{
-			"type": "UPDATE_LOBBY",
-			"players" : [
-			{
-				"id" : "0",
-				"nick" : "Guamedo",
-				"character": "juani_cursed",
-				"victories": "2",
-				"eliminations": "5",
-				"times_played": "4"
-			},
-		...
-			]
-		}
-		*/
+		ObjectMapper mapper = new ObjectMapper();
+        ObjectNode nodo = mapper.createObjectNode();
+		
+		nodo.put("type", "UPDATE_LOBBY");
+
+        ArrayNode nodoLista = nodo.putArray("players");
+
+        for(int i = 0; i < lobby_players.size(); i++) {
+            ObjectNode n = mapper.createObjectNode();
+            
+            n.put("id", lobby_players.get(i).getID());
+            n.put("nick", lobby_players.get(i).getName());
+    		n.put("character", lobby_players.get(i).getCharacter());
+            n.put("victories", lobby_players.get(i).getWinnings());
+    		n.put("eliminations", lobby_players.get(i).getDeaths());
+    		n.put("times_played", lobby_players.get(i).getTimesPerWeek());
+
+            nodoLista.add(n);
+        }
+
+        nodo.put("players", nodoLista);
+		
 		//Enviar mensaje a todos los usuarios
-		sendMessageToAllPlayersInLobby("msg");
+        System.out.println(nodo.toString());
+		sendMessageToAllPlayersInLobby(nodo);
 	}
 
-	private void sendMessageToAllPlayersInLobby(String msg) {
+	private void sendMessageToAllPlayersInLobby(JsonNode msg) {
 		try {
 			for(PlayerLobby p : lobby_players) {
-				p.getSession().sendMessage(new TextMessage(msg));
+				p.getSession().sendMessage(new TextMessage(msg.toString()));
+				System.out.println("Mensaje enviado: " + msg.toString());
 			}
 		} catch (IOException e) {
 			System.out.println("Error al enviar estado del lobby");
@@ -198,6 +215,9 @@ public class LobbyHandler extends TextWebSocketHandler {
 		//Tenemos que enviar al manejador de la partida los jugadores
 		//que van a participar.
 		
+		IngameHandler manejadorPartida = new IngameHandler();
+		manejadorPartida.setupNewMatch(lobby_players);
+		
 		//Finalmente enviamos a todos los jugadores el aviso de que
 		//ya va a empezar la partida
 		
@@ -209,7 +229,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 
 	private void sendStartSignalToAllPlayers() {
 		//Confeccionar mensaje
-		String msg = "";
+		//String msg = "";
 			
 		/*
 		{
@@ -217,8 +237,12 @@ public class LobbyHandler extends TextWebSocketHandler {
 			¿...?
 		}
 		*/
-			
-		sendMessageToAllPlayersInLobby("msg");
+		
+		ObjectNode msgStart = mapper.createObjectNode();
+		msgStart.put("type", "START");
+		//msgStart.put("valor","Inicia la partida");
+					
+		sendMessageToAllPlayersInLobby(msgStart);
 	}
 
 }

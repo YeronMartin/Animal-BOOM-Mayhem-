@@ -62,21 +62,24 @@ class IngameSocket {
     }
 
     startUpdateTimer(){
-        this.sendStatusTimer = this.scene.time.addEvent({ delay: 30, callback: this.sendCurrentStatus, callbackScope: this, loop: true });
+        this.sendStatusTimer = this.scene.time.addEvent({ delay: 50, callback: this.sendCurrentStatus, callbackScope: this, loop: true });
     }
 
     sendCurrentStatus(){
         var movX = 0;
-        if(this.playerObject.pressingRight && !this.playerObject.crouching)
-            movX = 1;
-        else if(this.playerObject.pressingLeft && !this.playerObject.crouching)
-            movX = -1;
-
         var movY = 0;
-        if(this.playerObject.pressingUp && !this.playerObject.crouching)
-            movY = -1;
-        else if(this.playerObject.pressingDown && !this.playerObject.crouching)
-            movY = 1;
+
+        if(!this.playerObject.crouching && !this.playerObject.aiming && !this.playerObject.stunned){
+            if(this.playerObject.pressingRight)
+                movX = 1;
+            else if(this.playerObject.pressingLeft)
+                movX = -1;
+
+            if(this.playerObject.pressingUp)
+                movY = -1;
+            else if(this.playerObject.pressingDown)
+                movY = 1;
+        }
 
         var msg = {
             "type": "UPDATE_PLAYER_STATUS",
@@ -114,6 +117,8 @@ class IngameSocket {
     }
 
     sendBallPickupMessage(){
+        console.log("Envio de recoger bola: "+this.playerObject.ball.id);
+
         var msg = {
             "type": "BALL_PICKUP",
             "id": this.playerId,
@@ -125,7 +130,22 @@ class IngameSocket {
         this.sendMessage(msg);
     }
 
+    sendEnterAimModeMessage(){
+        console.log("Envio de Apuntado");
+
+        var msg = {
+            "type": "ENTER_AIM_MODE",
+            "id": this.playerId,
+            "posX": this.playerObject.x,
+            "posY": this.playerObject.y,
+        };
+
+        this.sendMessage(msg);
+    }
+
     sendBallThrowMessage(dirX, dirY){
+        console.log("Envio de lanzar bola: "+this.playerObject.ball.id);
+
         var msg = {
             "type": "BALL_THROW",
             "id": this.playerId,
@@ -192,6 +212,9 @@ class IngameSocket {
                 break;
             case "BALL_THROW":
                 this.updateBallThrowState(msg);
+                break;
+            case "ENTER_AIM_MODE":
+                this.updateEnterAimMode(msg);
                 break;
             case "ENTER_HURT_STATE":
 
@@ -264,7 +287,7 @@ class IngameSocket {
             }
         }
 
-        
+        /*
         for(var i = 0; i < ballsData.length; i++){
             var b = this.findBallById(ballsData[i]);
 
@@ -312,7 +335,7 @@ class IngameSocket {
     findBallById(id){
         for(var i = 0; i < this.scene.ballsList.length; i++){
             if(this.scene.ballsList[i].id == id)
-                return this.scene.ballsList[i].id;
+                return this.scene.ballsList[i];
         }
         return null;
     }
@@ -330,6 +353,7 @@ class IngameSocket {
     }
 
     updateBallPickState(msg){
+        console.log("Un dummy ha recogido una bola");
         var p = this.findPlayerById(msg.id);
 
         p.x = msg.posX;
@@ -352,5 +376,15 @@ class IngameSocket {
         ball.y = msg.posY;
 
         p.throwBall(ball, msg.dirX, msg.dirY);
+    }
+
+    updateEnterAimMode(msg){
+        console.log("JUGADOR apunta");
+        var p = this.findPlayerById(msg.id);
+
+        p.x = msg.posX;
+        p.y = msg.posY;
+
+        p.enterAimMode();
     }
 }

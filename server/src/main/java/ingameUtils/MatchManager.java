@@ -209,6 +209,13 @@ public class MatchManager {
 		//balls.get(ballIndex).setDirection(new Vector2(data.get("dirX").floatValue(), data.get("dirY").floatValue()));
 	}
 	
+	public void playerEnterAim(JsonNode data) {
+		int playerIndex = findPlayerIndexById(data.get("id").asInt());
+		
+		players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
+		players.get(playerIndex).setDirection(new Vector2(0, 0));
+	}
+	
 	private int findBallIndexById(int id) {
 		for(int i = 0; i < balls.size(); i++) {
 			if(id == (balls.get(i).getID())) 

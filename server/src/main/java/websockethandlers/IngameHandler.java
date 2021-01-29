@@ -98,6 +98,9 @@ public class IngameHandler  extends TextWebSocketHandler {
 	        case "BALL_THROW":
 	            this.notifyPlayersOfBallThrow(session, data);
 	            break;
+	        case "ENTER_AIM_MODE":
+	        	this.notifyPlayersOfAimMode(session, data);
+	        	break;
 	        case "ENTER_HURT_STATE":
 
 	            break;
@@ -132,6 +135,12 @@ public class IngameHandler  extends TextWebSocketHandler {
 	
 	private void notifyPlayersOfBallThrow(WebSocketSession session, JsonNode data) {
 		match_manager.playerThrowsBall(data);
+		
+		sendMessageToAllPlayersInGameLessOne(data, session);
+	}
+	
+	private void notifyPlayersOfAimMode(WebSocketSession session, JsonNode data) {
+		match_manager.playerEnterAim(data);
 		
 		sendMessageToAllPlayersInGameLessOne(data, session);
 	}
@@ -222,6 +231,7 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 
 		 nodo.put("players", nodoListaJugadores);
 		 
+		 /*
 		 //Empaquetamos el estado de las bolas
 		 ArrayNode nodoListaBolas = nodo.putArray("balls");
 
@@ -239,7 +249,7 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 }
 		 
 		 nodo.put("balls", nodoListaBolas);
-		
+		*/
 		 sendMessageToAllPlayersInGame(nodo);
 	}
 	

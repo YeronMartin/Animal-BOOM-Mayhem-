@@ -161,6 +161,8 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
         this.animator.ballObtained(this.ball);
         this.setBodyVelocityToCero();
 
+        console.log("Pelota recogida por dummy "+this.ball.id);
+
         this.animator.playCrouch();
         this.stunned = true;
         this.ball.visible = false;
@@ -184,7 +186,11 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
         this.dirX = dirX;
         this.dirY = dirY;
 
+        console.log("Bola lanzada dir: "+this.dirX+", "+this.dirY);
+
         this.launchBall();
+
+        console.log("Dir final: "+this.dirX+", "+this.dirY);
 
         this.animator.ballLaunched();
         this.animator.playThrow();
@@ -205,9 +211,11 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
             else
                 this.ball.launch(1, 0);
         }else{
-            this.normaliceThrowDirection();
+            //this.normaliceThrowDirection();
             this.ball.launch(this.dirX, this.dirY);
         }
+
+        console.log("Pelota lanzada por dummy");
 
         this.ball.visible = true;
         this.ball = null;

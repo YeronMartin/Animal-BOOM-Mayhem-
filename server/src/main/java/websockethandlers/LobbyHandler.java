@@ -243,6 +243,11 @@ public class LobbyHandler extends TextWebSocketHandler {
 		
 		
 		sendStartSignalToAllPlayers();
+		
+		//Una vez comienza la partida, eliminamos los jugadores del lobby
+		lobby_players.clear();
+		started = false;
+		System.out.println("Lobby limpiado");
 	}
 
 	private void sendStartSignalToAllPlayers() {
@@ -250,11 +255,6 @@ public class LobbyHandler extends TextWebSocketHandler {
 		msgStart.put("type", "START");
 					
 		sendMessageToAllPlayersInLobby(msgStart);
-		
-		//Una vez comienza la partida, eliminamos los jugadores del lobby
-		lobby_players.clear();
-		started = false;
-		System.out.println("Lobby limpiado");
 	}
 
 }

@@ -204,6 +204,9 @@ class Player extends Phaser.GameObjects.Sprite{
     enterAimMode(){
         this.aiming = true;
         this.setBodyVelocityToCero();
+
+        if(this.scene.gameMode == "online")
+            this.scene.ingameSocket.sendEnterAimModeMessage();
     }
 
     throwBall(){

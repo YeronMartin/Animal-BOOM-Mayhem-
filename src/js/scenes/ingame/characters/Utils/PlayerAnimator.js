@@ -119,20 +119,20 @@ class PlayerAnimator{
     }
 
     ballObtained(ball){
-        if(ball.id == "BallBasket"){
+        if(ball.name == "BallBasket"){
             this.playerItem = new Phaser.GameObjects.Sprite(this.scene, this.player.x, this.player.y, 'basketball');
             this.ballInHand = 'basketball';
-        }else if(ball.id == 'BallBomb'){
+        }else if(ball.name == 'BallBomb'){
             this.playerItem = new Phaser.GameObjects.Sprite(this.scene, this.player.x, this.player.y, 'bomb');
             this.ballInHand = 'bomb';
-        }else if(ball.id == "BallTemporizedBomb"){
+        }else if(ball.name == "BallTemporizedBomb"){
             this.playerItem = new Phaser.GameObjects.Sprite(this.scene, this.player.x, this.player.y, 'potato');
             this.ballInHand = 'potato';
-        }else if(ball.id == "FlamingBall"){
+        }else if(ball.name == "FlamingBall"){
             this.playerItem = new Phaser.GameObjects.Sprite(this.scene, this.player.x, this.player.y, 'flaming_ball');
             this.ballInHand = 'flaming_ball';
 
-        }else if(ball.id == "BlackHoleBall"){
+        }else if(ball.name == "BlackHoleBall"){
             this.playerItem = new Phaser.GameObjects.Sprite(this.scene, this.player.x, this.player.y, 'mini_black_hole');
             this.ballInHand = 'mini_black_hole';
         }

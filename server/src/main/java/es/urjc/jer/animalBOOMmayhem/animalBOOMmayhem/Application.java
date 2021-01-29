@@ -19,23 +19,29 @@ public class Application implements WebSocketConfigurer{
 		SpringApplication.run(Application.class, args);
 	}
 
+	private IngameHandler ingameHandler;
+	
 	//Inicializar "canales" de comunicación
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		ingameHandler = new IngameHandler();
+		
 		//Inicializar canal LOBBY
 		registry.addHandler(createLobbyHandler(), "/lobby").setAllowedOrigins("*");
 		
 		//Inicializar canal INGAME
 		registry.addHandler(createIngameHandler(), "/ingame").setAllowedOrigins("*");
+		
+		
 	}
 	
 	@Bean
 	public LobbyHandler createLobbyHandler() {
-		return new LobbyHandler();
+		return new LobbyHandler(ingameHandler);
 	}
 	
 	@Bean
 	public IngameHandler createIngameHandler() {
-		return new IngameHandler();
+		return ingameHandler;
 	}
 }

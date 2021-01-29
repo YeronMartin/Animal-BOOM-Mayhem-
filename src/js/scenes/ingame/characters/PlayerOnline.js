@@ -10,6 +10,9 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
     pressingLeft = false;
     pressingRight = false;
 
+    movX = 0;
+    movY = 0;
+
     dirX = 0;
     dirY = 0;
 
@@ -30,8 +33,10 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
 
     facingRight = true;
 
-    constructor(scene, x, y, character, team) {
+    constructor(scene, id, x, y, character, team) {
         super(scene, x, y, character);
+
+        this.id = id;
 
         this.setDepth(2);
         this.setScale(0.4);
@@ -109,6 +114,7 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
 
         var newVelocity = new Phaser.Math.Vector2(0, 0);
 
+        /*
         if (this.pressingUp)
             newVelocity.y -= this.speed;
 
@@ -120,6 +126,9 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
 
         if (this.pressingRight)
             newVelocity.x += this.speed;
+*/
+        newVelocity.x += (this.movX * this.speed);
+        newVelocity.y += (this.movY * this.speed);
 
         newVelocity.add(this.AtractionForces());
 
@@ -146,46 +155,16 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
     // Recoger Objeto
     //====================================================================================================
     
-    pickBombs() {
-        var b = this.getClosestBallInRange();
+    pickBomb(b){
+        this.ball = b;
+        this.ball.heldByPlayer = this;
+        this.animator.ballObtained(this.ball);
+        this.setBodyVelocityToCero();
 
-        if (b != null) {
-            this.ball = b;
-            this.ball.heldByPlayer = this;
-
-            this.animator.ballObtained(this.ball);
-
-            this.setBodyVelocityToCero();
-
-            this.animator.playCrouch();
-
-            this.stunned = true;
-            this.ball.visible = false;
-
-            var pickUpDelayTimer = this.scene.time.addEvent({ delay: 150, callback: this.pickupDelayEnded, callbackScope: this, loop: false });
-        }
-    }
-    
-    getClosestBallInRange() {
-        for (var i = this.scene.ballsList.length - 1; i >= 0; i--) {
-            if (this.scene.ballsList[i].onGround && !this.scene.ballsList[i].heldByPlayer) {
-                var ball = this.scene.ballsList[i];
-
-                if (this.isPointInsideArea(ball.x, ball.y, this.x, this.y, this.pickUpRadius)) {
-                    return ball;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    isPointInsideArea(pX, pY, posX, posY, radius) {
-        return this.getDistanceBetweenPoints(pX, pY, posX, posY) < radius;
-    }
-
-    getDistanceBetweenPoints(x1, y1, x2, y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        this.animator.playCrouch();
+        this.stunned = true;
+        this.ball.visible = false;
+        var pickUpDelayTimer = this.scene.time.addEvent({ delay: 150, callback: this.pickupDelayEnded, callbackScope: this, loop: false });
     }
 
     pickupDelayEnded(){
@@ -201,7 +180,10 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
         this.setBodyVelocityToCero();
     }
 
-    throwBall(){
+    throwBall(ball, dirX, dirY){
+        this.dirX = dirX;
+        this.dirY = dirY;
+
         this.launchBall();
 
         this.animator.ballLaunched();
@@ -365,13 +347,6 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
     //====================================================================================================
     // Otros
     //====================================================================================================
-    
-    releaseKeys(){
-        this.pressingUp = false;
-        this.pressingDown = false;
-        this.pressingLeft = false;
-        this.pressingRight = false;
-    }
 
     enterSuddenDeathMode(){
         this.health = 1;

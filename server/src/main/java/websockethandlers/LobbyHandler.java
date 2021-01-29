@@ -20,12 +20,13 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import dataobjects.PlayerLobby;
-import rest.Player2;
 
 @SpringBootApplication
 @EnableWebSocket
@@ -40,8 +41,17 @@ public class LobbyHandler extends TextWebSocketHandler {
 	//Mapa de jugadores activos en el lobby
 	private ArrayList<PlayerLobby> lobby_players = new ArrayList<PlayerLobby>();
 	
-	public LobbyHandler() {
+	private ObjectMapper mapper = new ObjectMapper();
+	
+	private IngameHandler ingameHandler;
+	
+	public LobbyHandler(IngameHandler ingameHandler) {
+		this.ingameHandler = ingameHandler;
+		
 		loadStoredPlayers();
+		
+		Timer startMatchTimer = new Timer();
+		startMatchTimer.schedule(readyToStart, 0, 3000);
 	}
 	
 	private void loadStoredPlayers() {
@@ -73,6 +83,23 @@ public class LobbyHandler extends TextWebSocketHandler {
 		}
 	}
 	
+	private boolean started = false;
+	
+	 TimerTask readyToStart = new TimerTask()  {
+	      public void run(ActionEvent evt) {
+	    	 
+	      }
+
+		@Override
+		public void run() {
+			if(lobby_players.size() > 1 && !started) {
+				startMatchPreparations();
+				started = true;
+			}
+			
+		}
+	  };
+	
 	//==========================================================
 	//	CONEXIÓN DE CLIENTE
 	//==========================================================
@@ -81,6 +108,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("Nueva conexión: " + session.getId());
 		active_player_sessions.put(session.getId(), session);
+		
 	}
 	
 	//==========================================================
@@ -119,31 +147,26 @@ public class LobbyHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		System.out.println("Mensaje recibido: " + message.getPayload());
+		JsonNode node = mapper.readTree(message.getPayload());
+		String name = node.get("name").asText();
+		String character = node.get("character").asText();	
+				
 		
-		//En este caso, el único mensaje que los jugadores van a mandar
-		//es el nick y personaje que ha escogido el jugador.
-		//{
-		//	"nick" : "Guamedo",
-		//	"character": "juani_cursed"
-		//}
-		
-		
-		//TRATAR EL MENSAJE
-		
-		
-		addPlayerToLobby(session, "nick", "character");
+		addPlayerToLobby(session, name, character);
 		sendLobbyDataToAllPlayers();
 	}
 	
-	private void addPlayerToLobby(WebSocketSession s, String nick, String character) {
+	private void addPlayerToLobby(WebSocketSession s, String name, String character) {
 		PlayerLobby p;
 		//Comprobar si el jugador ya se encontraba registrado
-		if(stored_players.containsKey(nick)) {
-			p = stored_players.get(nick);
+		if(stored_players.containsKey(name)) {
+			p = stored_players.get(name);
 			p.setSession(s);
 		}else {
-			p = new PlayerLobby(s, stored_players.size(), nick, character);
+			p = new PlayerLobby(s, stored_players.size(), name, character);
 			System.out.println("Nuevo jugador registrado: "+p.getName()+" con id "+p.getID());
+			stored_players.put(p.getName(),p);
 		}
 		
 		lobby_players.add(p);
@@ -155,33 +178,43 @@ public class LobbyHandler extends TextWebSocketHandler {
 		
 	
 	private void sendLobbyDataToAllPlayers(){
-		//Confeccionar mensaje
-		String msg = "";
+		//Empaquetar nuevo mensaje (información actualizada lobby)
+		ObjectNode nodo = mapper.createObjectNode();
+				
+		nodo.put("type", "UPDATE_LOBBY");
+
+        ArrayNode nodoLista = nodo.putArray("players");
+
+        for(int i = 0; i < lobby_players.size(); i++) {
+            ObjectNode n = mapper.createObjectNode();
+
+            //n.put("session", lobby_players.get(i).getSession().getId());
+    		n.put("id", lobby_players.get(i).getID());
+    		n.put("name", lobby_players.get(i).getName());
+    		n.put("character", lobby_players.get(i).getCharacter());
+    		n.put("victories", lobby_players.get(i).getWinnings());
+    		n.put("eliminations", lobby_players.get(i).getDeaths());
+    		n.put("times_played", lobby_players.get(i).getTimesPerWeek());
+
+            nodoLista.add(n);
+        }
+
+        nodo.put("players", nodoLista);
 		
-		/*
-		{
-			"type": "UPDATE_LOBBY",
-			"players" : [
-			{
-				"id" : "0",
-				"nick" : "Guamedo",
-				"character": "juani_cursed",
-				"victories": "2",
-				"eliminations": "5",
-				"times_played": "4"
-			},
-		...
-			]
-		}
-		*/
+			
 		//Enviar mensaje a todos los usuarios
-		sendMessageToAllPlayersInLobby("msg");
+        System.out.println(nodo.toString());
+
+		sendMessageToAllPlayersInLobby(nodo);
 	}
 
-	private void sendMessageToAllPlayersInLobby(String msg) {
+	private void sendMessageToAllPlayersInLobby(JsonNode msg) {
 		try {
 			for(PlayerLobby p : lobby_players) {
-				p.getSession().sendMessage(new TextMessage(msg));
+				synchronized(p.getSession()) {
+					p.getSession().sendMessage(new TextMessage(msg.toString()));
+					System.out.println("Mensaje enviado: " + msg.toString());
+				}
 			}
 		} catch (IOException e) {
 			System.out.println("Error al enviar estado del lobby");
@@ -198,79 +231,30 @@ public class LobbyHandler extends TextWebSocketHandler {
 		//Tenemos que enviar al manejador de la partida los jugadores
 		//que van a participar.
 		
+		
+		//IngameHandler manejadorPartida = new IngameHandler();
+		//manejadorPartida.setupNewMatch(lobby_players);
+		
+		this.ingameHandler.setupNewMatch(lobby_players);
+		
+		
 		//Finalmente enviamos a todos los jugadores el aviso de que
 		//ya va a empezar la partida
 		
 		
 		sendStartSignalToAllPlayers();
-		
-
 	}
 
 	private void sendStartSignalToAllPlayers() {
-		//Confeccionar mensaje
-		String msg = "";
-			
-		/*
-		{
-			"type": "START"
-			¿...?
-		}
-		*/
-			
-		sendMessageToAllPlayersInLobby("msg");
+		ObjectNode msgStart = mapper.createObjectNode();
+		msgStart.put("type", "START");
+					
+		sendMessageToAllPlayersInLobby(msgStart);
+		
+		//Una vez comienza la partida, eliminamos los jugadores del lobby
+		lobby_players.clear();
+		started = false;
+		System.out.println("Lobby limpiado");
 	}
 
 }
-
-	/*
-	MÉTODOS DE REFERENCIA
-	
-	//Alguien se ha conectado
-	@Override
-	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("New session: " + session.getId());
-		active_sessions.put(session.getId(), session);
-	}
-	
-	
-	//Alguien se ha desconectado
-	@Override
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("Session closed: " + session.getId());
-		active_sessions.remove(session.getId());
-	}
-	
-	//Recibir mensaje
-	@Override
-	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		sendOtherParticipants(session, message.getPayload());
-	}
-
-	
-	//Enviar mensaje a todo cristo menos a un usuario concreto
-	private void sendOtherParticipants(WebSocketSession session, String payload) throws IOException {
-		for(WebSocketSession participant : active_sessions.values()) {
-			if(!participant.getId().equals(session.getId())) {
-				participant.sendMessage(new TextMessage(payload));
-			}
-		}
-	}
-
-
- JSONObject obj = new JSONObject();
-List<SomeClass> sList = new ArrayList<SomeClass>();
-
-SomeClass obj1 = new SomeClass();
-obj1.setValue("val1");
-sList.add(obj1);
-
-SomeClass obj2 = new SomeClass();
-obj2.setValue("val2");
-sList.add(obj2);
-
-obj.put("list", sList); 
-		
-*/
-
-

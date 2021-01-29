@@ -1,12 +1,13 @@
 class BlackHoleBall extends Ball{
 
-    id = "BlackHoleBall"
+    name = "BlackHoleBall"
     speed = 700;
     distanceToTravel = 2000000;
     distanceToActivateCollisions = 100000;
 
-    constructor(scene, posX, posY){
+    constructor(scene, id, posX, posY){
         super(scene, posX, posY, "mini_agujero_negro");
+        this.id = id;
 
         this.setScale(0.4);
         this.setupPhysics(scene);

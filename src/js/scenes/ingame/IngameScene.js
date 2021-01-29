@@ -5,9 +5,15 @@ class IngameScene extends Phaser.Scene {
     //====================================================================================================
 
     init(msj){
-        this.numberOfPlayers = msj.players;
         this.charactersToLoad = msj.characters;
         this.gameMode = msj.mode;
+
+        console.log(msj.players);
+
+        if(this.gameMode == "online"){
+            this.playerId = msj.id;
+            this.playersInGame = msj.players; //(id, name, personaje)
+        }
 
         this.ballsToLoad = ['basketball', 'bomb', 'potato', 'potato_red', 'flaming_ball', 'mini_black_hole'];
     }
@@ -88,6 +94,7 @@ class IngameScene extends Phaser.Scene {
         this.matchClock = new MatchClock(this, 1, 20);
         
         this.setupLifeBarsAnims();
+
         this.setupPlayers();
         this.setupBalls();
         this.setupExplosionGroup();
@@ -103,6 +110,27 @@ class IngameScene extends Phaser.Scene {
         this.setupInputControls();
 
         this.setupSFX();
+
+        this.matchStarted = true;
+        if(this.gameMode == "online"){
+            //Montar conexión con el servidor
+            var playerData = this.findClientPlayer();
+            this.ingameSocket = new IngameSocket(this, playerData, this.playerObject);
+            this.ingameSocket.startConnection();
+            this.matchStarted = false;
+        }
+    }
+
+    findClientPlayer(){
+        for(var i = 0; i < this.playersInGame.length; i++){
+            var p = this.playersInGame[i];
+
+            if(p.id == this.playerId){
+                console.log("ENCONTRADO AL JUGADOR, WAAAAA");
+                return p;
+            }
+        }
+        return null;
     }
 
     setupBlackHoleAreasList(){
@@ -126,20 +154,46 @@ class IngameScene extends Phaser.Scene {
         this.playersGroup = this.add.group();
         this.playersList = [];
 
-        this.playersList[0] = new Player(this, (config.width / 2) - 150, config.height / 2, 'juani', 0, 1);
-        this.playersList[1] = new Player(this, (config.width / 2) + 150, config.height / 2, 'juani_cursed', 1, 2);
+        if(this.gameMode == "local"){
+            //Posicionar 2 jugadores en sus posiciones habituales
+            this.playersList[0] = new Player(this, 0, (config.width / 2) - 150, config.height / 2, 'juani', 0, 1);
+            this.playersList[1] = new Player(this, 1, (config.width / 2) + 150, config.height / 2, 'juani_cursed', 1, 2);
+        }else{
+            //Suponiendo que ya "sabemos qué jugadores hay" porque nos lo han mandado de la escena anterior
+
+            var posi = 20;
+
+            for(var i = 0; i < this.playersInGame.length; i++){
+                var p = this.playersInGame[i];
+
+                console.log(p);
+
+                if(p.id == this.playerId){
+                    this.playersList[i] = new Player(this, this.playerId, posi, 0, p.character, 0, 1);
+                    this.playerObject = this.playersList[i];
+                    console.log("Identificado jugador");
+                }else{
+                    this.playersList[i] = new PlayerOnline(this, p.id, posi, 0, p.character, 2);
+                    console.log("Jugador online: "+p.name);
+                }
+                posi+= 50;
+            }
+        }
+        
     }
 
     setupBalls(){
         this.ballsList = [];
         this.ballsGroup = this.add.group();
 
-        this.ballsList[0] = new BlackHoleBall(this, 100, 100);
-        this.ballsList[1] = new FlamingBall(this, 100, 200);
-
-        this.ballPlacer = new BallPlacer(this, this.ballsToLoad);
-
-        this.ballPlacer.createNewBallsByAmount(this.maxBallsInScene);
+        if(this.gameMode == "local"){
+            this.ballsList[0] = new BlackHoleBall(this, 100, 100);
+            this.ballsList[1] = new FlamingBall(this, 100, 200);
+    
+            this.ballPlacer = new BallPlacer(this, this.ballsToLoad);
+    
+            this.ballPlacer.createNewBallsByAmount(this.maxBallsInScene);
+        }
     }
 
     setupExplosionGroup(){
@@ -262,6 +316,8 @@ class IngameScene extends Phaser.Scene {
     }
 
     escapePressed(){
+        if(this.gameMode == "online")
+            this.ingameSocket.connection.close();
         this.scene.start("mainMenuScene");
     }
 
@@ -293,6 +349,9 @@ class IngameScene extends Phaser.Scene {
     //====================================================================================================
 
     update(time, delta){
+        if(!this.matchStarted)
+            return;
+
         this.updatePlayers(delta);
         this.updateBalls(delta);
 

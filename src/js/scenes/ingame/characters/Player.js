@@ -30,8 +30,10 @@ class Player extends Phaser.GameObjects.Sprite{
 
     facingRight = true;
 
-    constructor(scene, x, y, character, inputProfile, team) {
+    constructor(scene, id, x, y, character, inputProfile, team) {
         super(scene, x, y, character);
+
+        this.id = id;
 
         this.setDepth(2);
         this.setScale(0.4);
@@ -81,7 +83,6 @@ class Player extends Phaser.GameObjects.Sprite{
     }
 
     AtractionForces(){
-
         var totalforceVector = new Phaser.Math.Vector2(0, 0);
 
         for(var i = 0; i < this.atractedList.length; i++){
@@ -154,6 +155,9 @@ class Player extends Phaser.GameObjects.Sprite{
             this.ball = b;
             this.ball.heldByPlayer = this;
 
+            if(this.scene.gameMode == "online")
+                this.scene.ingameSocket.sendBallPickupMessage();
+
             this.animator.ballObtained(this.ball);
 
             this.setBodyVelocityToCero();
@@ -219,12 +223,22 @@ class Player extends Phaser.GameObjects.Sprite{
     launchBall(){
         //En caso de no estar apuntando a ninguna parte, que salga al menos con una dirección
         if(this.dirX == 0 && this.dirY == 0){
+            var dX = 0;
             if(this.flipX)
-                this.ball.launch(-1, 0);
+                dX = -1;
             else
-                this.ball.launch(1, 0);
+                dX = 1;
+
+            if(this.scene.gameMode == "online")
+                this.scene.ingameSocket.sendBallThrowMessage(dX, 0);
+          
+            this.ball.launch(dX, 0);
         }else{
             this.normaliceThrowDirection();
+
+            if(this.scene.gameMode == "online")
+                this.scene.ingameSocket.sendBallThrowMessage(this.dirX, this.dirY);
+
             this.ball.launch(this.dirX, this.dirY);
         }
 
@@ -251,6 +265,10 @@ class Player extends Phaser.GameObjects.Sprite{
         if(this.crouching)
             return;
 
+        if(this.scene.gameMode == "online")
+            this.scene.ingameSocket.sendEnterCrouchState();
+
+
         this.crouching = true;
         this.animator.playCrouch();
         this.setBodyVelocityToCero();
@@ -260,6 +278,9 @@ class Player extends Phaser.GameObjects.Sprite{
     exitCrouchMode(){
         this.crouching = false;
         this.animator.playIdle();
+
+        if(this.scene.gameMode == "online")
+            this.scene.ingameSocket.sendExitCrouchState();
 
         if(!this.hurted){
             this.flickeringEnded = true;
@@ -287,6 +308,10 @@ class Player extends Phaser.GameObjects.Sprite{
             this.animator.lifebar.anims.play('lifebar_'+this.team+'_'+this.health);
         }else{
             //Muertini
+
+            if(this.scene.gameMode == "online")
+                this.scene.ingameSocket.sendEliminatedState();
+
             this.animator.playHurt();
             this.animator.lifebar.destroy();
             this.inputProfile.disableAllInputs();
@@ -314,6 +339,9 @@ class Player extends Phaser.GameObjects.Sprite{
 
         this.stunned = true;
         this.aiming = false;
+
+        if(this.scene.gameMode == "online")
+            this.scene.ingameSocket.sendEnterHurtState();
 
         var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
 

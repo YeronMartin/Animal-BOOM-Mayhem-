@@ -1,21 +1,27 @@
 package dataobjects;
 
-import rest.Vector2;
+import org.springframework.web.socket.WebSocketSession;
 
 public class PlayerIngameData {
+	private WebSocketSession session;
 	private String name; // + nombre del jugador
 	private int ID; //+ ID del jugador 
 	private Vector2 position; //posicion del personaje
 	private Vector2 direction; //direccion del perosnaje
 	private int health; //vida del personaje
 	private String character; //+ personaje 
-	private int mode; //sprite del personaje
+	private int mode; //Estado del personaje: 0 idle, 1 crouch, 2 hurt
 	private int ballType;//int para bola
 	private boolean invulnerable;
 	
-public PlayerIngameData () {}
+	public PlayerIngameData () {
+		this.ID = -1;
+		this.name = "";
+		this.direction = new Vector2(0,0);
+	}
 	
-	public PlayerIngameData (String name, int ID, Vector2 position, Vector2 direction, int health, String character, int mode) {
+	public PlayerIngameData (WebSocketSession session, String name, int ID, Vector2 position, Vector2 direction, int health, String character, int mode) {
+		this.session = session;
 		this.name = name;
 		this.ID = ID;
 		this.position = position;
@@ -52,6 +58,15 @@ public PlayerIngameData () {}
 		this.mode = 0;
 	}
 
+	
+
+	public WebSocketSession getSession() {
+		return session;
+	}
+
+	public void setSession(WebSocketSession session) {
+		this.session = session;
+	}
 
 	public String getName() {
 		return name;

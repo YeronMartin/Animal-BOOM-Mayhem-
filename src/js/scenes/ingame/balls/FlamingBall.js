@@ -1,12 +1,13 @@
 class FlamingBall extends Ball{
-    id = "FlamingBall"
+    name = "FlamingBall"
     speed = 700;
     distanceToTravel = 2000000;
     distanceToActivateCollisions = 100000;
 
-    constructor(scene, posX, posY){
+    constructor(scene, id, posX, posY){
         super(scene, posX, posY, "bola_flamigera");
 
+        this.id = id;
         this.setScale(0.4);
         this.setupPhysics(scene);
 

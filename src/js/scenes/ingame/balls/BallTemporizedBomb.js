@@ -1,6 +1,5 @@
 class BallTemporizedBomb extends Ball{
-    
-    id = "BallTemporizedBomb"
+    name = "BallTemporizedBomb";
     speed = 700;
     distanceToTravel = 2000000;
     distanceToActivateCollisions = 100000;
@@ -12,8 +11,10 @@ class BallTemporizedBomb extends Ball{
 
     redState = false;
 
-    constructor(scene, posX, posY){
+    constructor(scene, id, posX, posY){
         super(scene, posX, posY, "potato_sheet");
+        
+        this.id = id;
 
         this.setScale(0.4);
         this.setupPhysics(scene);

@@ -17,7 +17,6 @@ class postGame extends Phaser.Scene{
     }
 
     create(){
-
         this.add.image(0, 0, "character_background").setOrigin(0, 0).setScale(1.3);
         this.add.text(config.width/3 -10, config.height/18, 'Ganador', {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1);
         this.add.text(config.width/20, config.height/1.4, 'Pulsa M para ir al menú\nprincipal', {fill: '#fff', font: "Arial", font: "16px"}).setDepth(2);
@@ -43,6 +42,8 @@ class postGame extends Phaser.Scene{
     }
 
     toMenuScene(){
+        this.input.keyboard.removeCapture('M,N,B');
+
         this.game.sound.stopAll();
         this.game.sound.play('menu_bgm', {volume: 0.1});
         this.scene.start("mainMenuScene");
@@ -59,12 +60,25 @@ class postGame extends Phaser.Scene{
     }
 
     renderWinner(){
+
+        if(this.winner.character == 'juani'){
+            this.add.image(config.width/2, config.height/1.8, "juani_winner").setScale(.33).setDepth(1);
+        }else if (this.winner.character == 'juani_cursed'){
+            this.add.image(config.width/2, config.height/1.8, "juani_cursed_winner").setScale(.33).setDepth(1);
+        }
+
+        this.add.text(200, 200, this.winner.name, {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1);
+        /*
       if(this.winner == 'Jugador 1'){
         this.add.image(config.width/2, config.height/1.8, "juani_winner").setScale(.33).setDepth(1);
       }else if (this.winner == 'Jugador 2'){
         this.add.image(config.width/2, config.height/1.8, "juani_cursed_winner").setScale(.33).setDepth(1);
 
       }
-    };
+      */
+
+
+
+    }
 
 }

@@ -126,7 +126,6 @@ class IngameScene extends Phaser.Scene {
             var p = this.playersInGame[i];
 
             if(p.id == this.playerId){
-                console.log("ENCONTRADO AL JUGADOR, WAAAAA");
                 return p;
             }
         }
@@ -171,15 +170,14 @@ class IngameScene extends Phaser.Scene {
                 if(p.id == this.playerId){
                     this.playersList[i] = new Player(this, this.playerId, posi, 0, p.character, 0, 1);
                     this.playerObject = this.playersList[i];
-                    console.log("Identificado jugador");
+                    console.log("Me he identificado, tengo la id "+p.id);
                 }else{
                     this.playersList[i] = new PlayerOnline(this, p.id, posi, 0, p.character, 2);
-                    console.log("Jugador online: "+p.name);
+                    console.log("Jugador online: "+p.name+" con id "+p.id);
                 }
                 posi+= 50;
             }
         }
-        
     }
 
     setupBalls(){
@@ -207,12 +205,12 @@ class IngameScene extends Phaser.Scene {
 
     //Cuando un boloncio choqua contra un jugador
     colisionPlayerBall(player, ball){
-        player.takeDamage();
+        player.takeDamage(ball.id);
         ball.impact();
     }
 
     colisionPlayerExplosion(player, explosion){
-        player.takeDamage();
+        player.takeDamage(-1);
     }
 
     setupBallAnimations(){
@@ -391,8 +389,24 @@ class IngameScene extends Phaser.Scene {
         }
     }
 
+
+    startGameOver(winnerObject){
+        //Hay que buscar el nick del usuario que ha ganado
+        var winnerData = this.playersInGame[0];
+
+        for(var i = 0; i < this.playersInGame.length; i++){
+            if(this.playersInGame[i].id == winnerObject.id){
+                winnerData = this.playersInGame[i];
+                break;
+            }
+        }
+
+        //Pasar datos a la siguiente escena
+        this.scene.start('postGame', {winner : winnerData});
+    }
+
     playerEliminated(id){
-        if(this.matchEnd){
+        if(this.matchEnd || this.gameMode == "online"){
             return;
         }
         
@@ -416,6 +430,8 @@ class IngameScene extends Phaser.Scene {
             this.textBackground.setDepth(4);
         }
     }
+
+
 
     IsMatchOver(){
         //Regla simple para ver quien ha ganado: Si de los jugadores que quedan vivos, todos tienen el mismo equipo

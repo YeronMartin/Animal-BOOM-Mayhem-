@@ -13,52 +13,24 @@ public class PlayerIngameData {
 	private int mode; //Estado del personaje: 0 idle, 1 crouch, 2 hurt
 	private int ballType;//int para bola
 	private boolean invulnerable;
+	private boolean connected;
 	
 	public PlayerIngameData () {
 		this.ID = -1;
 		this.name = "";
 		this.direction = new Vector2(0,0);
-	}
-	
-	public PlayerIngameData (WebSocketSession session, String name, int ID, Vector2 position, Vector2 direction, int health, String character, int mode) {
-		this.session = session;
-		this.name = name;
-		this.ID = ID;
-		this.position = position;
-		this.direction = direction;
-		this.health = health;
-		this.character = character;
-		this.mode = mode;
-	}
-	
-	public PlayerIngameData (String name, int ID, Vector2 position, Vector2 direction, String character, int mode) {
-		this.name = name;
-		this.ID = ID;
-		this.position = position;
-		this.direction = direction;
 		this.health = 3;
-		this.character = character;
-		this.mode = mode;
-	}
-	
-	public PlayerIngameData (String name, int ID, Vector2 position, String character) {
-		this.name = name;
-		this.ID = ID;
-		this.position = position;
-		this.health = 3;
-		this.character = character;
-		this.mode = 0;
-	}
-	
-	public PlayerIngameData (String name, int ID, String character) {
-		this.name = name;
-		this.ID = ID;
-		this.health = 3;
-		this.character = character;
-		this.mode = 0;
+		
+		this.connected = false;
 	}
 
-	
+	public boolean isConnected() {
+		return connected;
+	}
+
+	public void setConnected(boolean connected) {
+		this.connected = connected;
+	}
 
 	public WebSocketSession getSession() {
 		return session;
@@ -129,6 +101,5 @@ public class PlayerIngameData {
 		this.direction = direction;
 		this.mode = mode;
 	}
-	
 	
 }

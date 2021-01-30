@@ -295,7 +295,7 @@ class Player extends Phaser.GameObjects.Sprite{
     // Recibir daño
     //====================================================================================================
 
-    takeDamage(){
+    takeDamage(ballId){
         if(this.hurted)
             return;
 
@@ -305,8 +305,8 @@ class Player extends Phaser.GameObjects.Sprite{
 
             if(this.crouching)
                 this.exitCrouchMode();
-
-            this.enterHurtState();
+            
+            this.enterHurtState(ballId);
            
             this.animator.lifebar.anims.play('lifebar_'+this.team+'_'+this.health);
         }else{
@@ -318,8 +318,11 @@ class Player extends Phaser.GameObjects.Sprite{
             this.animator.playHurt();
             this.animator.lifebar.destroy();
             this.inputProfile.disableAllInputs();
-            this.removeFromSceneLists();
-            this.scene.playerEliminated(this.team);
+
+            if(this.scene.gameMode == "local"){
+                this.removeFromSceneLists();
+                this.scene.playerEliminated(this.team);
+            }
         }
     }
 
@@ -337,14 +340,14 @@ class Player extends Phaser.GameObjects.Sprite{
         this.destroy();
     }
 
-    enterHurtState(){
+    enterHurtState(ballId){
         this.animator.playHurt();
 
         this.stunned = true;
         this.aiming = false;
 
         if(this.scene.gameMode == "online")
-            this.scene.ingameSocket.sendEnterHurtState();
+            this.scene.ingameSocket.sendEnterHurtState(ballId);
 
         var hurtAnimTimer = this.scene.time.addEvent({ delay: this.hurtAnimationDelay, callback: this.endHurtAnimation, callbackScope: this, loop: false });
 

@@ -1,7 +1,7 @@
 class BallTemporizedBomb extends Ball{
     name = "BallTemporizedBomb";
     speed = 700;
-    distanceToTravel = 2000000;
+    distanceToTravel = 2500000;
     distanceToActivateCollisions = 100000;
 
     activated = false;

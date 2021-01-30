@@ -43,8 +43,6 @@ public class IngameHandler  extends TextWebSocketHandler {
 	public void setupNewMatch(ArrayList<PlayerLobby> players) {
 		match_manager = new MatchManager(this);
 		match_manager.setupGame(players);
-		
-		//Ahora faltaría esperar a que los jugadores se conecten aquí.
 	}
 	
 	//==========================================================
@@ -53,8 +51,10 @@ public class IngameHandler  extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println("Nueva conexión ingame: " + session.getId());
+		System.out.println("Nueva conexión: " + session.getId());
 		active_player_sessions.put(session.getId(), session);
+		
+		System.out.println("Tenemos "+active_player_sessions.size()+" sesiones guardadas");
 	}
 	
 	//==========================================================
@@ -63,11 +63,12 @@ public class IngameHandler  extends TextWebSocketHandler {
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		System.out.println("Conexión cerrada ingame: " + session.getId());
+		System.out.println("Conexión cerrada: " + session.getId());
 		active_player_sessions.remove(session.getId());
 		
 		match_manager.playerDisconected(session);
-		//A ver que hacemos cuando un jugador se ha desconectado...
+		
+		System.out.println("Tenemos "+active_player_sessions.size()+" sesiones guardadas");
 	}
 	
 	//==========================================================
@@ -76,6 +77,8 @@ public class IngameHandler  extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		System.out.println("He recibido un mensaje de "+session.getId());
+		
 		JsonNode data = mapper.readTree(message.getPayload());
 		
 		//Decidimos que hacer en base a la etiqueta TYPE del mensaje:
@@ -94,19 +97,27 @@ public class IngameHandler  extends TextWebSocketHandler {
 				break;
 			case "BALL_PICKUP":
 				this.notifyPlayersOfBallPickup(session, data);
+				System.out.println("PICKUP");
 				break;
 	        case "BALL_THROW":
+	        	System.out.println("THROW");
 	            this.notifyPlayersOfBallThrow(session, data);
 	            break;
 	        case "ENTER_AIM_MODE":
 	        	this.notifyPlayersOfAimMode(session, data);
 	        	break;
 	        case "ENTER_HURT_STATE":
-
+				System.out.println("HURT");
+	        	this.notifyPlayersOfHurtState(session, data);
 	            break;
 	        case "ENTER_ELIMINATED_STATE":
-
+				System.out.println("ELIMINATED");
+	        	this.notifyPlayersOfEliminatedState(session, data);
 	            break;
+	        case "BALL_DELETED":
+				System.out.println("BOLON ELIMINADO");
+	        	this.notifyPlayersOfBallDeleted(session, data);
+	        	break;
 		}
 	}
 	
@@ -143,6 +154,26 @@ public class IngameHandler  extends TextWebSocketHandler {
 		match_manager.playerEnterAim(data);
 		
 		sendMessageToAllPlayersInGameLessOne(data, session);
+	}
+	
+	private void notifyPlayersOfHurtState(WebSocketSession session, JsonNode data) {
+		System.out.println("Han herido a un wey");
+		match_manager.playerHurt(data);
+		
+		sendMessageToAllPlayersInGameLessOne(data, session);
+	}
+	
+	private void notifyPlayersOfEliminatedState(WebSocketSession session, JsonNode data) {
+		match_manager.playerEliminated(data);
+		
+		//sendMessageToAllPlayersInGameLessOne(data, session);
+		sendMessageToAllPlayersInGame(data);
+	}
+	
+	private void notifyPlayersOfBallDeleted(WebSocketSession session, JsonNode data) {
+		match_manager.ballDeleted(data);
+		
+		//sendMessageToAllPlayersInGameLessOne(data, session);
 	}
 	
 	//==========================================================
@@ -202,15 +233,18 @@ public class IngameHandler  extends TextWebSocketHandler {
 
 		@Override
 		public void run() {
-			match_manager.update(0.04f);
-			sendSavedStatusToAllPlayers();
+			if(!match_manager.matchEnded) {
+				match_manager.update(0.04f);
+				sendSavedStatusToAllPlayers();
+				sendBallStatusToAllPlayers();
+			}
 		}
 	  };
 	
 	private void sendSavedStatusToAllPlayers() {
 		ObjectNode nodo = mapper.createObjectNode();
 		
-		nodo.put("type", "UPDATE_GAME_STATE");
+		nodo.put("type", "UPDATE_PLAYERS_STATE");
 
 		 //Empaquetamos el estado de los jugadores
 		 ArrayNode nodoListaJugadores = nodo.putArray("players");
@@ -230,9 +264,16 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 }
 		 
 		 nodo.put("players", nodoListaJugadores);
-		 
-		 /*
-		 //Empaquetamos el estado de las bolas
+		
+		 sendMessageToAllPlayersInGame(nodo);
+	}
+	
+	private void sendBallStatusToAllPlayers() {
+		ObjectNode nodo = mapper.createObjectNode();
+		
+		nodo.put("type", "UPDATE_BALLS_STATE");
+		
+		//Empaquetamos el estado de las bolas
 		 ArrayNode nodoListaBolas = nodo.putArray("balls");
 
 		 for(int i = 0; i < match_manager.getBalls().size(); i++) {
@@ -249,12 +290,27 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 }
 		 
 		 nodo.put("balls", nodoListaBolas);
-		*/
+		
 		 sendMessageToAllPlayersInGame(nodo);
+	}
+	
+	public void sendGameOverState(int winnerId) {
+		ObjectNode nodo = mapper.createObjectNode();
+		
+		nodo.put("type", "GAME_OVER");
+		nodo.put("id", winnerId);
+		
+		System.out.println("SACABO");
+		
+		sendMessageToAllPlayersInGame(nodo);
 	}
 	
 	private void sendMessageToAllPlayersInGame(JsonNode msg){
 		for(PlayerIngameData p: match_manager.getPlayers()) {
+			
+			if(!p.isConnected())
+				continue;
+			
 			try {
 				synchronized(p.getSession()) {
 					p.getSession().sendMessage(new TextMessage(msg.toString()));
@@ -268,10 +324,11 @@ public class IngameHandler  extends TextWebSocketHandler {
 	
 	private void sendMessageToAllPlayersInGameLessOne(JsonNode msg, WebSocketSession session){
 		for(PlayerIngameData p: match_manager.getPlayers()) {
+			if(p.getSession().getId().equals(session.getId()) || !p.isConnected()) {
+				continue;
+			}
+			
 			try {
-				if(p.getSession().equals(session))
-					continue;
-				
 				synchronized(p.getSession()) {
 					p.getSession().sendMessage(new TextMessage(msg.toString()));
 				}

@@ -101,7 +101,7 @@ class Tutorial extends IngameScene {
         this.playersGroup = this.add.group();
         this.playersList = [];
 
-        this.playersList[0] = new Player(this, (config.width / 2) - 100, config.height / 2, 'juani', 0, 1);
+        this.playersList[0] = new Player(this, 0, (config.width / 2) - 100, config.height / 2, 'juani', 0, 1);
     }
 
     colisionPlayerExplosion(player, explosion){
@@ -194,11 +194,9 @@ class Tutorial extends IngameScene {
 
                     //Colocamos al jugador casi en el centro
 
-                    this.playersList[0].x = (config.width / 2) - 100;
+                    this.playersList[0].x = 300;
                     this.playersList[0].y = config.height / 2;
                     this.playersList[0].body.immovable = true;
-                    //this.playersList[0].play('idle'+this.playersList[0].id);
-                    //this.playersList[0].updateLifebarPosition();
 
                     this.playersList[0].inputProfile.disableMovementInputs();
 
@@ -206,7 +204,7 @@ class Tutorial extends IngameScene {
                     this.playersList[0].setBodyVelocityToCero();
 
                     //Colocamos un dummy en el borde derecho del mapa y le damos una pelota
-                    this.playersList[1] = new Dummy(this, config.width - 100, config.height / 2);
+                    this.playersList[1] = new Dummy(this, config.width - 300, config.height / 2);
                     this.playersList[1].flipX = true;
                     this.placeBallOnDummy();
 

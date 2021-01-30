@@ -42,7 +42,7 @@ class lobbyScene extends Phaser.Scene {
     this.timeOut = 60;
     this.add.image(config.width - 150, config.height - 50, "play_button_selected").setScale(.15).setDepth(3);
     this.conected_players_text = this.add.text(20, config.height - 100, "Jugadores conectados: " + this.playerMap.size, { fill: '#fff', font: "Arial", font: "40px" }).setOrigin(0, 0);
-    this.time_text = this.add.text(20, config.height - 50, "Tiempo restante: " + this.timeOut, { fill: '#fff', font: "Arial", font: "40px" }).setOrigin(0, 0);
+    this.time_text = this.add.text(20, config.height - 50, "", { fill: '#fff', font: "Arial", font: "40px" }).setOrigin(0, 0);
 
     //Tecla ENTER
     this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
@@ -89,7 +89,14 @@ class lobbyScene extends Phaser.Scene {
       case "START":
         this.toNextScene();
         break;
+        case "LOBBY_TIMER":
+        this.updateTimeToStart(data);
+        break;
     }
+  }
+
+  updateTimeToStart(data){
+    this.time_text.text ="Tiempo restante: " +data.time;
   }
 
   playersList = [];
@@ -104,8 +111,6 @@ class lobbyScene extends Phaser.Scene {
     var x = 0;
     for (var i = 0; i < data.players.length; i++) {
       this.playersList[i] = data.players[i];
-
-
 
       if (data.players[i] != null) {
         if (!playerMap.has(data.players[i].name)) {

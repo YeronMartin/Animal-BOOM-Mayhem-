@@ -48,5 +48,4 @@ public class Ball {
 		this.type = type;
 	}
 	
-	
 }

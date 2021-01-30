@@ -1,17 +1,11 @@
 package ingameUtils;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import dataobjects.Ball;
 import dataobjects.PlayerIngameData;
@@ -24,16 +18,16 @@ public class MatchManager {
 	private IngameHandler handler;
 	private ArrayList<PlayerIngameData> players;
 	private ArrayList<Ball> balls;
-	//private ArrayList<Effects> effects;
+	private int ballIdCounter;
 	
-	private ObjectMapper mapper = new ObjectMapper();
 	private int players_prepared;
-	
 	
 	private float screen_width;
 	private float screen_height;
 	
 	private int ballLimit;
+	
+	public boolean matchEnded;
 	
 	public MatchManager(IngameHandler handler) {
 		this.handler = handler;
@@ -44,6 +38,10 @@ public class MatchManager {
 		screen_width = 1024;
 		screen_height = 768;
 		ballLimit = 10;
+		
+		ballIdCounter = 0;
+		
+		matchEnded = false;
 	}
 	
 	// ==========================================
@@ -51,6 +49,11 @@ public class MatchManager {
 	// ==========================================
 	
 	public void setupGame(ArrayList<PlayerLobby> playersL) {
+		players.clear();
+		balls.clear();
+		
+		System.out.println("La partida tiene a los siguientes jugadores:");
+		
 		for(int i = 0; i < playersL.size(); i++) {
 			PlayerIngameData p = new PlayerIngameData();
 			
@@ -60,13 +63,16 @@ public class MatchManager {
 			
 			players.add(p);
 			
-			players_prepared = 0;
+			System.out.println(p.getName()+" con id "+p.getID());
 		}
+		
+		players_prepared = 0;
 		
 		positionPlayers();
 		generateInitialBalls();
+		
+		System.out.println("ESPERANDO JUGADORES:");
 	}
-	
 	
 	//Cálcula las posiciones iniciales de los jugadores de manera aleatoria.
 	//Considera solo a dos jugadores. Esta nueva info se envía al cliente.
@@ -88,14 +94,16 @@ public class MatchManager {
 	
 	private void generateBallsByAmount(int amount) {
 		for(int i = 0; i < amount; i++) {
-			if(balls.size() < ballLimit)
-				generateNewBall();
+			if(balls.size() >= ballLimit)
+				return;
+			
+			generateNewBall();
 		}
 	}
 	
 	private void generateNewBall() {
 		Ball b = new Ball();
-		b.setID(balls.size());
+		b.setID(ballIdCounter);
 		
 		float posX = getRandomNumberBetween(0, screen_width);
 		float posY = getRandomNumberBetween(0, screen_height);
@@ -113,24 +121,29 @@ public class MatchManager {
 		}
 		
 		balls.add(b);
+		ballIdCounter++;
 	}
 	
 	public void joinPlayerToMatch(WebSocketSession session, JsonNode data) {
 		//Se ha unido un jugador, hay que identificar quien es de los que tenemos registrados del lobby
 		int index = findPlayerIndexById(data.get("id").asInt());
 		if(index > -1) {
-			System.out.println("Jugador "+players.get(index).getName() +" se ha unido");
+			System.out.println("Jugador "+players.get(index).getName() +" se ha unido, le metemos la sesión "+session.getId());
 			players.get(index).setSession(session);
+			players.get(index).setConnected(true);
 			players_prepared++;
 			checkIfAllPlayersAreReady();
 		}
 	}
 	
 	public void playerDisconected(WebSocketSession session) {
+		System.out.println("Este señor se ha pirado");
+		
 		PlayerIngameData p = getPlayerBySession(session);
 		
 		if(p != null) {
-			players.remove(p);
+			//players.remove(p);
+			p.setConnected(false);
 		}
 	}
 	
@@ -161,10 +174,18 @@ public class MatchManager {
 	}
 	
 	public void updatePlayerData(JsonNode data) {
+		System.out.println(data.get("id")+" nos envía su estado");
+		
 		int playerIndex = findPlayerIndexById(data.get("id").asInt());
 		
-		players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
-		players.get(playerIndex).setDirection(new Vector2(data.get("movX").floatValue(), data.get("movY").floatValue()));
+		System.out.println("Este señor es el jugador "+playerIndex);
+		
+		if(playerIndex > -1) {
+			players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
+			players.get(playerIndex).setDirection(new Vector2(data.get("movX").floatValue(), data.get("movY").floatValue()));
+			
+			System.out.println("Está en "+data.get("posX")+", "+data.get("posY")+" y se mueve a "+data.get("movX")+", "+data.get("movY"));;
+		}
 	}
 	
 	// ==========================================
@@ -174,7 +195,6 @@ public class MatchManager {
 	private float playerSpeed = 400;
 	
 	public void update(float delta) {
-		//Probablemente haga falta hacer esto
 		
 		for(PlayerIngameData p: players) {
 			float newX = p.getPosition().getX() + (p.getDirection().getX() * playerSpeed * delta);
@@ -182,7 +202,15 @@ public class MatchManager {
 			
 			p.setPosition(new Vector2(newX, newY));
 		}
+		
+		//Comprobar si hace falta generar una bola nueva.
+		if(balls.size() < ballLimit)
+			generateNewBall();
 	}
+	
+	// ==========================================
+	//	ENTRADA DE EVENTOS
+	// ==========================================
 	
 	public void playerHasEnteredCrouchMode(JsonNode data) {
 		int playerIndex = findPlayerIndexById(data.get("id").asInt());
@@ -216,6 +244,51 @@ public class MatchManager {
 		players.get(playerIndex).setDirection(new Vector2(0, 0));
 	}
 	
+	public void playerHurt(JsonNode data) {
+		int playerIndex = findPlayerIndexById(data.get("id").asInt());
+		
+		//System.out.println("Han dañado a "+playerIndex+", tenía "+players.get(playerIndex).getHealth());
+		//System.out.println("Han dañado a "+playerIndex+", dicen que tiene ahora "+data.get("life"));
+		
+		players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
+		players.get(playerIndex).setDirection(new Vector2(0, 0));
+		
+		players.get(playerIndex).setHealth(data.get("life").asInt());
+		
+		if(data.get("ballId").asInt() > -1) {
+			int ballIndex = findBallIndexById(data.get("ballId").asInt());
+			//System.out.println("bALL INDEX: "+ballIndex);
+			if(ballIndex > -1) {
+				balls.get(ballIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
+			}	
+		}
+	}
+	
+	public void playerEliminated(JsonNode data) {
+		int playerIndex = findPlayerIndexById(data.get("id").asInt());
+		
+		if(playerIndex > -1) {
+			
+			players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
+			players.get(playerIndex).setDirection(new Vector2(0, 0));
+			
+			players.get(playerIndex).setHealth(0);
+		}
+	
+		//COMPROBAR SI LA PARTIDA HA ACABADO
+		startGameOver();
+	}
+	
+	public void ballDeleted(JsonNode data) {
+		System.out.println("Bola eliminada: "+data.get("id"));
+		int ballIndex = findBallIndexById(data.get("id").asInt());
+		
+		if(ballIndex > -1) {
+			balls.remove(ballIndex);
+			System.out.println("Boloncio eliminado");
+		}
+	}
+	
 	private int findBallIndexById(int id) {
 		for(int i = 0; i < balls.size(); i++) {
 			if(id == (balls.get(i).getID())) 
@@ -230,22 +303,38 @@ public class MatchManager {
 	
 	//Comprueba cuántos jugadores quedan vivos y, si es solo uno, envía un mensaje de gameover.
 	private void startGameOver() {
-		//handler. game over o algo
-		int vivos = 0;
-		int vida = 0;
+		int id = getIdOfLastPLayerAlive();
 
-		for(int i = 0; i<players.size();i++){
-			vida = players.get(i).getHealth();
-			if(vida > 0){
-				vivos = vivos + 1;
+		//Chapamos todo
+		//balls.clear();
+		//players.clear();
+		
+		if(id > -1) 
+			handler.sendGameOverState(id);
+	}
+	
+	private int getIdOfLastPLayerAlive(){
+		int aliveCount = 0;
+		int idOfLastPlayer = -1;
+		
+		System.out.println("Tenemos "+players.size()+" jugadores");
+		
+		for(int i = 0; i < players.size(); i++){
+			System.out.println("Este jugador tiene de vida: "+players.get(i).getHealth());
+			
+			if(players.get(i).getHealth() > 0) {
+				System.out.println("Este jugador sigue vivo "+players.get(i).getID());
+				aliveCount++;
+				idOfLastPlayer = players.get(i).getID();
 			}
+			
+			if(aliveCount > 1)
+				return -1;
 		}
-
-		if(vivos == 1){
-			ObjectNode msgFinish = mapper.createObjectNode();
-			msgFinish.put("type","GAMEOVER");
-			//sendMessageToAllPlayersInGame(msgFinish);
-		}
+		
+		System.out.println("El último que hemos visto vivo es "+idOfLastPlayer);
+		
+		return idOfLastPlayer;
 	}
 	
 	public ArrayList<PlayerIngameData> getPlayers() {

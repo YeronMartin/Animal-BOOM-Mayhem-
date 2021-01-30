@@ -51,7 +51,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 		loadStoredPlayers();
 		
 		Timer startMatchTimer = new Timer();
-		startMatchTimer.schedule(readyToStart, 0, 3000);
+		startMatchTimer.schedule(readyToStart, 0, 1000);
 	}
 	
 	private void loadStoredPlayers() {
@@ -84,21 +84,34 @@ public class LobbyHandler extends TextWebSocketHandler {
 	}
 	
 	private boolean started = false;
+	private int timeToStartMatch = 10;
 	
-	 TimerTask readyToStart = new TimerTask()  {
-	      public void run(ActionEvent evt) {
-	    	 
-	      }
+	TimerTask readyToStart = new TimerTask() {
+		public void run(ActionEvent evt) {
+
+		}
 
 		@Override
 		public void run() {
-			if(lobby_players.size() > 1 && !started) {
-				startMatchPreparations();
-				started = true;
+			if (lobby_players.size() > 0 && !started) {
+				if(timeToStartMatch > 0) {
+					timeToStartMatch--;
+	                sendTimerValueToAllPlayersInLobby(timeToStartMatch);
+	            }else{
+	                startMatchPreparations();
+					started = true;
+	            }
 			}
-			
 		}
-	  };
+	};
+	
+	private void sendTimerValueToAllPlayersInLobby(int time) {
+		ObjectNode msgTime = mapper.createObjectNode();
+		msgTime.put("type", "LOBBY_TIMER");
+		msgTime.put("time", time);
+		
+		sendMessageToAllPlayersInLobby(msgTime);
+	}
 	
 	//==========================================================
 	//	CONEXIÓN DE CLIENTE
@@ -108,7 +121,6 @@ public class LobbyHandler extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("Nueva conexión: " + session.getId());
 		active_player_sessions.put(session.getId(), session);
-		
 	}
 	
 	//==========================================================
@@ -147,11 +159,9 @@ public class LobbyHandler extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		System.out.println("Mensaje recibido: " + message.getPayload());
 		JsonNode node = mapper.readTree(message.getPayload());
 		String name = node.get("name").asText();
 		String character = node.get("character").asText();	
-				
 		
 		addPlayerToLobby(session, name, character);
 		sendLobbyDataToAllPlayers();
@@ -162,6 +172,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 		//Comprobar si el jugador ya se encontraba registrado
 		if(stored_players.containsKey(name)) {
 			p = stored_players.get(name);
+			System.out.println("Mira quien ha vuelto: "+p.getName()+" con id "+p.getID());
 			p.setSession(s);
 		}else {
 			p = new PlayerLobby(s, stored_players.size(), name, character);
@@ -170,13 +181,17 @@ public class LobbyHandler extends TextWebSocketHandler {
 		}
 		
 		lobby_players.add(p);
+		
+		if(lobby_players.size() > 0){
+			started = false;
+			timeToStartMatch = 10;
+		}
 	}
 	
 	//==========================================================
 	//	ENVIAR MENSAJE
 	//==========================================================
 		
-	
 	private void sendLobbyDataToAllPlayers(){
 		//Empaquetar nuevo mensaje (información actualizada lobby)
 		ObjectNode nodo = mapper.createObjectNode();
@@ -200,10 +215,6 @@ public class LobbyHandler extends TextWebSocketHandler {
         }
 
         nodo.put("players", nodoLista);
-		
-			
-		//Enviar mensaje a todos los usuarios
-        System.out.println(nodo.toString());
 
 		sendMessageToAllPlayersInLobby(nodo);
 	}
@@ -213,7 +224,6 @@ public class LobbyHandler extends TextWebSocketHandler {
 			for(PlayerLobby p : lobby_players) {
 				synchronized(p.getSession()) {
 					p.getSession().sendMessage(new TextMessage(msg.toString()));
-					System.out.println("Mensaje enviado: " + msg.toString());
 				}
 			}
 		} catch (IOException e) {
@@ -228,26 +238,15 @@ public class LobbyHandler extends TextWebSocketHandler {
 	
 	//En algún momento habrá que empezar la partida
 	private void startMatchPreparations() {
-		//Tenemos que enviar al manejador de la partida los jugadores
-		//que van a participar.
-		
-		
-		//IngameHandler manejadorPartida = new IngameHandler();
-		//manejadorPartida.setupNewMatch(lobby_players);
-		
 		this.ingameHandler.setupNewMatch(lobby_players);
-		
-		
-		//Finalmente enviamos a todos los jugadores el aviso de que
-		//ya va a empezar la partida
-		
-		
+
 		sendStartSignalToAllPlayers();
+		
+		System.out.println("COMIENZA LA PARTIDA");
 		
 		//Una vez comienza la partida, eliminamos los jugadores del lobby
 		lobby_players.clear();
 		started = false;
-		System.out.println("Lobby limpiado");
 	}
 
 	private void sendStartSignalToAllPlayers() {

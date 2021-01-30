@@ -7,7 +7,7 @@ class Ball extends Phaser.GameObjects.Sprite{
     onGround = true;
     heldByPlayer = null;
 
-    distanceToTravel = 1500000;
+    distanceToTravel = 2500000;
     distanceToActivateCollisions = 100000;
 
     constructor(scene, posX, posY, keyname){
@@ -109,6 +109,10 @@ class Ball extends Phaser.GameObjects.Sprite{
         //Eliminar de la lista de bolas
         this.scene.ballsList.splice(this.scene.ballsList.lastIndexOf(this), 1);
         this.scene.ballsGroup.remove(this);
+
+        //En el modo online, enviar mensaje de que esta bola ha fenecido
+        if(this.scene.gameMode == "online")
+            this.scene.ingameSocket.sendBallDeleted(this.id);
 
         //Destruir objeto de la escena
         this.destroy();

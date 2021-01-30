@@ -36,8 +36,8 @@ class IngameSocket {
         }
 
         
-        this.connection.onclose = function() {
-            console.log("Closing socket");
+        this.connection.onclose = function(e) {
+            console.log('ws is closed with code: ' + e.code + ' reason: ' + e.reason);
         }
     }
 
@@ -47,9 +47,7 @@ class IngameSocket {
 
     //Confirmación de carga
     sendLoadConfirmation(){
-        console.log("Id: "+this.playerId);
-        console.log("name: "+this.playerName);
-        console.log("character: "+this.playerCharacter);
+        console.log("He cargado todo guay");
 
         var msg = {
             "type": "LOADED",
@@ -89,12 +87,15 @@ class IngameSocket {
             "movX": movX,
             "movY": movY
         };
-        //En un futuro, meter más datos que mandar
+
+        console.log(msg);
 
         this.sendMessage(msg);
     }
 
     sendEnterCrouchState(){
+        console.log("Me agacho");
+
         var msg = {
             "type": "ENTER_CROUCH_MODE",
             "id": this.playerId,
@@ -106,6 +107,8 @@ class IngameSocket {
     }
 
     sendExitCrouchState(){
+        console.log("Me dejo de agachar");
+
         var msg = {
             "type": "EXIT_CROUCH_MODE",
             "id": this.playerId,
@@ -146,12 +149,18 @@ class IngameSocket {
     sendBallThrowMessage(dirX, dirY){
         console.log("Envio de lanzar bola: "+this.playerObject.ball.id);
 
+        //En caso de que hayamos lanzado una patata
+        var potatoTime = 0;
+        if(this.playerObject.ball.name == "BallTemporizedBomb")
+            potatoTime = this.playerObject.ball.activationTime;
+
         var msg = {
             "type": "BALL_THROW",
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
             "ballId": this.playerObject.ball.id,
+            "potatoActivation": potatoTime,
             "dirX": dirX,
             "dirY": dirY
         };
@@ -159,24 +168,69 @@ class IngameSocket {
         this.sendMessage(msg);
     }
 
-    sendEnterHurtState(){
+    sendEnterHurtState(ballId){
+        console.log("Me hirieron wey "+ballId);
+
         var msg = {
             "type": "ENTER_HURT_STATE",
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
+            "ballId": ballId,
             "life": this.playerObject.health
         };
 
         this.sendMessage(msg);
     }
 
-    sendEliminatedState(){
+    sentEnterOtherHurtState(ballId, dummyObject){
+        console.log("Han herido a este wey con "+ballId);
+
         var msg = {
-            "type": "ENTER_ELIMINATED_STATE",
-            "id": this.playerId,
-            "posX": this.playerObject.x,
-            "posY": this.playerObject.y,
+            "type": "ENTER_HURT_STATE",
+            "id": dummyObject.id,
+            "posX": dummyObject.x,
+            "posY": dummyObject.y,
+            "ballId": ballId,
+            "life": dummyObject.health
+        };
+
+        this.sendMessage(msg);
+    }
+
+    sendEliminatedState(dummyObject){
+
+        if(dummyObject != null){
+            console.log("Este la palmó no mas");
+
+            var msg = {
+                "type": "ENTER_ELIMINATED_STATE",
+                "id": dummyObject.id,
+                "posX": dummyObject.x,
+                "posY": dummyObject.y,
+            };
+
+            this.sendMessage(msg);
+        }else{
+            console.log("Me morí no mas");
+
+            var msg = {
+                "type": "ENTER_ELIMINATED_STATE",
+                "id": this.playerId,
+                "posX": this.playerObject.x,
+                "posY": this.playerObject.y,
+            };
+
+            this.sendMessage(msg);
+        }
+    }
+
+    sendBallDeleted(id){
+        console.log("Bola eliminada: "+id);
+
+        var msg = {
+            "type": "BALL_DELETED",
+            "id": id
         };
 
         this.sendMessage(msg);
@@ -196,10 +250,14 @@ class IngameSocket {
             case "READY":
                 this.placePlayersAndBalls(msg);
                 break;
-            case "UPDATE_GAME_STATE":
+            case "UPDATE_PLAYERS_STATE":
                 this.updateGameState(msg);
                 break;
-            case "MATCH_END":
+            case "UPDATE_BALLS_STATE":
+                this.updateBallsState(msg);
+                break;
+            case "GAME_OVER":
+                this.startGameOverState(msg);
                 break;
             case "ENTER_CROUCH_MODE":
                 this.updatePlayerCrouchState(msg, true);
@@ -217,10 +275,10 @@ class IngameSocket {
                 this.updateEnterAimMode(msg);
                 break;
             case "ENTER_HURT_STATE":
-
+                this.updateEnterHurtState(msg);
                 break;
             case "ENTER_ELIMINATED_STATE":
-
+                this.updateEnterEliminatedState(msg);
                 break;
         }
 
@@ -271,13 +329,15 @@ class IngameSocket {
 
     updateGameState(msg){
         var playersData = msg.players;
-        var ballsData = msg.balls;
 
         //Posicionar jugadores y asignar los datos recibidos
         for(var i = 0; i < playersData.length; i++){
             //Buscamos en la lista de jugadores el jugador al que se corresponde
             var p = this.findPlayerById(playersData[i].id);
 
+            if(p == null)
+                continue;
+            
             p.x = playersData[i].posX;
             p.y = playersData[i].posY;
 
@@ -286,10 +346,13 @@ class IngameSocket {
                 p.movY = playersData[i].movY;
             }
         }
+    }
 
-        /*
+    updateBallsState(msg){
+        var ballsData = msg.balls;
+
         for(var i = 0; i < ballsData.length; i++){
-            var b = this.findBallById(ballsData[i]);
+            var b = this.findBallById(ballsData[i].id);
 
             if(b == null){
                 //Esta bola no está en la escena, lo más probable es que sea nueva
@@ -299,14 +362,12 @@ class IngameSocket {
                 //b.x = ballsData[i].posX;
                 //b.y = ballsData[i].posY;
             }
-
-            this.scene.ballsList[i];
         }
 
-        //Hay que comprobar también que no haya bolas en escena que sobran.
         /*
+        //Hay que comprobar también que no haya bolas en escena que sobran.
         for(var i = 0; i < this.scene.ballsList.length; i++){
-            if(this.findBallById){
+            if(this.findBallById()){
 
             }
         }
@@ -341,50 +402,124 @@ class IngameSocket {
     }
 
     updatePlayerCrouchState(msg, state){
+        console.log("Un dummy se agacha");
+
         var p = this.findPlayerById(msg.id);
 
-        p.x = msg.posX;
-        p.y = msg.posY;
-
-        if(state)
-            p.enterCrouchMode();
-        else
-            p.exitCrouchMode();
+        if(p != null){
+            p.x = msg.posX;
+            p.y = msg.posY;
+    
+            if(state)
+                p.enterCrouchMode();
+            else
+                p.exitCrouchMode();
+        }
     }
 
     updateBallPickState(msg){
         console.log("Un dummy ha recogido una bola");
         var p = this.findPlayerById(msg.id);
 
-        p.x = msg.posX;
-        p.y = msg.posY;
+        if(p != null){
+            p.x = msg.posX;
+            p.y = msg.posY;
+        }
 
         var ball = this.findBallById(msg.ballId);
-        ball.x = msg.posX;
-        ball.y = msg.posY;
-        p.pickBomb(ball);
+
+        if(ball != null){
+            ball.x = msg.posX;
+            ball.y = msg.posY;
+        }
+
+        if(p != null && ball != null)
+            p.pickBomb(ball);
     }
 
     updateBallThrowState(msg){
+        console.log("Un dummy ha lanzado la bola "+msg.ballId);
+
         var p = this.findPlayerById(msg.id);
 
-        p.x = msg.posX;
-        p.y = msg.posY;
+        if(p != null){
+            p.x = msg.posX;
+            p.y = msg.posY;
+        }
 
         var ball = this.findBallById(msg.ballId);
-        ball.x = msg.posX;
-        ball.y = msg.posY;
 
-        p.throwBall(ball, msg.dirX, msg.dirY);
+        if(ball != null){
+            ball.x = msg.posX;
+            ball.y = msg.posY;
+        }
+
+        if(p != null && ball != null){
+            p.throwBall(ball, msg.dirX, msg.dirY);
+
+             //Si la bola es una patata, tenemos que asignar el mismo tiempo de activación
+            if(ball.name == "BallTemporizedBomb")
+                ball.activationTime = msg.potatoActivation;
+        }
     }
 
     updateEnterAimMode(msg){
         console.log("JUGADOR apunta");
+        
+        var p = this.findPlayerById(msg.id);
+        
+        if(p != null){
+            p.x = msg.posX;
+            p.y = msg.posY;
+            p.enterAimMode();
+        }
+    }
+
+    updateEnterHurtState(msg){
+        console.log("Alguien ha sido herido");
+
         var p = this.findPlayerById(msg.id);
 
-        p.x = msg.posX;
-        p.y = msg.posY;
+        if(p != null){
+            p.x = msg.posX;
+            p.y = msg.posY;
+    
+            if(p.health > msg.life){
+                p.takeDamage();
+            }
+        }
+       
+        //Si ha sido hostiado por un boloncio, hay que aplicar ese cambio en la bola
+        if(msg.ballId > -1){
+            console.log("por un boloncio");
+            var b = this.findBallById(msg.ballId);
 
-        p.enterAimMode();
+            if(b != null){
+                b.x = msg.posX;
+                b.y = msg.posY;
+    
+                b.impact();
+            }
+        }
+    }
+
+    updateEnterEliminatedState(msg){
+        console.log("Alguien ha sido eliminado");
+
+        var p = this.findPlayerById(msg.id);
+
+        if(p != null){
+            p.x = msg.posX;
+            p.y = msg.posY;
+        }
+    }
+
+    startGameOverState(msg){
+        //La partida ha terminado, hay que decidir quien ha ganado y esas cosas
+        this.connection.close();
+
+        var p = this.findPlayerById(msg.id);
+
+        this.scene.startGameOver(p);
     }
 }

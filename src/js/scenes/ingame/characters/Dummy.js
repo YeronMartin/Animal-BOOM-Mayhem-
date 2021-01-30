@@ -1,6 +1,6 @@
 class Dummy extends Player{
     constructor(scene, x, y) {
-        super(scene, x, y, "juani_cursed", -1, 2);
+        super(scene, 2, x, y, "juani_cursed", -1, 2);
         this.setDepth(2);
         this.setScale(0.4);
 

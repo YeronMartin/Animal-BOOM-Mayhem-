@@ -1,7 +1,7 @@
 class FlamingBall extends Ball{
     name = "FlamingBall"
     speed = 700;
-    distanceToTravel = 2000000;
+    distanceToTravel = 2500000;
     distanceToActivateCollisions = 100000;
 
     constructor(scene, id, posX, posY){

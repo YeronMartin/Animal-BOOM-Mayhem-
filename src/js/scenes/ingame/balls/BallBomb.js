@@ -1,7 +1,7 @@
 class BallBomb extends Ball{
     name = "BallBomb";
     speed = 700;
-    distanceToTravel = 2000000;
+    distanceToTravel = 2500000;
     distanceToActivateCollisions = 100000;
 
     constructor(scene, id, posX, posY){

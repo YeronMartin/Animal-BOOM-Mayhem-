@@ -1,12 +1,13 @@
 class IngameSocket {
-    constructor (scene, playerData, playerObject){
+    constructor (scene, playerData, playerObject, roomId){
        this.scene = scene;
-
        this.playerId = playerData.id;
        this.playerName = playerData.name;
        this.playerCharacter = playerData.character;
 
        this.playerObject = playerObject;
+
+       this.room = roomId;
     }
 
     startConnection(){
@@ -51,6 +52,7 @@ class IngameSocket {
 
         var msg = {
             "type": "LOADED",
+            "room": this.room,
             "id": this.playerId,
             "name": this.playerName,
             "character": this.playerCharacter
@@ -81,6 +83,7 @@ class IngameSocket {
 
         var msg = {
             "type": "UPDATE_PLAYER_STATUS",
+            "room": this.room,
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
@@ -88,7 +91,7 @@ class IngameSocket {
             "movY": movY
         };
 
-        console.log(msg);
+        //console.log(msg);
 
         this.sendMessage(msg);
     }
@@ -98,6 +101,7 @@ class IngameSocket {
 
         var msg = {
             "type": "ENTER_CROUCH_MODE",
+            "room": this.room,
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
@@ -111,6 +115,7 @@ class IngameSocket {
 
         var msg = {
             "type": "EXIT_CROUCH_MODE",
+            "room": this.room,
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
@@ -124,6 +129,7 @@ class IngameSocket {
 
         var msg = {
             "type": "BALL_PICKUP",
+            "room": this.room,
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
@@ -138,6 +144,7 @@ class IngameSocket {
 
         var msg = {
             "type": "ENTER_AIM_MODE",
+            "room": this.room,
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
@@ -156,6 +163,7 @@ class IngameSocket {
 
         var msg = {
             "type": "BALL_THROW",
+            "room": this.room,
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
@@ -173,6 +181,7 @@ class IngameSocket {
 
         var msg = {
             "type": "ENTER_HURT_STATE",
+            "room": this.room,
             "id": this.playerId,
             "posX": this.playerObject.x,
             "posY": this.playerObject.y,
@@ -188,6 +197,7 @@ class IngameSocket {
 
         var msg = {
             "type": "ENTER_HURT_STATE",
+            "room": this.room,
             "id": dummyObject.id,
             "posX": dummyObject.x,
             "posY": dummyObject.y,
@@ -205,6 +215,7 @@ class IngameSocket {
 
             var msg = {
                 "type": "ENTER_ELIMINATED_STATE",
+                "room": this.room,
                 "id": dummyObject.id,
                 "posX": dummyObject.x,
                 "posY": dummyObject.y,
@@ -216,6 +227,7 @@ class IngameSocket {
 
             var msg = {
                 "type": "ENTER_ELIMINATED_STATE",
+                "room": this.room,
                 "id": this.playerId,
                 "posX": this.playerObject.x,
                 "posY": this.playerObject.y,
@@ -230,6 +242,7 @@ class IngameSocket {
 
         var msg = {
             "type": "BALL_DELETED",
+            "room": this.room,
             "id": id
         };
 

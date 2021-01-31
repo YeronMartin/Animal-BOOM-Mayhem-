@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import dataobjects.Ball;
 import dataobjects.PlayerIngameData;
 import dataobjects.PlayerLobby;
+import dataobjects.Room;
 import ingameUtils.MatchManager;
 
 public class IngameHandler  extends TextWebSocketHandler {
@@ -30,19 +31,28 @@ public class IngameHandler  extends TextWebSocketHandler {
 	
 	private ObjectMapper mapper = new ObjectMapper();
 	
-	private MatchManager match_manager;
+	//Lista de partidas en curso
+	private ArrayList<MatchManager> matchManagerList;
+	//private MatchManager match_manager;
 	
-	public IngameHandler() {
-		
-	}
+	private LobbyHandler lobbyHandler;
 	
 	//==========================================================
 	//	PREPARACIÓN DE UNA NUEVA PARTIDA
 	//==========================================================
 	
-	public void setupNewMatch(ArrayList<PlayerLobby> players) {
-		match_manager = new MatchManager(this);
-		match_manager.setupGame(players);
+	public IngameHandler() {
+		matchManagerList = new ArrayList<MatchManager>();
+	}
+	
+	
+	public void setupNewMatch(Room r) {
+		//Montamos una nueva partida a partir de los datos de la sala
+		
+		MatchManager newMatch = new MatchManager(this);
+		newMatch.setupGame(r);
+		
+		matchManagerList.add(newMatch);
 	}
 	
 	//==========================================================
@@ -66,9 +76,22 @@ public class IngameHandler  extends TextWebSocketHandler {
 		System.out.println("Conexión cerrada: " + session.getId());
 		active_player_sessions.remove(session.getId());
 		
-		match_manager.playerDisconected(session);
+		findPlayerBySessionAmongAllMatches(session);
+		//Buscar al jugador dentro de las partidas activas y notificar de su desconexión
 		
 		System.out.println("Tenemos "+active_player_sessions.size()+" sesiones guardadas");
+	}
+	
+	
+	private void findPlayerBySessionAmongAllMatches(WebSocketSession session) {
+		for(MatchManager m: matchManagerList) {
+			for(PlayerIngameData p: m.getPlayers()) {
+				if(p.getSession().getId().equals(session.getId())) {
+					m.playerDisconected(session);
+					return;
+				}
+			}
+		}
 	}
 	
 	//==========================================================
@@ -77,7 +100,7 @@ public class IngameHandler  extends TextWebSocketHandler {
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		System.out.println("He recibido un mensaje de "+session.getId());
+		//System.out.println("He recibido un mensaje de "+session.getId());
 		
 		JsonNode data = mapper.readTree(message.getPayload());
 		
@@ -122,75 +145,91 @@ public class IngameHandler  extends TextWebSocketHandler {
 	}
 	
 	private void addPlayerToMatch(WebSocketSession session, JsonNode data) {
-		//Habría que ver a qué partida pertenece este jugador. En este caso donde solo tenemos una partida activa, no hace falta.
-		System.out.println("Jugador añadido a la partida");
-		match_manager.joinPlayerToMatch(session, data);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) 
+			m.joinPlayerToMatch(session, data);
+		
 	}
 	
 	private void updatePlayerStatus(JsonNode data) {
 		//Hemos recibido los datos de un jugador, hay que almacenarlos
-		match_manager.updatePlayerData(data);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) 
+			m.updatePlayerData(data);
 	}
 	
 	private void notifyPlayersOfCrouchMode(WebSocketSession session, JsonNode data) {
-		match_manager.playerHasEnteredCrouchMode(data);
-		
-		sendMessageToAllPlayersInGameLessOne(data, session);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) {
+			m.playerHasEnteredCrouchMode(data);
+			sendMessageToAllPlayersInMatchLessOne(m, data, session);
+		}
 	}
 	
 	private void notifyPlayersOfBallPickup(WebSocketSession session, JsonNode data) {
-		match_manager.playerPicksBall(data);
-		
-		sendMessageToAllPlayersInGameLessOne(data, session);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) {
+			m.playerPicksBall(data);
+			sendMessageToAllPlayersInMatchLessOne(m, data, session);
+		}
 	}
 	
 	private void notifyPlayersOfBallThrow(WebSocketSession session, JsonNode data) {
-		match_manager.playerThrowsBall(data);
-		
-		sendMessageToAllPlayersInGameLessOne(data, session);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) {
+			m.playerThrowsBall(data);
+			sendMessageToAllPlayersInMatchLessOne(m, data, session);
+		}
 	}
 	
 	private void notifyPlayersOfAimMode(WebSocketSession session, JsonNode data) {
-		match_manager.playerEnterAim(data);
-		
-		sendMessageToAllPlayersInGameLessOne(data, session);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) {
+			m.playerEnterAim(data);
+			sendMessageToAllPlayersInMatchLessOne(m, data, session);
+		}
 	}
 	
 	private void notifyPlayersOfHurtState(WebSocketSession session, JsonNode data) {
-		System.out.println("Han herido a un wey");
-		match_manager.playerHurt(data);
-		
-		sendMessageToAllPlayersInGameLessOne(data, session);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) {
+			m.playerHurt(data);
+			sendMessageToAllPlayersInMatchLessOne(m, data, session);
+		}
 	}
 	
 	private void notifyPlayersOfEliminatedState(WebSocketSession session, JsonNode data) {
-		match_manager.playerEliminated(data);
-		
-		//sendMessageToAllPlayersInGameLessOne(data, session);
-		sendMessageToAllPlayersInGame(data);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) {
+			m.playerEliminated(data);
+			sendMessageToAllPlayersInMatch(m, data);
+		}
 	}
 	
 	private void notifyPlayersOfBallDeleted(WebSocketSession session, JsonNode data) {
-		match_manager.ballDeleted(data);
+		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
+		if(m != null) {
+			m.ballDeleted(data);
+			//sendMessageToAllPlayersInGameLessOne(m, data, session);
+		}
 		
-		//sendMessageToAllPlayersInGameLessOne(data, session);
 	}
 	
 	//==========================================================
 	//	ENVIAR MENSAJE
 	//==========================================================
 	
-	public void sendStartMatchMessage() {
+	public void sendStartMatchMessageToMatch(MatchManager m) {
 		ObjectNode nodo = mapper.createObjectNode();
 		
 		nodo.put("type", "READY");
 
 		 ArrayNode nodoListaJugadores = nodo.putArray("players");
-
-		 for(int i = 0; i < match_manager.getPlayers().size(); i++) {
+		 
+		 for(int i = 0; i < m.getPlayers().size(); i++) {
 			 ObjectNode n = mapper.createObjectNode();
 			 
-			 PlayerIngameData p = match_manager.getPlayers().get(i);
+			 PlayerIngameData p = m.getPlayers().get(i);
 			 
 			 n.put("id", p.getID());
 			 n.put("name", p.getName());
@@ -204,10 +243,10 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 
 		 ArrayNode nodoListaBolas = nodo.putArray("balls");
 
-		 for(int i = 0; i < match_manager.getBalls().size(); i++) {
+		 for(int i = 0; i < m.getBalls().size(); i++) {
 			 ObjectNode n = mapper.createObjectNode();
 			 
-			 Ball b = match_manager.getBalls().get(i);
+			 Ball b = m.getBalls().get(i);
 			 
 			 n.put("id", b.getID());
 			 n.put("type", b.getType());
@@ -219,39 +258,21 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 
 		 nodo.put("balls", nodoListaBolas);
 		 
-		sendMessageToAllPlayersInGame(nodo);
-		
-		//La partida ha comenzado, inicializamos el timer de actualización
-		Timer sendSavedStatusTimer = new Timer();
-		sendSavedStatusTimer.schedule(sendCurrentStatusTimer, 0, 100);
+		 sendMessageToAllPlayersInMatch(m, nodo);
 	}
 	
-	TimerTask sendCurrentStatusTimer = new TimerTask()  {
-	      public void run(ActionEvent evt) {
-	    	 
-	      }
-
-		@Override
-		public void run() {
-			if(!match_manager.matchEnded) {
-				match_manager.update(0.04f);
-				sendSavedStatusToAllPlayers();
-				sendBallStatusToAllPlayers();
-			}
-		}
-	  };
-	
-	private void sendSavedStatusToAllPlayers() {
+	public void sendSavedPlayerStatusOfMatchToAllItsPlayers(MatchManager m) {
+		
 		ObjectNode nodo = mapper.createObjectNode();
 		
 		nodo.put("type", "UPDATE_PLAYERS_STATE");
 
 		 //Empaquetamos el estado de los jugadores
 		 ArrayNode nodoListaJugadores = nodo.putArray("players");
-		 for(int i = 0; i < match_manager.getPlayers().size(); i++) {
+		 for(int i = 0; i < m.getPlayers().size(); i++) {
 			 ObjectNode n = mapper.createObjectNode();
 			 
-			 PlayerIngameData p = match_manager.getPlayers().get(i);
+			 PlayerIngameData p = m.getPlayers().get(i);
 			 
 			 n.put("id", p.getID());
 			 n.put("name", p.getName());
@@ -265,10 +286,10 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 
 		 nodo.put("players", nodoListaJugadores);
 		
-		 sendMessageToAllPlayersInGame(nodo);
+		 sendMessageToAllPlayersInMatch(m, nodo);
 	}
 	
-	private void sendBallStatusToAllPlayers() {
+	public  void sendSavedBallStatusOfMatchToAllItsPlayers(MatchManager m) {
 		ObjectNode nodo = mapper.createObjectNode();
 		
 		nodo.put("type", "UPDATE_BALLS_STATE");
@@ -276,10 +297,10 @@ public class IngameHandler  extends TextWebSocketHandler {
 		//Empaquetamos el estado de las bolas
 		 ArrayNode nodoListaBolas = nodo.putArray("balls");
 
-		 for(int i = 0; i < match_manager.getBalls().size(); i++) {
+		 for(int i = 0; i < m.getBalls().size(); i++) {
 			 ObjectNode n = mapper.createObjectNode();
 			 
-			 Ball b = match_manager.getBalls().get(i);
+			 Ball b = m.getBalls().get(i);
 			 
 			 n.put("id", b.getID());
 			 n.put("type", b.getType());
@@ -291,22 +312,21 @@ public class IngameHandler  extends TextWebSocketHandler {
 		 
 		 nodo.put("balls", nodoListaBolas);
 		
-		 sendMessageToAllPlayersInGame(nodo);
+		 sendMessageToAllPlayersInMatch(m, nodo);
 	}
 	
-	public void sendGameOverState(int winnerId) {
+	public void sendGameOverState(MatchManager m, int winnerId) {
 		ObjectNode nodo = mapper.createObjectNode();
 		
 		nodo.put("type", "GAME_OVER");
 		nodo.put("id", winnerId);
 		
-		System.out.println("SACABO");
-		
-		sendMessageToAllPlayersInGame(nodo);
+		System.out.println("SACABO LA PARTIDA DE LA ROOM "+m.getRoom().getRoomId());
+		sendMessageToAllPlayersInMatch(m, nodo);
 	}
 	
-	private void sendMessageToAllPlayersInGame(JsonNode msg){
-		for(PlayerIngameData p: match_manager.getPlayers()) {
+	private void sendMessageToAllPlayersInMatch(MatchManager m, JsonNode msg){
+		for(PlayerIngameData p: m.getPlayers()) {
 			
 			if(!p.isConnected())
 				continue;
@@ -322,8 +342,8 @@ public class IngameHandler  extends TextWebSocketHandler {
 		}
 	}
 	
-	private void sendMessageToAllPlayersInGameLessOne(JsonNode msg, WebSocketSession session){
-		for(PlayerIngameData p: match_manager.getPlayers()) {
+	private void sendMessageToAllPlayersInMatchLessOne(MatchManager m, JsonNode msg, WebSocketSession session){
+		for(PlayerIngameData p: m.getPlayers()) {
 			if(p.getSession().getId().equals(session.getId()) || !p.isConnected()) {
 				continue;
 			}
@@ -337,6 +357,26 @@ public class IngameHandler  extends TextWebSocketHandler {
 			}
 		}
 	}
+	
+	
+	private MatchManager getMatchManagerByRoomId(int id) {
+		for(MatchManager m: matchManagerList) {
+			if(m.getRoom().getRoomId() == id)
+				return m;
+		}
+		
+		return null;
+	}
+	
+	
+	public LobbyHandler getLobbyHandler() {
+		return lobbyHandler;
+	}
+
+	public void setLobbyHandler(LobbyHandler lobbyHandler) {
+		this.lobbyHandler = lobbyHandler;
+	}
+
 	
 }
 

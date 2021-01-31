@@ -11,6 +11,7 @@ class IngameScene extends Phaser.Scene {
         console.log(msj.players);
 
         if(this.gameMode == "online"){
+            this.roomId = msj.room;
             this.playerId = msj.id;
             this.playersInGame = msj.players; //(id, name, personaje)
         }
@@ -115,7 +116,7 @@ class IngameScene extends Phaser.Scene {
         if(this.gameMode == "online"){
             //Montar conexión con el servidor
             var playerData = this.findClientPlayer();
-            this.ingameSocket = new IngameSocket(this, playerData, this.playerObject);
+            this.ingameSocket = new IngameSocket(this, playerData, this.playerObject, this.roomId);
             this.ingameSocket.startConnection();
             this.matchStarted = false;
         }

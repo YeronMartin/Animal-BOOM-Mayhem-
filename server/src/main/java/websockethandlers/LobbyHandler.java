@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import dataobjects.PlayerLobby;
+import dataobjects.Room;
 
 @SpringBootApplication
 @EnableWebSocket
@@ -38,17 +39,20 @@ public class LobbyHandler extends TextWebSocketHandler {
 	//Mapa de sesiones  activas (clientes conectados)
 	private Map<String, WebSocketSession> active_player_sessions = new ConcurrentHashMap<>();
 	
-	//Mapa de jugadores activos en el lobby
-	private ArrayList<PlayerLobby> lobby_players = new ArrayList<PlayerLobby>();
-	
 	private ObjectMapper mapper = new ObjectMapper();
 	
 	private IngameHandler ingameHandler;
 	
-	public LobbyHandler(IngameHandler ingameHandler) {
-		this.ingameHandler = ingameHandler;
-		
+	private ArrayList<Room> roomList;
+	private int roomIdCount;
+	
+	public LobbyHandler() {
 		loadStoredPlayers();
+		
+		//Montamos la lista de Rooms e inicializamos la primera sala
+		roomList = new ArrayList<Room>();
+		roomIdCount = 0;
+		roomList.add(new Room(roomIdCount));
 		
 		Timer startMatchTimer = new Timer();
 		startMatchTimer.schedule(readyToStart, 0, 1000);
@@ -83,9 +87,6 @@ public class LobbyHandler extends TextWebSocketHandler {
 		}
 	}
 	
-	private boolean started = false;
-	private int timeToStartMatch = 10;
-	
 	TimerTask readyToStart = new TimerTask() {
 		public void run(ActionEvent evt) {
 
@@ -93,25 +94,27 @@ public class LobbyHandler extends TextWebSocketHandler {
 
 		@Override
 		public void run() {
-			if (lobby_players.size() > 0 && !started) {
-				if(timeToStartMatch > 0) {
-					timeToStartMatch--;
-	                sendTimerValueToAllPlayersInLobby(timeToStartMatch);
-	            }else{
-	                startMatchPreparations();
-					started = true;
-	            }
+			for(Room r: roomList){
+				
+				if(!r.isRoomAvailable())
+					continue;
+				
+				if(r.getLobbyPlayers().size() > 0 && !r.isCountDownStarted()) {
+					if(r.getCountDownToStart() > 0) {
+						int timeLeft = r.getCountDownToStart();
+						timeLeft--;
+						System.out.println("Tic Tac "+timeLeft);
+						r.setCountDownToStart(timeLeft);
+						
+						sendTimerValueToAllPlayersInRoom(r, r.getCountDownToStart());
+					}else{
+						startMatchPreparations(r);
+						r.setCountDownStarted(true);
+					}
+				}
 			}
 		}
 	};
-	
-	private void sendTimerValueToAllPlayersInLobby(int time) {
-		ObjectNode msgTime = mapper.createObjectNode();
-		msgTime.put("type", "LOBBY_TIMER");
-		msgTime.put("time", time);
-		
-		sendMessageToAllPlayersInLobby(msgTime);
-	}
 	
 	//==========================================================
 	//	CONEXIÓN DE CLIENTE
@@ -132,21 +135,47 @@ public class LobbyHandler extends TextWebSocketHandler {
 		System.out.println("Conexión cerrada: " + session.getId());
 		active_player_sessions.remove(session.getId());
 		
-		removePlayerFromLobby(session);
+		removePlayerFromRoom(session);
 	}
 	
-	private void removePlayerFromLobby(WebSocketSession session) {
-		PlayerLobby p = searchPlayerBySessionId(session);
-		if(p != null) {
-			lobby_players.remove(p);
-			sendLobbyDataToAllPlayers();
+	private void removePlayerFromRoom(WebSocketSession session) {
+		Room room = searchRoomOfPlayerBySession(session);
+		
+		if(room != null) {
+			
+			if(!room.isRoomAvailable()) {
+				//Nada que temer, es que la partida ya ha empezado
+				return;
+			}
+			
+			PlayerLobby p = getPlayerFromRoomBySession(room , session);
+			
+			if(p != null) {
+				//Eliminar al jugador de la room y notificar al resto de esa sala
+				room.removePlayerFromRoom(p);
+				sendLobbyDataToAllPlayersInRoom(room);
+				
+				System.out.println("Jugador "+p.getName()+" eliminado de la sala "+room.getRoomId());
+			}
 		}
 	}
 	
-	private PlayerLobby searchPlayerBySessionId(WebSocketSession s) {
-		for(int i = 0; i < lobby_players.size(); i++) {
-			if(lobby_players.get(i).getSession().getId().equals(s.getId())) {
-				return lobby_players.get(i);
+	private Room searchRoomOfPlayerBySession(WebSocketSession s) {
+		for(Room r: roomList) {
+			for(int i = 0; i < r.getLobbyPlayers().size(); i++) {
+				if(r.getLobbyPlayers().get(i).getSession().getId().equals(s.getId())) {
+					return r;
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	private PlayerLobby getPlayerFromRoomBySession(Room r, WebSocketSession s) {
+		for(int i = 0; i < r.getLobbyPlayers().size(); i++) {
+			if(r.getLobbyPlayers().get(i).getSession().getId().equals(s.getId())) {
+				return r.getLobbyPlayers().get(i);
 			}
 		}
 		
@@ -164,7 +193,6 @@ public class LobbyHandler extends TextWebSocketHandler {
 		String character = node.get("character").asText();	
 		
 		addPlayerToLobby(session, name, character);
-		sendLobbyDataToAllPlayers();
 	}
 	
 	private void addPlayerToLobby(WebSocketSession s, String name, String character) {
@@ -180,48 +208,80 @@ public class LobbyHandler extends TextWebSocketHandler {
 			stored_players.put(p.getName(),p);
 		}
 		
-		lobby_players.add(p);
+		//Hay que meter al jugador en una Room
+		putPlayerInsideRoom(p);
+	}
+	
+	private void putPlayerInsideRoom(PlayerLobby p) {
+		Room r = getFirstAvailableRoom();
 		
-		if(lobby_players.size() > 0){
-			started = false;
-			timeToStartMatch = 10;
+		if(r == null) {
+			System.out.println("Todas las salas están llenas u ocupadas");
+			roomIdCount++;
+			r = new Room(roomIdCount);
+		}else {
+			System.out.println("Sala disponible: "+r.getRoomId());
 		}
+		
+		r.addPlayerToRoom(p);
+		
+		sendLobbyDataToAllPlayersInRoom(r);
+	}
+	
+	private Room getFirstAvailableRoom() {
+		for(Room r: roomList) {
+			if(!r.isRoomFull() && r.isRoomAvailable()) {
+				return r;
+			}
+		}
+		
+		return null;
 	}
 	
 	//==========================================================
 	//	ENVIAR MENSAJE
 	//==========================================================
-		
-	private void sendLobbyDataToAllPlayers(){
+	
+	private void sendLobbyDataToAllPlayersInRoom(Room r){
 		//Empaquetar nuevo mensaje (información actualizada lobby)
 		ObjectNode nodo = mapper.createObjectNode();
 				
 		nodo.put("type", "UPDATE_LOBBY");
+		nodo.put("room", r.getRoomId());
 
         ArrayNode nodoLista = nodo.putArray("players");
 
-        for(int i = 0; i < lobby_players.size(); i++) {
+        for(int i = 0; i < r.getLobbyPlayers().size(); i++) {
             ObjectNode n = mapper.createObjectNode();
-
-            //n.put("session", lobby_players.get(i).getSession().getId());
-    		n.put("id", lobby_players.get(i).getID());
-    		n.put("name", lobby_players.get(i).getName());
-    		n.put("character", lobby_players.get(i).getCharacter());
-    		n.put("victories", lobby_players.get(i).getWinnings());
-    		n.put("eliminations", lobby_players.get(i).getDeaths());
-    		n.put("times_played", lobby_players.get(i).getTimesPerWeek());
+            
+    		n.put("id", r.getLobbyPlayers().get(i).getID());
+    		n.put("name", r.getLobbyPlayers().get(i).getName());
+    		n.put("character", r.getLobbyPlayers().get(i).getCharacter());
+    		n.put("victories", r.getLobbyPlayers().get(i).getWinnings());
+    		n.put("eliminations", r.getLobbyPlayers().get(i).getDeaths());
+    		n.put("times_played", r.getLobbyPlayers().get(i).getTimesPerWeek());
 
             nodoLista.add(n);
         }
 
         nodo.put("players", nodoLista);
 
-		sendMessageToAllPlayersInLobby(nodo);
+		sendMessageToAllPlayersInRoom(r, nodo);
 	}
+	
+	private void sendTimerValueToAllPlayersInRoom(Room r, int time) {
+		ObjectNode msgTime = mapper.createObjectNode();
+		msgTime.put("type", "LOBBY_TIMER");
+		msgTime.put("room", r.getRoomId());
+		msgTime.put("time", time);
+		
+		sendMessageToAllPlayersInRoom(r, msgTime);
+	}
+	
 
-	private void sendMessageToAllPlayersInLobby(JsonNode msg) {
+	private void sendMessageToAllPlayersInRoom(Room r, JsonNode msg) {
 		try {
-			for(PlayerLobby p : lobby_players) {
+			for(PlayerLobby p : r.getLobbyPlayers()) {
 				synchronized(p.getSession()) {
 					p.getSession().sendMessage(new TextMessage(msg.toString()));
 				}
@@ -236,24 +296,34 @@ public class LobbyHandler extends TextWebSocketHandler {
 	//	PREPARACIÓN DE LA PARTIDA
 	//==========================================================
 	
-	//En algún momento habrá que empezar la partida
-	private void startMatchPreparations() {
-		this.ingameHandler.setupNewMatch(lobby_players);
+	//Preparamos la partida de una room
+	private void startMatchPreparations(Room r) {
+		
+		r.setOpenToPlayers(false);
+		this.ingameHandler.setupNewMatch(r);
 
-		sendStartSignalToAllPlayers();
+		sendStartSignalToAllPlayersOfRoom(r);
 		
 		System.out.println("COMIENZA LA PARTIDA");
-		
-		//Una vez comienza la partida, eliminamos los jugadores del lobby
-		lobby_players.clear();
-		started = false;
 	}
 
-	private void sendStartSignalToAllPlayers() {
+	private void sendStartSignalToAllPlayersOfRoom(Room r) {
 		ObjectNode msgStart = mapper.createObjectNode();
 		msgStart.put("type", "START");
 					
-		sendMessageToAllPlayersInLobby(msgStart);
+		sendMessageToAllPlayersInRoom(r, msgStart);
+	}
+	
+	
+	
+	public IngameHandler getIngameHandler() {
+		return ingameHandler;
+	}
+
+
+
+	public void setIngameHandler(IngameHandler ingameHandler) {
+		this.ingameHandler = ingameHandler;
 	}
 
 }

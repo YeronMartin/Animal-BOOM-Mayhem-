@@ -1,7 +1,10 @@
 package ingameUtils;
 
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.springframework.web.socket.WebSocketSession;
 
@@ -10,12 +13,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import dataobjects.Ball;
 import dataobjects.PlayerIngameData;
 import dataobjects.PlayerLobby;
+import dataobjects.Room;
 import dataobjects.Vector2;
 import websockethandlers.IngameHandler;
 
 public class MatchManager {
 
 	private IngameHandler handler;
+	private Room room;
+	
+	
 	private ArrayList<PlayerIngameData> players;
 	private ArrayList<Ball> balls;
 	private int ballIdCounter;
@@ -48,18 +55,21 @@ public class MatchManager {
 	//	PREPARACIÓN DE LA PARTIDA
 	// ==========================================
 	
-	public void setupGame(ArrayList<PlayerLobby> playersL) {
+	public void setupGame(Room r) {
+		
+		this.room = r;
+		
 		players.clear();
 		balls.clear();
 		
 		System.out.println("La partida tiene a los siguientes jugadores:");
 		
-		for(int i = 0; i < playersL.size(); i++) {
+		for(int i = 0; i < r.getLobbyPlayers().size(); i++) {
 			PlayerIngameData p = new PlayerIngameData();
 			
-			p.setID(playersL.get(i).getID());
-			p.setCharacter(playersL.get(i).getCharacter());
-			p.setName(playersL.get(i).getName());
+			p.setID(r.getLobbyPlayers().get(i).getID());
+			p.setCharacter(r.getLobbyPlayers().get(i).getCharacter());
+			p.setName(r.getLobbyPlayers().get(i).getName());
 			
 			players.add(p);
 			
@@ -71,7 +81,7 @@ public class MatchManager {
 		positionPlayers();
 		generateInitialBalls();
 		
-		System.out.println("ESPERANDO JUGADORES:");
+		System.out.println("ESPERANDO JUGADORES DE LA SALA: "+room.getRoomId());
 	}
 	
 	//Cálcula las posiciones iniciales de los jugadores de manera aleatoria.
@@ -161,10 +171,40 @@ public class MatchManager {
 		if(players_prepared == players.size()) {
 			//Todo el mundo ha cargado
 			System.out.println("Todos los jugadores se han conectado");
-			handler.sendStartMatchMessage();
+			handler.sendStartMatchMessageToMatch(this);
+			
+			
+			startUpdateTimer();
 		}
 	}
 	
+	private void startUpdateTimer() {
+		//La partida ha comenzado, inicializamos el timer de actualización
+		Timer sendSavedStatusTimer = new Timer();
+		sendSavedStatusTimer.schedule(sendCurrentStatusTimer, 0, 100);
+	}
+	
+	TimerTask sendCurrentStatusTimer = new TimerTask()  {
+	      public void run(ActionEvent evt) {
+	    	 
+	      }
+
+		@Override
+		public void run() {
+			if(!matchEnded) {
+				sendUpdate();
+			}
+		}
+	  };
+	
+	  
+	public void sendUpdate() {
+		update(0.04f);
+		handler.sendSavedPlayerStatusOfMatchToAllItsPlayers(this);
+		handler.sendSavedBallStatusOfMatchToAllItsPlayers(this);
+	}
+	
+	  
 	private int findPlayerIndexById(int id) {
 		for(int i = 0; i < players.size(); i++) {
 			if(id == (players.get(i).getID())) 
@@ -174,7 +214,7 @@ public class MatchManager {
 	}
 	
 	public void updatePlayerData(JsonNode data) {
-		System.out.println(data.get("id")+" nos envía su estado");
+		//System.out.println(data.get("id")+" nos envía su estado");
 		
 		int playerIndex = findPlayerIndexById(data.get("id").asInt());
 		
@@ -184,7 +224,7 @@ public class MatchManager {
 			players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
 			players.get(playerIndex).setDirection(new Vector2(data.get("movX").floatValue(), data.get("movY").floatValue()));
 			
-			System.out.println("Está en "+data.get("posX")+", "+data.get("posY")+" y se mueve a "+data.get("movX")+", "+data.get("movY"));;
+			//System.out.println("Está en "+data.get("posX")+", "+data.get("posY")+" y se mueve a "+data.get("movX")+", "+data.get("movY"));;
 		}
 	}
 	
@@ -310,7 +350,7 @@ public class MatchManager {
 		//players.clear();
 		
 		if(id > -1) 
-			handler.sendGameOverState(id);
+			handler.sendGameOverState(this, id);
 	}
 	
 	private int getIdOfLastPLayerAlive(){
@@ -348,5 +388,14 @@ public class MatchManager {
 	public void setBalls(ArrayList<Ball> balls) {
 		this.balls = balls;
 	}
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+	
 	
 }

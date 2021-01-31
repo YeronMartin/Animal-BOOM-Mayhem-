@@ -106,6 +106,10 @@ class lobbyScene extends Phaser.Scene {
 
     this.playersList = [];
 
+
+    this.roomId = data.room;
+    console.log("Por lo visto estoy en la room "+this.roomId);
+
     //Insertar los jugadores en un mapa
     var newMap = new Map();
     var x = 0;
@@ -193,7 +197,7 @@ class lobbyScene extends Phaser.Scene {
       playersMsg[i] = p_msg;
     }
 
-    this.scene.start("stadiumGame", { characters: ['juani', 'juani_cursed'], mode: 'online', id: myId, players : playersMsg});
+    this.scene.start("stadiumGame", { characters: ['juani', 'juani_cursed'], mode: 'online', room: this.roomId, id: myId, players : playersMsg});
   }
 
   update() {

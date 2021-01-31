@@ -11,32 +11,22 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 import websockethandlers.IngameHandler;
 import websockethandlers.LobbyHandler;
 
-
 @SpringBootApplication
 @EnableWebSocket
 public class Application implements WebSocketConfigurer{
 
 	public static void main(String[] args) {
-		 SpringApplication application = new SpringApplication(Application.class);
-	     application.setAddCommandLineProperties(false);
-	     application.run(args);
-		
-		//SpringApplication.run(Application.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
+	private LobbyHandler lobbyHandler;
 	private IngameHandler ingameHandler;
 	
 	//Inicializar "canales" de comunicación
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+		lobbyHandler = new LobbyHandler();
 		ingameHandler = new IngameHandler();
-		
-		
-		String host = "localhost";
-        int port = 8887;
-		
-		//server.address=<your_ip>
-		//server.port=<your_port>
 		
 		//Inicializar canal LOBBY
 		registry.addHandler(createLobbyHandler(), "/lobby").setAllowedOrigins("*");
@@ -45,11 +35,13 @@ public class Application implements WebSocketConfigurer{
 		registry.addHandler(createIngameHandler(), "/ingame").setAllowedOrigins("*");
 		
 		
+		lobbyHandler.setIngameHandler(ingameHandler);
+		ingameHandler.setLobbyHandler(lobbyHandler);
 	}
 	
 	@Bean
 	public LobbyHandler createLobbyHandler() {
-		return new LobbyHandler(ingameHandler);
+		return lobbyHandler;
 	}
 	
 	@Bean

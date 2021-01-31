@@ -3,7 +3,7 @@ var config = {
     parent: 'Animal-boom',
     width: 1024,
     height: 768,
-    scene: [loadingRenderScene, loadingScene, mainMenuScene, options, creditsScene, characterScene, stageScene,  postGame,  gameSettings,
+    scene: [loadingRenderScene, loadingScene, mainMenuScene, modeScene, creditsScene, characterScene, stageScene,  postGame,  gameSettings,
         StadiumGame, Tutorial, lobbyScene],
 
     physics: {

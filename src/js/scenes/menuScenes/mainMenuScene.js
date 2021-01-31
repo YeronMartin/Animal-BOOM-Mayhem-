@@ -5,9 +5,10 @@ class mainMenuScene extends Phaser.Scene{
       var playButton;
       var creditsButton;
       var button_vector;
-      var selected_button;
+      var selectedButton;
       var tutorialButton;
       var player;
+      var lastSelectedButton;
   }
 
   preload(){
@@ -27,7 +28,8 @@ class mainMenuScene extends Phaser.Scene{
 
       this.key_T = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
 
-      this.selected_button = null;
+      this.selectedButton = 0;
+      this.lastSelectedButton = 0;
 
       this.initAnimButtons();
 
@@ -35,7 +37,7 @@ class mainMenuScene extends Phaser.Scene{
       this.tutorialButton = this.add.sprite(config.width/2 -10, config.height/1.25 +50).setScale(.17).setDepth(2);
       this.creditsButton = this.add.sprite(config.width/2 -10, config.height/1.25 + 100).setScale(.17).setDepth(2);
 
-      this.playButton.play('play');
+      this.playButton.play('play_selected');
       this.tutorialButton.play('tutorial');
       this.creditsButton.play('credits');
 
@@ -100,29 +102,30 @@ toSelectButton(){
     return;
 
     if(Phaser.Input.Keyboard.JustDown(this.key_S)){
-        if (this.selectedButton == null){
-          this.selectedButton = 0;
-          this.renderButtons();
-        }else{
 
-          if(this.selectedButton == 2){
-            this.selectedButton = -1;
+          if (this.selectedButton == null){
+            this.selectedButton = 0;
+          }else{
+
+            if(this.selectedButton == 2){
+              this.selectedButton = -1;
+            }
+            this.selectedButton ++;
           }
-          this.selectedButton ++;
           this.renderButtons();
-        }
-    }else if (Phaser.Input.Keyboard.JustDown(this.key_W)){
-        if (this.selectedButton == null){
-          this.selectedButton = 1;
-          this.renderButtons();
-        }else {
-          if(this.selectedButton == 0){
-            this.selectedButton = 3;
+
+      }else if (Phaser.Input.Keyboard.JustDown(this.key_W)){
+          if (this.selectedButton == null){
+            this.selectedButton = 1;
+            this.renderButtons();
+          }else {
+            if(this.selectedButton == 0){
+              this.selectedButton = 3;
+            }
+            this.selectedButton --;
+            this.renderButtons();
           }
-          this.selectedButton --;
-          this.renderButtons();
-        }
-    }
+      }
 }
 
 toEnterButton(){
@@ -137,7 +140,7 @@ toEnterButton(){
             this.menuSelectSfx.play();
 
             console.log(this.nicknameBox.getChildByName('nameField').value);
-            this.scene.start("characterScene", {player : this.nicknameBox.getChildByName('nameField').value});
+            this.scene.start("modeScene", {player : this.nicknameBox.getChildByName('nameField').value});
             this.selectedButton = null;
 
             this.inputBoxActive = false;

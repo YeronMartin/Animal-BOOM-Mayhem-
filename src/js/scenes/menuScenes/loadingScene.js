@@ -116,6 +116,9 @@ class loadingScene extends Phaser.Scene {
     this.load.image("credits_background", "././resources/img/sceneBackground/credits_background.png");
     this.load.spritesheet('exitArrow', '././././resources/img/Interfaces/buttons/exitArrow.png', { frameWidth: 512, frameHeight: 512 } );
 
+    //modeScene
+    this.load.spritesheet('offLineOnLine', '././././resources/img/Interfaces/buttons/offlineOnLine.png', { frameWidth: 1075, frameHeight: 1671} );
+
     //characterScene
     this.load.image("character_background", "././resources/img/sceneBackground/character_background.png");
     this.load.image("rep_Juani", "././resources/img/Interfaces/characterRep/rep_Juani.png");

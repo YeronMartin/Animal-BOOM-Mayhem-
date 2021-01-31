@@ -245,6 +245,7 @@ class Player extends Phaser.GameObjects.Sprite{
             this.ball.launch(this.dirX, this.dirY);
         }
 
+        this.ball.launchedByPlayer = this.id;
         this.ball.visible = true;
         this.ball = null;
     }
@@ -295,7 +296,7 @@ class Player extends Phaser.GameObjects.Sprite{
     // Recibir daño
     //====================================================================================================
 
-    takeDamage(ballId){
+    takeDamage(entity, isBall){
         if(this.hurted)
             return;
 
@@ -306,11 +307,15 @@ class Player extends Phaser.GameObjects.Sprite{
             if(this.crouching)
                 this.exitCrouchMode();
             
-            this.enterHurtState(ballId);
+            if(isBall)
+                this.enterHurtState(entity.id);
+            else
+                this.enterHurtState(-1);
            
             this.animator.lifebar.anims.play('lifebar_'+this.team+'_'+this.health);
         }else{
             //Muertini
+            this.killerId = entity.launchedByPlayer;
 
             if(this.scene.gameMode == "online")
                 this.scene.ingameSocket.sendEliminatedState();

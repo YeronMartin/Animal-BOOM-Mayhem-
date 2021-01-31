@@ -36,6 +36,18 @@ public class PlayerLobby {
 		this.eliminations = eliminations;
 	}
 
+	public void addEliminations(int amount) {
+		this.eliminations += amount;
+	}
+	
+	public void addVictory(int amount) {
+		this.winnings += amount;
+	}
+	
+	public void addTimesPlayed(int amount) {
+		this.timesPerWeek += amount;
+	}
+	
 	public WebSocketSession getSession() {
 		return session;
 	}

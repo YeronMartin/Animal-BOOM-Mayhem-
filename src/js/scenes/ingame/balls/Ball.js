@@ -6,6 +6,7 @@ class Ball extends Phaser.GameObjects.Sprite{
 
     onGround = true;
     heldByPlayer = null;
+    playerId = -1;
 
     distanceToTravel = 2500000;
     distanceToActivateCollisions = 100000;

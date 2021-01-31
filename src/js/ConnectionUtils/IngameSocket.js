@@ -179,6 +179,10 @@ class IngameSocket {
     sendEnterHurtState(ballId){
         console.log("Me hirieron wey "+ballId);
 
+        if(ballId == null)
+            ballId = -1;
+
+
         var msg = {
             "type": "ENTER_HURT_STATE",
             "room": this.room,
@@ -194,6 +198,9 @@ class IngameSocket {
 
     sentEnterOtherHurtState(ballId, dummyObject){
         console.log("Han herido a este wey con "+ballId);
+        
+        if(ballId == null)
+            ballId = -1;
 
         var msg = {
             "type": "ENTER_HURT_STATE",
@@ -213,12 +220,18 @@ class IngameSocket {
         if(dummyObject != null){
             console.log("Este la palmó no mas");
 
+            console.log(dummyObject.id+" ha muerto por "+dummyObject.killerId);
+
+            if(dummyObject.killerId == null)
+                dummyObject.killerId == -1;
+
             var msg = {
                 "type": "ENTER_ELIMINATED_STATE",
                 "room": this.room,
                 "id": dummyObject.id,
                 "posX": dummyObject.x,
                 "posY": dummyObject.y,
+                "killerId": dummyObject.killerId
             };
 
             this.sendMessage(msg);
@@ -231,6 +244,7 @@ class IngameSocket {
                 "id": this.playerId,
                 "posX": this.playerObject.x,
                 "posY": this.playerObject.y,
+                "killerId": this.playerObject.killerId
             };
 
             this.sendMessage(msg);
@@ -331,6 +345,12 @@ class IngameSocket {
                 case 2:
                     this.scene.ballsList[i] = new BallTemporizedBomb(this.scene, ballsData[i].id, ballsData[i].posX, ballsData[i].posY);
                     break;
+                case 3:
+                    this.scene.ballsList[i] = new FlamingBall(this.scene, ballsData[i].id, ballsData[i].posX, ballsData[i].posY);
+                    break;
+                case 4:
+                    this.scene.ballsList[i] = new BlackHoleBall(this.scene, ballsData[i].id, ballsData[i].posX, ballsData[i].posY);
+                    break;
             }
         }
 
@@ -358,6 +378,13 @@ class IngameSocket {
                 p.movX = playersData[i].movX;
                 p.movY = playersData[i].movY;
             }
+
+            if(p.health != playersData[i].health){
+                console.log("UN MOMEEENTO, yo tengo "+p.health+" y este dice que tengo "+playersData[i]);
+                p.health = playersData[i].health;
+            }
+
+          
         }
     }
 
@@ -369,25 +396,38 @@ class IngameSocket {
 
             if(b == null){
                 //Esta bola no está en la escena, lo más probable es que sea nueva
+                console.log("Esta bola no está, tenemos "+this.scene.ballsList.length);
                 this.scene.ballsList[this.scene.ballsList.length] = this.createNewBallFromData(ballsData[i]);
-            }else{
-                //Actualizamos su posición como toca
-                //b.x = ballsData[i].posX;
-                //b.y = ballsData[i].posY;
+            }
+        }
+
+
+        if(ballsData.length > this.scene.ballsList.length){
+            //Sobran bolas
+            for(var i = 0; i < this.scene.ballsList.length; i++){
+                //Buscar la pelota
+                var b = this.findBallInData(ballsData, this.scene.ballsList[i].id);
+                
+                //Si no hay pelota, es que sobra
+                if(b == null){
+                    console.log("ELIMINADA");
+                    this.scene.ballsList.splice(this.scene.ballsList.lastIndexOf(b), 1);
+                }
             }
         }
 
         /*
-        //Hay que comprobar también que no haya bolas en escena que sobran.
         for(var i = 0; i < this.scene.ballsList.length; i++){
-            if(this.findBallById()){
+            for(var j = 0; j < ballsData.length; j++){
+                if(this.findBallById() == null){
 
+                }
             }
         }
         */
     }
 
-    createNewBallFromData(ballData, id){
+    createNewBallFromData(ballData){
         switch(ballData.type){
             case 0:
                 return new BallBasket(this.scene, ballData.id, ballData.posX, ballData.posY);
@@ -395,7 +435,19 @@ class IngameSocket {
                 return new BallBomb(this.scene, ballData.id, ballData.posX, ballData.posY);
             case 2:
                 return new BallTemporizedBomb(this.scene, ballData.id, ballData.posX, ballData.posY);
+            case 3:
+                return new FlamingBall(this.scene, ballData.id, ballData.posX, ballData.posY);
+            case 4:
+                return new BlackHoleBall(this.scene, ballData.id, ballData.posX, ballData.posY);
         }
+    }
+
+    findBallInData(data, id){
+        for(var i = 0; i < data.length; i++){
+            if(data[i].id == id)
+                return data[i];
+        }
+        return null;
     }
 
     findPlayerById(id){
@@ -408,6 +460,9 @@ class IngameSocket {
 
     findBallById(id){
         for(var i = 0; i < this.scene.ballsList.length; i++){
+            if(this.scene.ballsList[i] == null)
+                continue;
+
             if(this.scene.ballsList[i].id == id)
                 return this.scene.ballsList[i];
         }

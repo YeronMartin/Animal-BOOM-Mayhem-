@@ -46,6 +46,10 @@ class FlamingBall extends Ball{
             this.currentTimeBetweenFireCycles = 0;
 
             var pillar = new FirePillar(this.scene, this.x, this.y);
+
+            if(this.scene.gameMode == "online"){
+                pillar.launchedByPlayer = this.launchedByPlayer;
+            }
         }
     }
 

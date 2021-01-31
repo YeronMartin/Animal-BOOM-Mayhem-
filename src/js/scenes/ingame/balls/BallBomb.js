@@ -22,6 +22,10 @@ class BallBomb extends Ball{
     explode(){
         var explosion = new Explosion(this.scene, this.x, this.y, 'bomb');
         this.scene.explosionSfx.play();
+
+        if(this.scene.gameMode == "online"){
+            explosion.launchedByPlayer = this.launchedByPlayer;
+        }
     }
 
     updateTraveledDistance(elapsed){

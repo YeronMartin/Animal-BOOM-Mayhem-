@@ -21,6 +21,11 @@ class BlackHoleBall extends Ball{
 
     explode(){
         var blackHole = new BlackHoleArea(this.scene, this.x, this.y);
+
+        if(this.scene.gameMode == "online"){
+            blackHole.launchedByPlayer = this.launchedByPlayer;
+        }
+
         //this.scene.explosionSfx.play();
     }
 

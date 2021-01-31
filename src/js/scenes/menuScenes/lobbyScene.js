@@ -83,6 +83,9 @@ class lobbyScene extends Phaser.Scene {
   processMessage(scene, player, playerMap, data) {
 
     switch (data.type) {
+      case "NEW_NAME":
+        this.player.name = data.newName;
+        break;
       case "UPDATE_LOBBY":
         this.getPlayers(player, scene, playerMap, data);
         break;
@@ -163,14 +166,6 @@ class lobbyScene extends Phaser.Scene {
   toNextScene(){
     this.connection.close();
 
-
-
-    //En playerMap tenemos un churro de jugadores con sus datos (id, name, personaje)
-
-    //Tenemos que:
-    //Identificarme a mí mismo, con mi id.
-    //Obtener todos los datos y presentarselos a la siguiente escena.
-
     var myId = -1;
 
     var playersMsg = [];
@@ -204,6 +199,7 @@ class lobbyScene extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(this.key_ENTER)) {
       this.scene.start("loadingRenderScene");
     } else if (Phaser.Input.Keyboard.JustDown(this.key_ESCAPE)) {
+      this.connection.close();
       this.scene.start("mainMenuScene");
     }
   }

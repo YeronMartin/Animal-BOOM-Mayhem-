@@ -1,6 +1,5 @@
-class carrousel extends Phaser.Class{
+class Carrousel {
   constructor(scene, front, back, left, right, numCharacter){
-    super (scene, 0, 0, 'carrousel');
 
     //Escena
     this.scene = scene;
@@ -18,6 +17,8 @@ class carrousel extends Phaser.Class{
     this.elementToSelect; //elemento a seleccionar
     this.currentElement; //Elemento actual seleccionado
     this.tweens;//vector de tweens
+
+    this.characters  =  ["juani_carrousel", "juani_Cursed_carrousel", "gato_Finanzas_carrousel"];
 
     this.init();
 
@@ -40,7 +41,7 @@ class carrousel extends Phaser.Class{
 
     var bottom = this.numCharacter/2;
     for (var i = 0; i < this.numCharacter; i++) {
-      this.elements[i] = this.scene.add.image(this.elements_position[i].x, this.elements_position[i].y, "juani").setScale(.1).setTint(Math.random()*0xffffff);
+      this.elements[i] = this.scene.add.image(this.elements_position[i].x, this.elements_position[i].y, this.characters[i]).setScale(.1);
       this.elements_depth[i] = (this.numCharacter + Math.abs (bottom - i));
       this.elements[i].setDepth(this.elements_depth[i]);
     }
@@ -79,16 +80,25 @@ class carrousel extends Phaser.Class{
   //CARROUSEL
   //Inicializacion del carrusel
   initCarrosuel(){
+    if (this.numCharacter% 2 == 0) {
+      this.initPar();
+    }else{
+      this.initImpar();
+    }
+  };
+
+  initPar (){
+
     var toBack = true;
     var y = this.front;
     var toLeft = true;
     var x = this.left - (this.left - this.right)/2;
+    var times = 1;
 
     var yElapse = (this.numCharacter % 2 == 0)? (this.front - this.back)/(this.numCharacter*0.5) :
-    (this.front - this.back)/(this.numCharacter*0.5) -1;
+    (this.front - this.back)/this.numCharacter*0.5 -1;
     var xElapse = (this.numCharacter % 2 == 0)? (this.right - this.left)/(this.numCharacter*0.5) :
-    (this.right - this.left)/(this.numCharacter*0.5) -1;
-
+    (this.right - this.left)/this.numCharacter*0.5 -1;
 
     for (var i = 0; i < this.elements_position.length; i++) {
       this.elements_position [i] = new Phaser.Math.Vector2(x, y);
@@ -125,7 +135,62 @@ class carrousel extends Phaser.Class{
       }
 
     }
-  };
+  }
+
+  initImpar (){
+
+    var toBack = true;
+    var y = this.front;
+    var toLeft = true;
+    var x = this.left - (this.left - this.right)/2;
+    var times = 1;
+
+    var yElapse = (this.numCharacter % 2 == 0)? (this.front - this.back)/(this.numCharacter*0.5) :
+    (this.front - this.back)/this.numCharacter*0.5 -1;
+    var xElapse = (this.numCharacter % 2 == 0)? (this.right - this.left)/(this.numCharacter*0.5) :
+    (this.right - this.left)/this.numCharacter*0.5 -1;
+
+    for (var i = 0; i < this.elements_position.length; i++) {
+      this.elements_position [i] = new Phaser.Math.Vector2(x, y);
+      if(toBack){
+        if(this.between(this.back, y)){
+          toBack = false;
+          y+= yElapse
+        }else{
+          y+= -yElapse
+        }
+      }else {
+        if(this.between(this.front, y)){
+          toBack = true;
+          y+= -yElapse;
+        }else{
+          y+= yElapse
+        }
+      }
+
+      if(toLeft){
+        if(this.between(this.left, x)){
+          toLeft = false;
+          x+= xElapse
+        }else{
+          x+= -xElapse
+        }
+      }else {
+        if(this.between(this.right, x)){
+          toLeft = true;
+          x+= -xElapse;
+        }else{
+          x+= xElapse
+        }
+      }
+
+    }
+
+    this.elements_position [1] = new Phaser.Math.Vector2(this.left, this.back);
+    this.elements_position [2] = new Phaser.Math.Vector2(this.right, this.back);
+
+
+  }
 
   //Mover el carrusel a la derecha
   moveCarrouselRight(){

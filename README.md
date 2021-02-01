@@ -1221,8 +1221,8 @@ Principal_ ​.
   Para la fase de mejoras se han añadido y modificado los siguientes elementos:  
   
   ### 10.1. Personajes  
-  Gato Finanzas, de orígenes italianos, Gato Finanzas es contable de día y bailarín de twerk de noche. Listo para barrer la pista de Animal BOOM Mayhem y 
-  poder ehcarse unos bailables. 
+  Gato Finanzas, de orígenes italianos. Gato Finanzas es contable de día y bailarín de twerk de noche. Listo para barrer la pista de Animal BOOM Mayhem y 
+  poder echarse unos bailables. 
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/gato_Finanzas_concept.png)
   
@@ -1245,10 +1245,8 @@ Principal_ ​.
   ### 10.3. Interfaz  
   #### 10.3.1 Modo de juego  
   Se ha añadido una nueva escena al juego que permite a los usuarios seleccionar entre online u offline, si seleccionan el modo offline el jugador podrá jugar con  
-  un compañero sin necesidad de conectarse al servidor. En caso del online el jugador podrá
-  Se ha añadido una nueva escena al juego que permite a los usuarios seleccionar entre online u offline, si seleccionan el modo offline el jugador podrá jugar con  
-  un compañero sin necesidad de conectarse al servidor. jugador con otros usuario.  
-  
+  un compañero sin necesidad de conectarse al servidor. En caso del online, el jugador tendrá que conectarse al servidor para poder jugar con otros usuarios.
+    
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newMode.png)
   
   #### 10.3.2. Créditos  
@@ -1257,14 +1255,14 @@ Principal_ ​.
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newCredits.png)
   
   #### 10.3.3. Selección de personajes.
-  Con respecto a la escena de selección de personajes se ha implemntado un carrusel para aportarle más dinamismo al juego. En caso de que el jugador haya elegido  
-  jugar en offline se accederá a la pantalla de selección de personaje, y una vez seleccionado volcerá a aprecer la pantalla para que pueda elegir el jugador 2.  
+  Con respecto a la escena de selección de personajes se ha implementado un carrusel para aportarle más dinamismo al juego. En caso de que el jugador haya elegido  
+  jugar en offline se accederá a la pantalla de selección de personaje, y una vez seleccionado volverá a aparecer la pantalla para que pueda elegir el jugador 2.  
   Como restricción se ha añadido que en offline los jugadores no puedan elegir al mismo personaje.  
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newCharacter.png)
   
   #### 10.3.4. PostGame.  
-  Finalmente la última mejora que se ha añadido es que en la escena postGame las acciones dejen de ser por teclado y se puedan manejar mediante botones.  
+  Finalmente la última mejora que se ha añadido es que en la escena postGame, las acciones dejen de ser por teclado y se puedan manejar mediante botones.  
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newPostGame.png)
   

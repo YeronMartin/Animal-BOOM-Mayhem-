@@ -1063,7 +1063,7 @@ Principal_ ​.
   Gato Finanzas, de orígenes italianos, Gato Finanzas es contable de día y bailarín de twerk de noche. Listo para barrer la pista de Animal BOOM Mayhem y 
   poder ehcarse unos bailables. 
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/gato_finanzas_sheet.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Interfaces/characterRep/gato_Finanzas_concept.png)
   
   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/gato_finanzas_sheet.png)
   
@@ -1077,7 +1077,9 @@ Principal_ ​.
   Cuando colisiona la pelota 'Agujero de Negro' absorbe todo lo que tiene a su alrededor, tanto personajes como pelotas, de manera que si un jugador  
   se queda atrapado en su gravedad posiblmente acabe muriendo si varias pelotas han sido arrastradas consigo.  
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Mini_agujero_negro.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/balls/Mini_agujero_negro.png)  
+  
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/effects/black_hole_area_sheet.png)
   
   ### 10.3. Interfaz  
   #### 10.3.1 Modo de juego  
@@ -1086,24 +1088,24 @@ Principal_ ​.
   Se ha añadido una nueva escena al juego que permite a los usuarios seleccionar entre online u offline, si seleccionan el modo offline el jugador podrá jugar con  
   un compañero sin necesidad de conectarse al servidor. jugador con otros usuario.  
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/gato_finanzas_sheet.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newMode.png)
   
   #### 10.3.2. Créditos  
   Como mejora se planteó acreditar los efectos de sonido y música empleados.  
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/gato_finanzas_sheet.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newCredits.png)
   
   #### 10.3.3. Selección de personajes.
   Con respecto a la escena de selección de personajes se ha implemntado un carrusel para aportarle más dinamismo al juego. En caso de que el jugador haya elegido  
   jugar en offline se accederá a la pantalla de selección de personaje, y una vez seleccionado volcerá a aprecer la pantalla para que pueda elegir el jugador 2.  
   Como restricción se ha añadido que en offline los jugadores no puedan elegir al mismo personaje.  
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/gato_finanzas_sheet.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newCharacter.png)
   
   #### 10.3.4. PostGame.  
   Finalmente la última mejora que se ha añadido es que en la escena postGame las acciones dejen de ser por teclado y se puedan manejar mediante botones.  
   
-  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/characters/gato_finanzas_sheet.png)
+  ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/Imagenes%20Interfaz/Mejoras/newPostGame.png)
   
   ## 11. Referencias
   La música se ha obtenido de la siguiente página:

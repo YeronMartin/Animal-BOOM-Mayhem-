@@ -1066,12 +1066,107 @@ Principal_ ​.
   pantalla.
 
   En caso de que el servidor esté apagado, aparecería un error en la consola y ninguno de los jugadores se mostrarían en el lobby.  
-  ## 9. Instrucciones precisas para ejecutar la aplicación  
+  
+  
+  ## 9. Fase 4
+  A continuación, se van a resumir las nuevas funcionalidades introducidas en la fase 4. En concreto, nos vamos a centrar en el uso de WebSockets.
   
   ### 9.1 WebSockets
   
   ### 9.2 Diagrama de clases (actualizado)
   
+  Para esta fase 4, hemos implementado nuevas clases tanto en el cliente como en el servidor. Además, cabe destacar que, en el caso del servidor algunas de las clases
+  de la anterior práctica se han eliminado, pues se ha sustituido toda la parte de gestión realizada con API REST por WebSockets. 
+  
+  A continuación, se van a resumir las nuevas clases implementadas y sus funciones, así como mostrar el diagrama de clases correspondiente a la aplicación.
+
+  En el caso del servidor, las nuevas clases implementadas han sido las siguientes:
+  
+  ● **Clase Application:** La clase Application es la clase encargada de la gestión de las conexiones en el servidor. Esta clase tiene dos canales: un canal para el lobby y 
+  otro para la partida como tal. Cuando un jugador inicia el juego, este se conecta al canal del lobby. Después, en el momento en el que se inicia la partida tras terminar
+  el temporizador del lobby, el cliente se desconecta de este para conectarse al canal de la partida, el canal ingame.
+  
+  ● **Clase PlayerIngameData:** La clase PlayerIngameData es la clase que representa a los jugadores que están dentro de la partida (canal ingame). Contiene varios atributos
+  que almacenan información de los personajes dentro de la partida. En este caso, se mantienen atributos para el nombre, la id, etc…, pero, además, se añaden atributos para
+  almacenar información fundamental de la escena de la partida como la posición, la dirección, el tipo de pelota, etc… Esta es la información que enviará el servidor a los
+  clientes conectados desde el manejador de la partida.
+  
+  ● **Clase PlayerLobby:** La clase PlayerLobby es la clase que representa a los jugadores que se conectan al lobby. Contiene varios atributos que almacenan la información
+  del jugador, como su nick o el personaje seleccionado. También, tiene tres atributos para almacenar el número de victorias, el número de jugadores derrotados y el número
+  de veces que ha jugado esa semana, pues es información que se va a mostrar en el lobby.
+  
+  ● **Clase Room:** La clase Room es la clase que representa las salas. En esta fase, se han implementado salas a las que los jugadores se pueden conectar. Estas salas
+  tienen un límite de dos jugadores. Cuando una sala se llena, se crea una nueva sala y los nuevos jugadores se insertan en esta. 
+
+  Cabe destacar que esta clase tiene varios métodos para la gestión de las salas como: un método para añadir a los jugadores a la sala, un método para eliminar a los
+  jugadores de la sala y un método para comprobar si un jugador se encuentra ya en esa sala.
+  
+  ● **Clase LobbyHandler:** Esta clase es el manejador del lobby. Es la clase que se encarga de la gestión del lobby. Esta clase tiene tres atributos importantes: dos mapas
+  de jugadores y una lista de salas. 
+
+  Con respecto a los mapas de jugadores, cabe destacar que, uno de los mapas almacena a todos los jugadores que se hayan conectado al juego aunque en ese momento estén
+  desconectados (stored_players). El propósito de este mapa es almacenar la información de todos los jugadores para que, si un jugador desconectado se vuelve a conectar,
+  podamos recuperar sus datos. Después, el segundo mapa almacena únicamente a los jugadores actualmente conectados al lobby (active_player_sessions).
+
+  También, esta clase tiene como atributo una instancia del manejador de la partida (IngameHandler).
+
+  Además de atributos, esta clase tiene varios métodos que se encargan de toda la gestión del lobby. Algunas de las funciones de estos métodos son: gestionar la conexión y
+  desconexión de los jugadores del lobby; recibir y enviar mensajes cuando un jugador se conecta, cuando va a iniciar la partida o cuando el temporizador se actualiza para
+  que todos los clientes conozcan esta nueva información; actualizar las salas; etc...
+
+  ● **Clase IngameHandler:** Esta clase es el manejador de la partida. Es la clase que se encarga de la gestión de la partida. Tiene varios atributos entre los que cabe
+  destacar: un mapa que almacena a los jugadores conectados en la partida (active_player_sessions), una lista de objetos de tipo MatchManager (matchManagerList) y una
+  instancia del manejador del lobby (LobbyHandler).
+
+  Los métodos de esta clase se encargan de toda la gestión de la partida como tal. Concretamente, esta es la clase que se encarga de: la gestión de la conexión y desconexión
+  de los jugadores a la partida; recibir los datos de cada cliente cada cierto tiempo por si se han actualizado para, después, poder enviarselos al resto de clientes y
+  renderizar ese cambio en sus pantallas; comunicarse con el MatchManger mediante mensajes para la preparación y actualización de la partida; etc…
+
+  Cabe destacar que, los mensajes que envían cliente y servidor están codificados mediante una etiqueta (type) para que, al procesarlos cliente y servidor, estos sepan qué
+  tipo de información ha recibido y que deben de hacer con ella.
+  
+  ● **Clase MatchManager:** La clase MatchManager es la clase encargada de la preparación y actualización de la escena de la partida. Cuenta con métodos que se encargan de:
+  inicializar las posiciones de los personajes y de las pelotas cuando se inicia una partida, crear pelotas durante la partida, etc…
+  
+  
+  En el caso del cliente, solo se ha añadido en esta fase una nueva clase, la clase IngameSocket. El resto de clases se han mantenido igual o se han modificado. Este ha sido
+  el caso de las clases lobbyscene e Ingamescene que ya existían, pero se han modificado en esta práctica para poder establecer la conexión mediante WebSockets. 
+  
+  ● **IngameSocket:** IngameSocket es la clase del cliente que establece conexión con el canal ingame del servidor y le envía la información que necesite. Esta clase tiene
+  un método setUpConnection () que es el método encargado de conectarse al WebSocket de la partida. Este método también tiene varios listeners entre los cuales cabe destacar
+  uno, el listener onmessage, que es el que se encarga de recibir los mensajes del servidor y parsearlos de JSON para, después, poder procesarlos. Estos mensajes se procesan
+  en el método processIncomingMessage(). En función del tipo de información recibida (etiqueta type del mensaje), se llama a un método u otro.
+
+  Por otro lado, esta clase cuenta con varios métodos para el envío de mensajes. Al igual que se ha mencionado antes, los mensajes se identifican mediante una etiqueta type
+  según el tipo de información. Por ello, dependiendo de lo que queramos enviar al servidor, se debe de llamar a un método u otro. Por ejemplo, el método sendCurrentStatus 
+  () empaqueta y envía la información actual del cliente (posición, dirección, pelota, etc...) al servidor para que este, después, pueda enviarle esta información al resto 
+  de clientes conectados y estos puedan actualizar su juego en función de lo que haya hecho el cliente.
+
+  Por último, esta clase tiene varios métodos update para, una vez recibida la información actualizada del resto de clientes por parte del servidor, actualizar la escena de
+  la partida para que lo que haga el resto de clientes se renderice en la pantalla del cliente actual.
+  
+  ● **lobbyscene:** En la clase lobbyscene, se ha incluido un método setUpConnection() que se conecta al WebSocket del lobby cuando el jugador entra en este al jugar. Este
+  método también emplea listeners para: indicar que se ha establecido conexión (onopen), avisar de si se ha producido algún error (onerror), recibir y procesar los mensajes
+  del servidor (onmessage) e indicar que se ha cerrado la conexión (onclose). Cabe destacar que, cuando el cliente recibe el mensaje con el evento onmessage, este se parsea 
+  de JSON para poder procesar en los siguientes métodos la información recibida del servidor (los mensajes se envían codificados en JSON).
+
+  Por otro lado, tiene un nuevo método processMessage () que se encarga de comprobar de qué tipo es la información que le ha llegado en el mensaje y, en función del tipo,
+  invoca un método concreto. Por ejemplo, si la información es de tipo “UPDATE_LOBBY”, entonces eso quiere decir que se ha conectado un nuevo cliente y su información se va 
+  a actualizar y mostrar por pantalla con los métodos getPlayers() y showPlayers(). 
+
+  Si el mensaje es de tipo “START”, se pasa a la siguiente escena, la del juego. 
+
+  Si el mensaje es de tipo “LOBBY_TIMER”, se llama al método updateTimeToStart () para actualizar el tiempo y volver a pintarlo en la escena del lobby.
+  
+  ● **Ingamescene:** Esta clase es la clase correspondiente a la escena de la partida. Es la clase que renderiza la partida en la pantalla del cliente. Se ha modificado
+  ligeramente para adaptarla al nuevo concepto de salas y a las conexiones.
+  
+  A continuación, se puede observar el diagrama de clases de la aplicación:
+  
+   ![No carga la imagen](https://github.com/YeronMartin/Animal-BOOM-Mayhem-/blob/main/resources/img/Diagrama%20UML%20-%20Fase%204.jpg)
+
+  
+    
   ## 10. Mejoras  
   Para la fase de mejoras se han añadido y modificado los siguientes elementos:  
   

@@ -4,8 +4,6 @@ class FirePillar extends Phaser.GameObjects.Sprite {
         
         this.setScale(0.2)
         this.setupPhysics(scene);
-        this.setDepth(4);
-
 
         this.scene = scene;
         this.scene.add.existing(this);
@@ -23,8 +21,7 @@ class FirePillar extends Phaser.GameObjects.Sprite {
         this.body.setImmovable(true);
 
         this.colliderRadius = 100;
-        //No entiendo por qué este offset funciona al revés, pero OK.
-        this.body.setCircle(this.colliderRadius, (this.width / 2) + this.colliderRadius, (this.height / 2) + this.colliderRadius);
+        this.body.setCircle(this.colliderRadius, (this.width / 2) - this.colliderRadius, (this.height / 2) - this.colliderRadius + 50);
 
         this.scene.explosionGroup.add(this, true);
     }

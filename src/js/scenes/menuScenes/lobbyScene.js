@@ -76,21 +76,12 @@ class lobbyScene extends Phaser.Scene {
   }
 
   postPlayer(player) {
-
-/*
-    switch(player.character){
-      case "juani": player.character = "rep_Juani"; break;
-      case "juani_cursed": player.character = "rep_Juani_Cursed"; break;
-      case "gato_finanzas": player.character = "rep_Gato_Finanzas"; break;
-    }
-  */  console.log("LE ENVIO AL SERVER "+player.character)
-
+    console.log("LE ENVIO AL SERVER " + player.character)
     var passInfo = '{"name" : ' + '"' + player.name + '", "character" : ' + '"' + player.character + '"' + "}'";
     this.connection.send(passInfo);
   }
 
   processMessage(scene, player, playerMap, data) {
-
     switch (data.type) {
       case "NEW_NAME":
         this.player.name = data.newName;
@@ -101,14 +92,14 @@ class lobbyScene extends Phaser.Scene {
       case "START":
         this.toNextScene();
         break;
-        case "LOBBY_TIMER":
+      case "LOBBY_TIMER":
         this.updateTimeToStart(data);
         break;
     }
   }
 
-  updateTimeToStart(data){
-    this.time_text.text ="Tiempo restante: " +data.time;
+  updateTimeToStart(data) {
+    this.time_text.text = "Tiempo restante: " + data.time;
   }
 
   playersList = [];
@@ -120,7 +111,7 @@ class lobbyScene extends Phaser.Scene {
 
 
     this.roomId = data.room;
-    console.log("Por lo visto estoy en la room "+this.roomId);
+    console.log("Por lo visto estoy en la room " + this.roomId);
 
     //Insertar los jugadores en un mapa
     var newMap = new Map();
@@ -131,10 +122,10 @@ class lobbyScene extends Phaser.Scene {
       if (data.players[i] != null) {
         if (!playerMap.has(data.players[i].name)) {
 
-          switch(data.players[i].character){
+          switch (data.players[i].character) {
             case "juani": data.players[i].character = "rep_Juani"; break;
-            case "juani_cursed": data.players[i].character = "rep_Juani_cursed";  break;
-            case "gato_finanzas:": data.players[i].character = "rep_Gato_finanzas"; break;
+            case "juani_cursed": data.players[i].character = "rep_Juani_cursed"; break;
+            case "gato_finanzas": data.players[i].character = "rep_Gato_finanzas"; break;
           }
 
 
@@ -180,37 +171,37 @@ class lobbyScene extends Phaser.Scene {
     }
   }
 
-  toNextScene(){
+  toNextScene() {
     this.connection.close();
 
     var myId = -1;
 
     var playersMsg = [];
-    for(var i = 0; i < this.playersList.length; i++){
+    for (var i = 0; i < this.playersList.length; i++) {
       var p = this.playersList[i];
 
-      console.log("Jugador "+i);
+      console.log("Jugador " + i);
 
-      console.log("id: "+p.id);
-      console.log("name "+p.name);
-      console.log("character "+p.character);
+      console.log("id: " + p.id);
+      console.log("name " + p.name);
+      console.log("character " + p.character);
 
-      switch(p.character){
+      switch (p.character) {
         case "rep_Juani": p.character = "juani"; break;
-        case "rep_Juani_cursed": p.character = "juani_cursed";  break;
-        case "rep_Gato_finanzas:": p.character = "gato_finanzas"; break;
+        case "rep_Juani_cursed": p.character = "juani_cursed"; break;
+        case "rep_Gato_finanzas": p.character = "gato_finanzas"; break;
       }
 
-      if(p.name == this.player.name){
+      if (p.name == this.player.name) {
         myId = p.id;
         console.log("Me he identificado");
       }
 
-      var p_msg = { id: p.id, name: p.name, character: p.character};
+      var p_msg = { id: p.id, name: p.name, character: p.character };
       playersMsg[i] = p_msg;
     }
 
-    this.scene.start("stadiumGame", { characters: ['juani', 'juani_cursed', 'gato_finanzas'], mode: 'online', room: this.roomId, id: myId, players : playersMsg});
+    this.scene.start("stadiumGame", { characters: ['juani', 'juani_cursed', 'gato_finanzas'], mode: 'online', room: this.roomId, id: myId, players: playersMsg });
   }
 
   update() {
@@ -231,5 +222,5 @@ class lobbyScene extends Phaser.Scene {
     }
   }
 
- 
+
 }

@@ -67,7 +67,7 @@ class IngameScene extends Phaser.Scene {
         this.load.image("bomba", "././././resources/img/balls/Bomba.png");
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
         this.load.spritesheet('explosion_sheet', "././././resources/img/effects/explosion_sheet.png", { frameWidth: 431, frameHeight: 400 });
-
+        this.load.spritesheet('fire_pillar', "././././resources/img/effects/fire_pillar.png", { frameWidth: 336, frameHeight: 388 });
 
         this.load.image("bola_flamigera", "././././resources/img/balls/Pelota_flamigera.png");
         this.load.image("mini_agujero_negro", "././././resources/img/balls/Mini_agujero_negro.png");
@@ -169,10 +169,6 @@ class IngameScene extends Phaser.Scene {
         this.playersList = [];
 
         if(this.gameMode == "local"){
-            //Posicionar 2 jugadores en sus posiciones habituales
-            //this.playersList[0] = new Player(this, 0, (config.width / 2) - 150, config.height / 2, 'juani', 0, 1);
-            //this.playersList[1] = new Player(this, 1, (config.width / 2) + 150, config.height / 2, 'juani_cursed', 1, 2);
-            console.log("CREANDO JUGADORES LOCAL:");
             this.playersList[0] = new Player(this, 0, (config.width / 2) - 150, config.height / 2, this.charactersToLoad[0].character, 0, 1);
             this.playersList[1] = new Player(this, 1, (config.width / 2) + 150, config.height / 2, this.charactersToLoad[1].character, 1, 2);
         }else{
@@ -205,6 +201,8 @@ class IngameScene extends Phaser.Scene {
         if(this.gameMode == "local"){    
             this.ballPlacer = new BallPlacer(this, this.ballsToLoad);
     
+            this.ballsList[0] = new FlamingBall(this, 0, 50, 50);
+
             this.ballPlacer.createNewBallsByAmount(this.maxBallsInScene);
         }
     }
@@ -286,7 +284,7 @@ class IngameScene extends Phaser.Scene {
         //Pilar fuego
         this.anims.create({
             key: 'firePillar_anim',
-            frames: this.anims.generateFrameNames('explosion_sheet', {frames: [0,1]}),
+            frames: this.anims.generateFrameNames('fire_pillar', {frames: [0,1]}),
             frameRate: 10,
             repeat: -1
         });

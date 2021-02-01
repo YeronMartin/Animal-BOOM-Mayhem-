@@ -18,23 +18,15 @@ class BallPlacer{
         var ballPosition = this.generateValidBallPosition();
         var i = this.scene.ballsList.length;
 
+        var n = Phaser.Math.Between(0, 100);
 
-        var n = Phaser.Math.Between(0, 10);
-
-        /*
-        EN ALGÚN MOMENTO CAMBIAR A QUE HAYA UN MÁXIMO DE X TIPO DE PELOTA EN ESCENA
-        POR EJEMPLO, 2 o 3 PELOTAS NO VOLÁTILES (Basketball)
-        */
-
-        
-
-        if(n > 9 && this.allowedBalls.includes("mini_black_hole")){
+        if(n > 90 && this.allowedBalls.includes("mini_black_hole")){
             this.scene.ballsList[i] = new BlackHoleBall (this.scene, 0, ballPosition.x, ballPosition.y);
-        }else if(n > 8 && this.allowedBalls.includes("flaming_ball")){
+        }else if(n > 80 && this.allowedBalls.includes("flaming_ball")){
             this.scene.ballsList[i] = new FlamingBall (this.scene, 0, ballPosition.x, ballPosition.y);
-        }else if(n > 6){
+        }else if(n > 70){
             this.scene.ballsList[i] = new BallBasket(this.scene, 0, ballPosition.x, ballPosition.y);
-        }else if(n > 4){
+        }else if(n > 60){
             this.scene.ballsList[i] = new BallTemporizedBomb(this.scene, 0, ballPosition.x, ballPosition.y);
         }else{
             this.scene.ballsList[i] = new BallBomb (this.scene, 0, ballPosition.x, ballPosition.y);

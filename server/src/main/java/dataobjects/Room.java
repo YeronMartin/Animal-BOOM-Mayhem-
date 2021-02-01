@@ -14,11 +14,10 @@ public class Room {
 	public Room(int id) {
 		this.roomId = id;
 		this.lobbyPlayers = new ArrayList<PlayerLobby>();
-		this.maxPlayers = 4;
+		this.maxPlayers = 2;
 		
 		this.countDownStarted = false;
 		this.countDownToStart = 10;
-		
 		this.openToPlayers = true;
 	}
 	
@@ -39,6 +38,13 @@ public class Room {
 		}
 		
 		return false;
+	}
+	
+	public void clearRoom() {
+		this.lobbyPlayers.clear();
+		this.openToPlayers = true;
+		this.countDownStarted = false;
+		this.countDownToStart = 10;
 	}
 	
 	public boolean isRoomAvailable() {

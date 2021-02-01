@@ -8,6 +8,8 @@ class IngameSocket {
        this.playerObject = playerObject;
 
        this.room = roomId;
+
+       this.connection = null;
     }
 
     startConnection(){
@@ -57,6 +59,8 @@ class IngameSocket {
             "name": this.playerName,
             "character": this.playerCharacter
         };
+
+        console.log(msg);
 
         this.sendMessage(msg);
     }
@@ -380,11 +384,9 @@ class IngameSocket {
             }
 
             if(p.health != playersData[i].health){
-                console.log("UN MOMEEENTO, yo tengo "+p.health+" y este dice que tengo "+playersData[i]);
+                console.log("UN MOMEEENTO, yo tengo "+p.health+" y este dice que tengo "+playersData[i].health);
                 p.health = playersData[i].health;
             }
-
-          
         }
     }
 
@@ -396,7 +398,7 @@ class IngameSocket {
 
             if(b == null){
                 //Esta bola no está en la escena, lo más probable es que sea nueva
-                console.log("Esta bola no está, tenemos "+this.scene.ballsList.length);
+                //console.log("Esta bola no está, tenemos "+this.scene.ballsList.length);
                 this.scene.ballsList[this.scene.ballsList.length] = this.createNewBallFromData(ballsData[i]);
             }
         }

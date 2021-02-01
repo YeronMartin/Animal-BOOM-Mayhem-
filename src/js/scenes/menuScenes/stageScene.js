@@ -1,69 +1,69 @@
-class stageScene extends Phaser.Scene{
-  constructor (){
-      super("stageScene");
+class stageScene extends Phaser.Scene {
+  constructor() {
+    super("stageScene");
 
-      var exitButton;
-      var estadioButton;
-      var gameSettingsButtonButtton;
-      var selectedButton;
-      var lastSelectedButton;
-      var player;
-      var mode;
-      var firstPlayer;
-      var secondPlayer;
+    var exitButton;
+    var estadioButton;
+    var gameSettingsButtonButtton;
+    var selectedButton;
+    var lastSelectedButton;
+    var player;
+    var mode;
+    var firstPlayer;
+    var secondPlayer;
   }
 
-  init(data){
+  init(data) {
     this.player = data.player;
     this.mode = data.mode;
     this.firstPlayer = data.firstPlayer;
     this.secondPlayer = data.secondPlayer;
   }
 
-  preload(){
+  preload() {
   }
 
-  create(){
+  create() {
     console.log("ESTOY EN STAGE SCENE");
 
     //Creacion de la imagenes
-      this.add.image(0, 0, "stage_background").setOrigin(0, 0).setScale(1.3);
-      this.add.text(config.width/2, 50, 'Selecciona el escenario', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
+    this.add.image(0, 0, "stage_background").setOrigin(0, 0).setScale(1.3);
+    this.add.text(config.width / 2, 50, 'Selecciona el escenario', { fill: '#fff', font: "Arial", font: "40px" }).setDepth(1).setOrigin(0.5, 0.5);
 
-      //Seteo de los botones
-      this.estadioButton = new stageCard( this, config.width/2, config.height/1.12, "rep_estadio", "rep_estadio_selected", "rep_estadio_background");
-      this.estadioButton.renderStage();
-      //creación de el sprite de flecha
-      this.initAnimArrow();
-      this.exitButton = this.add.sprite(config.width/20, config.height/11).setScale(.1).setDepth(1);
-      this.exitButton.play('white');
+    //Seteo de los botones
+    this.estadioButton = new stageCard(this, config.width / 2, config.height / 1.12, "rep_estadio", "rep_estadio_selected", "rep_estadio_background");
+    this.estadioButton.renderStage();
+    //creación de el sprite de flecha
+    this.initAnimArrow();
+    this.exitButton = this.add.sprite(config.width / 20, config.height / 11).setScale(.1).setDepth(1);
+    this.exitButton.play('white');
 
-      //Inicalizacion de las variables de seleccion
-      this.selectedButton = 1;
-      this.lastSelectedButton = 1;
+    //Inicalizacion de las variables de seleccion
+    this.selectedButton = 1;
+    this.lastSelectedButton = 1;
 
-      //Flechas
-      this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-      this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-      //Enter y espacio
-      this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-      this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    //Flechas
+    this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+    this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+    //Enter y espacio
+    this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-      //Escape
-      this.key_ESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+    //Escape
+    this.key_ESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
-      this.menuSelectSfx = this.sound.add('menuSelectSfx');
-      this.menuSelectSfx.setVolume(0.2);
+    this.menuSelectSfx = this.sound.add('menuSelectSfx');
+    this.menuSelectSfx.setVolume(0.2);
   }
 
-  update(){
-      this.toSelectButton();
-      this.toEnterButton();
+  update() {
+    this.toSelectButton();
+    this.toEnterButton();
   }
 
-  renderButtons (){
+  renderButtons() {
     switch (this.selectedButton) {
-      case  0:
+      case 0:
         this.exitButton.play('selected');
         break;
       case 1:
@@ -73,7 +73,7 @@ class stageScene extends Phaser.Scene{
         break;
     }
     switch (this.lastSelectedButton) {
-      case  0:
+      case 0:
         this.exitButton.play('white');
         break;
       case 1:
@@ -84,61 +84,52 @@ class stageScene extends Phaser.Scene{
     }
   }
 
-  toSelectButton(){
-          if(Phaser.Input.Keyboard.JustDown(this.key_A)){ //Si se pulsa la felcha izquierda
-            if (this.selectedButton == null){ //Si previamente no se ha seleccionado ningún elemento
-              //Selecciona la flecha de salida
-              this.selectedButton = 0;
-              this.renderButtons();
-            }else {
-              //Si la felcha se ha seleccionado
-              this.lastSelectedButton = this.selectedButton;
-              if(this.selectedButton == 0){this.selectedButton = 2;}
-              this.selectedButton--;
-              this.renderButtons();
-            }
-        }if(Phaser.Input.Keyboard.JustDown(this.key_D)){ //Si se pulsa la felcha izquierda
-          if (this.selectedButton == null){ //Si previamente no se ha seleccionado ningún elemento
-            //Selecciona la flecha de salida
-            this.selectedButton = 1;
-            this.renderButtons(this.selectedButton, this.lastSelectedButton);
-          }else {
-            //Si la felcha se ha seleccionado
-            this.lastSelectedButton = this.selectedButton;
-            if(this.selectedButton == 1){this.selectedButton = -1;}
-            this.selectedButton++;
-            this.renderButtons();
-          }
-      }if(Phaser.Input.Keyboard.JustDown(this.key_ESC)){ //Si se pulsa la felcha izquierda
-        this.scene.start("characterScene", {player: this.player});
+  toSelectButton() {
+    if (Phaser.Input.Keyboard.JustDown(this.key_A)) { //Si se pulsa la felcha izquierda
+      if (this.selectedButton == null) { //Si previamente no se ha seleccionado ningún elemento
+        //Selecciona la flecha de salida
+        this.selectedButton = 0;
+        this.renderButtons();
+      } else {
+        //Si la felcha se ha seleccionado
+        this.lastSelectedButton = this.selectedButton;
+        if (this.selectedButton == 0) { this.selectedButton = 2; }
+        this.selectedButton--;
+        this.renderButtons();
+      }
+    } if (Phaser.Input.Keyboard.JustDown(this.key_D)) { //Si se pulsa la felcha izquierda
+      if (this.selectedButton == null) { //Si previamente no se ha seleccionado ningún elemento
+        //Selecciona la flecha de salida
+        this.selectedButton = 1;
+        this.renderButtons(this.selectedButton, this.lastSelectedButton);
+      } else {
+        //Si la felcha se ha seleccionado
+        this.lastSelectedButton = this.selectedButton;
+        if (this.selectedButton == 1) { this.selectedButton = -1; }
+        this.selectedButton++;
+        this.renderButtons();
+      }
+    } if (Phaser.Input.Keyboard.JustDown(this.key_ESC)) { //Si se pulsa la felcha izquierda
+      this.scene.start("characterScene", { mode: this.mode, name: this.player.name });
     }
   };
 
-  toEnterButton(){
-        if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
-          if (this.selectedButton != null) {
-            if (this.selectedButton == 0) {
-              this.scene.start("characterScene", {player: this.player});
-            } else if (this.selectedButton == 1){
-              if (this.mode == "online") {
-
-                console.log("PAL LOBBY:");
-                console.log(this.player);
-                console.log(this.player.name);
-
-                this.scene.start("lobbyScene", {player: this.player, mode: this.mode});
-              }else if (this.mode == 'local'){
-                console.log ("jugador 1" + this.firstPlayer.character);
-                console.log ("jugador 2" + this.secondPlayer.character);
-
-                this.scene.start("stadiumGame", {mode: this.mode , characters: [this.firstPlayer, this.secondPlayer]});
-              }
-
-            }
+  toEnterButton() {
+    if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
+      if (this.selectedButton != null) {
+        if (this.selectedButton == 0) {
+          this.scene.start("characterScene", {mode: this.mode, player: this.player });
+        } else if (this.selectedButton == 1) {
+          if (this.mode == "online") {
+            this.scene.start("lobbyScene", { player: this.player, mode: this.mode });
+          } else if (this.mode == 'local') {
+            this.scene.start("stadiumGame", { mode: this.mode, characters: [this.firstPlayer, this.secondPlayer] });
           }
-
-          this.menuSelectSfx.play();
         }
+      }
+
+      this.menuSelectSfx.play();
+    }
   };
 
   initAnimArrow() {

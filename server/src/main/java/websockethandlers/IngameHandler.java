@@ -8,9 +8,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,6 +26,8 @@ import dataobjects.PlayerLobby;
 import dataobjects.Room;
 import ingameUtils.MatchManager;
 
+@SpringBootApplication
+@EnableWebSocket
 public class IngameHandler  extends TextWebSocketHandler {
 	
 	//Mapa de sesiones  activas (clientes conectados)
@@ -63,8 +67,6 @@ public class IngameHandler  extends TextWebSocketHandler {
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("Nueva conexión: " + session.getId());
 		active_player_sessions.put(session.getId(), session);
-		
-		System.out.println("Tenemos "+active_player_sessions.size()+" sesiones guardadas");
 	}
 	
 	//==========================================================
@@ -76,10 +78,8 @@ public class IngameHandler  extends TextWebSocketHandler {
 		System.out.println("Conexión cerrada: " + session.getId());
 		active_player_sessions.remove(session.getId());
 		
-		findPlayerBySessionAmongAllMatches(session);
 		//Buscar al jugador dentro de las partidas activas y notificar de su desconexión
-		
-		System.out.println("Tenemos "+active_player_sessions.size()+" sesiones guardadas");
+		findPlayerBySessionAmongAllMatches(session);
 	}
 	
 	private void findPlayerBySessionAmongAllMatches(WebSocketSession session) {
@@ -145,9 +145,7 @@ public class IngameHandler  extends TextWebSocketHandler {
 	
 	private void addPlayerToMatch(WebSocketSession session, JsonNode data) {
 		MatchManager m = getMatchManagerByRoomId(data.get("room").asInt());
-		if(m != null) 
-			m.joinPlayerToMatch(session, data);
-		
+		m.joinPlayerToMatch(session, data);
 	}
 	
 	private void updatePlayerStatus(JsonNode data) {
@@ -323,6 +321,9 @@ public class IngameHandler  extends TextWebSocketHandler {
 		
 		System.out.println("SE ACABÓ LA PARTIDA DE LA ROOM "+m.getRoom().getRoomId());
 		sendMessageToAllPlayersInMatch(m, nodo);
+		
+		active_player_sessions.remove(m.getPlayers().get(0).getSession().getId());
+		active_player_sessions.remove(m.getPlayers().get(1).getSession().getId());
 	}
 	
 	private void sendMessageToAllPlayersInMatch(MatchManager m, JsonNode msg){

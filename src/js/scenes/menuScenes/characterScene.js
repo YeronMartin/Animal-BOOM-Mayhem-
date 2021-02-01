@@ -15,7 +15,7 @@ class characterScene extends Phaser.Scene {
     var secondPlayer;
   }
 
-  init(data){
+  init(data) {
     this.player = new serverPlayer();
     this.player.name = data.name;
     this.mode = data.mode;
@@ -34,12 +34,12 @@ class characterScene extends Phaser.Scene {
     this.textoTitulo.setOrigin(0.5, 0.5);
 
     this.initAnimArrow();
-    this.exitButton = this.add.sprite(config.width/20, config.height/11).setScale(.1).setDepth(1);
+    this.exitButton = this.add.sprite(config.width / 20, config.height / 11).setScale(.1).setDepth(1);
     this.exitButton.play('white');
 
     //CARROUSEL
-    this.carrusel = new Carrousel(this, 2*config.height/3, 1.2*config.height/3, (1.5*config.width/5),
-            (3.5*config.width/5), 3);
+    this.carrusel = new Carrousel(this, 2 * config.height / 3, 1.2 * config.height / 3, (1.5 * config.width / 5),
+      (3.5 * config.width / 5), 3);
     this.isSelected = true;
 
     this.keys1 = this.add.image(0, 500, 'controls1');
@@ -52,7 +52,7 @@ class characterScene extends Phaser.Scene {
       this.keys2.setOrigin(1, 0);
       this.keys2.setDepth(1);
       this.keys2.setScale(0.3);
-      this.textoTitulo.setText ('Jugador 1 elige personaje');
+      this.textoTitulo.setText('Jugador 1 elige personaje');
     }
 
     //Inicalizacion de varibales de seleccion
@@ -84,23 +84,23 @@ class characterScene extends Phaser.Scene {
 
     //this.toSelectButton();
     //this.toEnterButton();
-    if (Phaser.Input.Keyboard.JustDown(this.key_W) && this.isSelected == true){
-        this.exitButton.play('selected');
-        this.isSelected = false;
-      }
-    if (Phaser.Input.Keyboard.JustDown(this.key_S) && this.isSelected == false){
-        this.exitButton.play('black');
-        this.isSelected = true;
+    if (Phaser.Input.Keyboard.JustDown(this.key_W) && this.isSelected == true) {
+      this.exitButton.play('selected');
+      this.isSelected = false;
     }
-    if (Phaser.Input.Keyboard.JustDown(this.key_A) && this.isSelected == true){
-        this.carrusel.updateLeft();
-      }else if (Phaser.Input.Keyboard.JustDown(this.key_D) && this.isSelected == true){
-        this.carrusel.updateRight();
+    if (Phaser.Input.Keyboard.JustDown(this.key_S) && this.isSelected == false) {
+      this.exitButton.play('black');
+      this.isSelected = true;
+    }
+    if (Phaser.Input.Keyboard.JustDown(this.key_A) && this.isSelected == true) {
+      this.carrusel.updateLeft();
+    } else if (Phaser.Input.Keyboard.JustDown(this.key_D) && this.isSelected == true) {
+      this.carrusel.updateRight();
     }
 
     if (this.mode == 'online') {
       this.toEnterButtonON();
-    }else if (this.mode == 'local') {
+    } else if (this.mode == 'local') {
       this.toEnterButtonOFF();
     }
 
@@ -112,14 +112,16 @@ class characterScene extends Phaser.Scene {
       if (this.isSelected == true) {
         this.player.character = this.carrusel.getCurrent();
 
-        var p = {name: this.player.name, character: this.player.character};
+        var p = { name: this.player.name, character: this.player.character };
 
         console.log(p);
 
-        this.scene.start('stageScene',{player : p, mode: this.mode});
-      }else{
-        this.scene.start('modeScene',  {player : this.player.name});
+        this.scene.start('stageScene', { player: p, mode: this.mode });
+      } else {
+        this.scene.start('modeScene', { player: this.player.name });
       }
+    } else if (Phaser.Input.Keyboard.JustDown(this.key_SCAPE)) {
+      this.scene.start("modeScene");
     }
   };
 
@@ -129,10 +131,12 @@ class characterScene extends Phaser.Scene {
       if (this.isSelected == true) {
         this.firstPlayer.character = this.carrusel.getCurrent();
         this.player.character = this.carrusel.getCurrent();
-        this.scene.start('characterScene2',{player : this.player, mode: this.mode, firstPlayer: this.firstPlayer});
-      }else{
-        this.scene.start('modeScene',  {player : this.player.name});
+        this.scene.start('characterScene2', { player: this.player, mode: this.mode, firstPlayer: this.firstPlayer });
+      } else {
+        this.scene.start('modeScene', { player: this.player.name });
       }
+    } else if (Phaser.Input.Keyboard.JustDown(this.key_SCAPE)) {
+      this.scene.start("modeScene");
     }
   };
 

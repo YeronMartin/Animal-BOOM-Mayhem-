@@ -122,12 +122,13 @@ class loadingScene extends Phaser.Scene {
     //characterScene
     this.load.image("character_background", "././resources/img/sceneBackground/character_background.png");
     this.load.image("rep_Juani", "././resources/img/Interfaces/characterRep/rep_Juani.png");
-    this.load.image("rep_Juani_selected", "././resources/img/Interfaces/characterRep/rep_Juani_selected.png");
+   
     this.load.image("rep_Juani_cursed", "././resources/img/Interfaces/characterRep/rep_Juani_cursed.png");
     this.load.image("juani_dialogue", "././resources/img/Interfaces/characterRep/juani_dialogue.png");
     this.load.image("juani_cursed_dialogue", "././resources/img/Interfaces/characterRep/juani_cursed_dialogue.png");
 
-    this.load.image("rep_Juani_cursed_selected", "././resources/img/Interfaces/characterRep/rep_Juani_cursed_selected.png");
+    this.load.image("rep_Gato_finanzas", "././resources/img/Interfaces/characterRep/rep_Gato_finanzas.png");
+
     this.load.image("character_description_area", "././resources/img/interfaces/areas/character_description_area.png");
 
     this.load.image("controls1", "././resources/img/interfaces/areas/Keyboard.png");

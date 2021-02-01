@@ -50,13 +50,12 @@ class mainMenuScene extends Phaser.Scene{
       //this.menuBgm.setVolume(0.1);
       //this.menuBgm.play();
 
-      this.player = "";
       this.game.sound.play('menu_bgm', {volume: 0.1});
       this.game.sound.volume = 0.1;
 
       //this.nicknameBox = this.add.dom(400, 200).createFromCache('nameform');
-
-      this.inputBoxActive = false;
+      //this.player = "";
+      //this.inputBoxActive = false;
 }
 
   update(){
@@ -102,11 +101,9 @@ toSelectButton(){
     return;
 
     if(Phaser.Input.Keyboard.JustDown(this.key_S)){
-
           if (this.selectedButton == null){
             this.selectedButton = 0;
           }else{
-
             if(this.selectedButton == 2){
               this.selectedButton = -1;
             }
@@ -133,6 +130,7 @@ toEnterButton(){
       if (this.selectedButton != null) {
         if (this.selectedButton == 0) {
 
+          /*
           if(this.player == "" && !this.inputBoxActive){
             this.menuSelectSfx.play();
             this.hideUI();
@@ -145,6 +143,12 @@ toEnterButton(){
 
             this.inputBoxActive = false;
           }
+          */
+
+         this.menuSelectSfx.play();
+         this.scene.start("modeScene");
+         this.selectedButton = null;
+
         }else if (this.selectedButton == 2){
           this.menuSelectSfx.play();
           this.scene.start("creditsScene");
@@ -169,14 +173,14 @@ hideUI(){
 }
 
 validName(){
-var inputText = this.nicknameBox.getChildByName('nameField');
+  var inputText = this.nicknameBox.getChildByName('nameField');
 
-//  Have they entered anything?
-if (inputText.value !== '') {
+  //  Have they entered anything?
+  if (inputText.value !== '') {
     return true;
-}
+  }
 
-return false;
+  return false;
 }
 
 initAnimButtons(){

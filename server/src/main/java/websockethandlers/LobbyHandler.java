@@ -98,7 +98,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 				if(!r.isRoomAvailable())
 					continue;
 				
-				if(r.getLobbyPlayers().size() > 0 && !r.isCountDownStarted()) {
+				if(r.getLobbyPlayers().size() > 1 && !r.isCountDownStarted()) {
 					if(r.getCountDownToStart() > 0) {
 						int timeLeft = r.getCountDownToStart();
 						timeLeft--;
@@ -155,7 +155,6 @@ public class LobbyHandler extends TextWebSocketHandler {
 				sendLobbyDataToAllPlayersInRoom(room);
 				
 				System.out.println("Jugador "+p.getName()+" eliminado de la sala "+room.getRoomId());
-				
 				
 				room.setCountDownToStart(10);
 				room.setCountDownStarted(false);
@@ -357,7 +356,6 @@ public class LobbyHandler extends TextWebSocketHandler {
 	
 	//Preparamos la partida de una room
 	private void startMatchPreparations(Room r) {
-		
 		r.setOpenToPlayers(false);
 		this.ingameHandler.setupNewMatch(r);
 
@@ -385,6 +383,10 @@ public class LobbyHandler extends TextWebSocketHandler {
 		
 		//Guardamos los datos en el archivo de texto
 		saveAll();
+		
+		//Despejamos la sala
+		r.clearRoom();
+		System.out.println("La sala "+r.getRoomId()+" vuelve a estar disponible");
 	}
 	
 	public void saveAll() {

@@ -49,6 +49,8 @@ public class MatchManager {
 		ballIdCounter = 0;
 		
 		matchEnded = false;
+		
+		players_prepared = 0;
 	}
 	
 	// ==========================================
@@ -69,28 +71,26 @@ public class MatchManager {
 			p.setID(r.getLobbyPlayers().get(i).getID());
 			p.setCharacter(r.getLobbyPlayers().get(i).getCharacter());
 			p.setName(r.getLobbyPlayers().get(i).getName());
+			p.setHealth(3);
 			
 			players.add(p);
 			
 			System.out.println(p.getName()+" con id "+p.getID());
 		}
 		
-		players_prepared = 0;
+		this.players_prepared = 0;
 		
 		positionPlayers();
 		generateInitialBalls();
 		
-		System.out.println("ESPERANDO JUGADORES DE LA SALA: "+room.getRoomId());
+		System.out.println("ESPERANDO JUGADORES DE LA SALA: "+room.getRoomId()+" preparados: "+this.players_prepared);
 	}
 	
 	//Cálcula las posiciones iniciales de los jugadores de manera aleatoria.
 	//Considera solo a dos jugadores. Esta nueva info se envía al cliente.
 	private void positionPlayers() {
-		for(PlayerIngameData p: players) {
-			float posX = getRandomNumberBetween(0, screen_width);
-			float posY = getRandomNumberBetween(0, screen_height);
-			p.setPosition(new Vector2(posX, posY));
-		}
+		players.get(0).setPosition(new Vector2((screen_width / 2) - 150, (screen_height / 2)));
+		players.get(1).setPosition(new Vector2((screen_width / 2) + 150, (screen_height / 2)));
 	}
 	
 	private float getRandomNumberBetween(float min, float max) {
@@ -114,10 +114,7 @@ public class MatchManager {
 		Ball b = new Ball();
 		b.setID(ballIdCounter);
 		
-		float posX = getRandomNumberBetween(0, screen_width);
-		float posY = getRandomNumberBetween(0, screen_height);
-		
-		b.setPosition(new Vector2(posX, posY));
+		b.setPosition(generateValidBallPosition());
 		
 		float type = getRandomNumberBetween(0, 100);
 		
@@ -133,39 +130,63 @@ public class MatchManager {
 			b.setType(1);
 		}
 		
-		
-		/*
-		if(type > 8) {
-			b.setType(0);	//Basketball
-		}else if(type > 6) {
-			b.setType(2);	//Potato
-		}else{
-			b.setType(1);	//Bomb
-		}*/
-		
 		balls.add(b);
 		ballIdCounter++;
 	}
 	
+	private Vector2 generateValidBallPosition(){
+        float minDistance = 250;
+        boolean validPosition = false;
+        int tries = 10;
+        Vector2 ballPosition = new Vector2(0, 0);
+
+        do{
+            while(tries > 0 && !validPosition){
+                validPosition = true;
+
+                ballPosition.setX(getRandomNumberBetween(0, screen_width));
+                ballPosition.setY(getRandomNumberBetween(0, screen_height));
+
+                for (int i = 0; i < balls.size(); i++) {
+                    if(this.getDistanceBetweenPoints(ballPosition.getX(), ballPosition.getY(), balls.get(i).getPosition().getX(), 
+                    		balls.get(i).getPosition().getY()) < minDistance){
+                        validPosition = false;
+                        break;
+                    }
+                }
+
+                tries--;
+            }
+
+            minDistance -= 10;
+            tries = 10;
+        }while(!validPosition);
+
+        return ballPosition;
+    }
+
+    private float getDistanceBetweenPoints(float x1, float y1, float x2, float y2) {
+        return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+    
 	public void joinPlayerToMatch(WebSocketSession session, JsonNode data) {
 		//Se ha unido un jugador, hay que identificar quien es de los que tenemos registrados del lobby
+		
 		int index = findPlayerIndexById(data.get("id").asInt());
 		if(index > -1) {
 			System.out.println("Jugador "+players.get(index).getName() +" se ha unido, le metemos la sesión "+session.getId());
 			players.get(index).setSession(session);
 			players.get(index).setConnected(true);
+			players.get(index).setHealth(3);
 			players_prepared++;
 			checkIfAllPlayersAreReady();
 		}
 	}
 	
-	public void playerDisconected(WebSocketSession session) {
-		System.out.println("Este señor se ha pirado");
-		
+	public void playerDisconected(WebSocketSession session) {		
 		PlayerIngameData p = getPlayerBySession(session);
 		
 		if(p != null) {
-			//players.remove(p);
 			p.setConnected(false);
 		}
 	}
@@ -181,8 +202,9 @@ public class MatchManager {
 	}
 	
 	private void checkIfAllPlayersAreReady() {
-		if(players_prepared == players.size()) {
-			//Todo el mundo ha cargado
+		System.out.println("Se han conectado "+players_prepared+" de "+players.size());
+		
+		if(players_prepared >= players.size()) {
 			System.out.println("Todos los jugadores se han conectado");
 			handler.sendStartMatchMessageToMatch(this);
 			
@@ -225,17 +247,11 @@ public class MatchManager {
 	}
 	
 	public void updatePlayerData(JsonNode data) {
-		//System.out.println(data.get("id")+" nos envía su estado");
-		
 		int playerIndex = findPlayerIndexById(data.get("id").asInt());
-		
-		//System.out.println("Este señor es el jugador "+playerIndex);
 		
 		if(playerIndex > -1) {
 			players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
 			players.get(playerIndex).setDirection(new Vector2(data.get("movX").floatValue(), data.get("movY").floatValue()));
-			
-			//System.out.println("Está en "+data.get("posX")+", "+data.get("posY")+" y se mueve a "+data.get("movX")+", "+data.get("movY"));;
 		}
 	}
 	
@@ -376,9 +392,9 @@ public class MatchManager {
 		
 		if(winnerId > -1) {
 			increaseScoreOfAllPlayers(winnerId);
-			
+			matchEnded = true;
 			handler.sendGameOverState(this, winnerId);
-			
+			sendCurrentStatusTimer.cancel();
 			handler.getLobbyHandler().updateSavedScoresOfPlayersInRoom(room);
 		}
 	}
@@ -394,7 +410,7 @@ public class MatchManager {
 	
 	private int getIdOfLastPLayerAlive(){
 		int aliveCount = 0;
-		int idOfLastPlayer = -1;
+		int idOfLastPlayer = 0;
 		
 		System.out.println("Tenemos "+players.size()+" jugadores");
 		

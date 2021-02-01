@@ -98,7 +98,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 				if(!r.isRoomAvailable())
 					continue;
 				
-				if(r.getLobbyPlayers().size() > 1 && !r.isCountDownStarted()) {
+				if(r.getLobbyPlayers().size() > 0 && !r.isCountDownStarted()) {
 					if(r.getCountDownToStart() > 0) {
 						int timeLeft = r.getCountDownToStart();
 						timeLeft--;
@@ -233,20 +233,22 @@ public class LobbyHandler extends TextWebSocketHandler {
 		//Comprobar si el jugador ya se encontraba registrado
 		if(stored_players.containsKey(name) && !isPlayerNameAlreadyTaken(name)) {
 			p = stored_players.get(name);
-			System.out.println("Mira quien ha vuelto: "+p.getName()+" con id "+p.getID());
+			System.out.println("Mira quien ha vuelto: "+p.getName()+" con id "+p.getID()+" y personaje "+character);
 			p.setSession(s);
 		}else if(!isPlayerNameAlreadyTaken(name)){
 			p = new PlayerLobby(s, stored_players.size(), name, character);
-			System.out.println("Nuevo jugador registrado: "+p.getName()+" con id "+p.getID());
+			System.out.println("Nuevo jugador registrado: "+p.getName()+" con id "+p.getID()+" y personaje "+character);
 			stored_players.put(p.getName(),p);
 		}else {
 			name = setValidNameForUser(name);
 			p = new PlayerLobby(s, stored_players.size(), name, character);
-			System.out.println("Nombre no disponible, tu nuevo nombre será "+p.getName()+" con id "+p.getID());
+			System.out.println("Nombre no disponible, tu nuevo nombre será "+p.getName()+" con id "+p.getID()+" y personaje "+character);
 			sendNewNameToPlayer(p);
 		}
 		
 		//Hay que meter al jugador en una Room
+		p.setCharacter(character);
+		
 		putPlayerInsideRoom(p);
 	}
 	

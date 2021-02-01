@@ -310,9 +310,9 @@ class Carrousel {
     if (this.currentElement == 0){
       return 'juani';
     } else if (this.currentElement == 1){
-      return 'juani_Cursed';
+      return 'juani_cursed';
     }else if (this.currentElement == 2){
-      return 'gato_Finanzas'
+      return 'gato_finanzas'
     }
 
   }

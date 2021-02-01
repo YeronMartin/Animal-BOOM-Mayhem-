@@ -24,6 +24,8 @@ class stageScene extends Phaser.Scene{
   }
 
   create(){
+    console.log("ESTOY EN STAGE SCENE");
+
     //Creacion de la imagenes
       this.add.image(0, 0, "stage_background").setOrigin(0, 0).setScale(1.3);
       this.add.text(config.width/2, 50, 'Selecciona el escenario', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
@@ -119,11 +121,17 @@ class stageScene extends Phaser.Scene{
               this.scene.start("characterScene", {player: this.player});
             } else if (this.selectedButton == 1){
               if (this.mode == "online") {
+
+                console.log("PAL LOBBY:");
+                console.log(this.player);
+                console.log(this.player.name);
+
                 this.scene.start("lobbyScene", {player: this.player, mode: this.mode});
-              }else if (this.mode == 'offline'){
+              }else if (this.mode == 'local'){
                 console.log ("jugador 1" + this.firstPlayer.character);
                 console.log ("jugador 2" + this.secondPlayer.character);
-                this.scene.start("stadiumGame", {gameMode: this.mode , charactersToLoad: [this.player, this.firstPlayer, this.secondPlayer]});
+
+                this.scene.start("stadiumGame", {mode: this.mode , characters: [this.firstPlayer, this.secondPlayer]});
               }
 
             }

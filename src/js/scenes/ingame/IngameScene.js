@@ -5,12 +5,16 @@ class IngameScene extends Phaser.Scene {
     //====================================================================================================
 
     init(msj){
+        console.log(msj);
+
         this.charactersToLoad = msj.characters;
         this.gameMode = msj.mode;
 
-        console.log(msj.players);
+        console.log(this.gameMode);
 
         if(this.gameMode == "online"){
+            console.log(msj.players);
+
             this.roomId = msj.room;
             this.playerId = msj.id;
             this.playersInGame = msj.players; //(id, name, personaje)
@@ -39,8 +43,17 @@ class IngameScene extends Phaser.Scene {
     }
 
     loadCharactersSprites(){
-        for(var i = 0; i < this.charactersToLoad.length; i++){
-            this.load.spritesheet(this.charactersToLoad[i], '././././resources/img/characters/'+this.charactersToLoad[i]+'_sheet.png', { frameWidth: 180, frameHeight: 250 } );
+
+        if(this.gameMode == "local"){
+            for(var i = 0; i < this.charactersToLoad.length; i++){
+                console.log(this.charactersToLoad[i].character);
+                this.load.spritesheet(this.charactersToLoad[i].character, '././././resources/img/characters/'+this.charactersToLoad[i].character+'_sheet.png', { frameWidth: 180, frameHeight: 250 } );
+            }
+        }else{
+            for(var i = 0; i < this.charactersToLoad.length; i++){
+                console.log(this.charactersToLoad[i]);
+                this.load.spritesheet(this.charactersToLoad[i], '././././resources/img/characters/'+this.charactersToLoad[i]+'_sheet.png', { frameWidth: 180, frameHeight: 250 } );
+            }
         }
     }
 
@@ -157,8 +170,11 @@ class IngameScene extends Phaser.Scene {
 
         if(this.gameMode == "local"){
             //Posicionar 2 jugadores en sus posiciones habituales
-            this.playersList[0] = new Player(this, 0, (config.width / 2) - 150, config.height / 2, 'juani', 0, 1);
-            this.playersList[1] = new Player(this, 1, (config.width / 2) + 150, config.height / 2, 'juani_cursed', 1, 2);
+            //this.playersList[0] = new Player(this, 0, (config.width / 2) - 150, config.height / 2, 'juani', 0, 1);
+            //this.playersList[1] = new Player(this, 1, (config.width / 2) + 150, config.height / 2, 'juani_cursed', 1, 2);
+            console.log("CREANDO JUGADORES LOCAL:");
+            this.playersList[0] = new Player(this, 0, (config.width / 2) - 150, config.height / 2, this.charactersToLoad[0].character, 0, 1);
+            this.playersList[1] = new Player(this, 1, (config.width / 2) + 150, config.height / 2, this.charactersToLoad[1].character, 1, 2);
         }else{
             //Suponiendo que ya "sabemos qué jugadores hay" porque nos lo han mandado de la escena anterior
 
@@ -186,10 +202,7 @@ class IngameScene extends Phaser.Scene {
         this.ballsList = [];
         this.ballsGroup = this.add.group();
 
-        if(this.gameMode == "local"){
-            this.ballsList[0] = new BlackHoleBall(this, 100, 100);
-            this.ballsList[1] = new FlamingBall(this, 100, 200);
-    
+        if(this.gameMode == "local"){    
             this.ballPlacer = new BallPlacer(this, this.ballsToLoad);
     
             this.ballPlacer.createNewBallsByAmount(this.maxBallsInScene);
@@ -403,7 +416,7 @@ class IngameScene extends Phaser.Scene {
         }
 
         //Pasar datos a la siguiente escena
-        this.scene.start('postGame', {winner : winnerData});
+        this.scene.start('postGame', {mode: this.gameMode, winner : winnerData});
     }
 
     playerEliminated(id){
@@ -450,7 +463,8 @@ class IngameScene extends Phaser.Scene {
     }
 
     toPostGame(){
-        this.scene.start('postGame', {winner :"Jugador "+(this.winner)});
+        this.scene.start('postGame', {mode: 'local', id: this.winner , character : this.charactersToLoad[this.winner - 1].character});
+        //this.scene.start('postGame', {mode: "local", winner : winnerData});
     }
 
 }

@@ -12,12 +12,22 @@ class postGame extends Phaser.Scene{
     }
 
     init(msg){
-      this.winner = msg.winner;
-      this.mode = msg.mode;
+      console.log(msg);
 
+      this.mode = msg.mode;
+      
+
+      if(this.mode == "local"){
+        console.log("Winner tal: "+msg.character);
+        this.winnerCharacter = msg.character;
+      }else{
+        this.winner = msg.winner;
+        this.winnerCharacter = msg.winner.character;
+       
+      }
     }
 
-     preload(){
+    preload(){
 
     }
 
@@ -25,7 +35,7 @@ class postGame extends Phaser.Scene{
         this.add.image(0, 0, "character_background").setOrigin(0, 0).setScale(1.3);
         this.add.text(config.width/2, 75, 'Ganador', {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1).setOrigin(0.5, 0.5);
 
-        this.mode = 'offline';
+        //this.mode = 'local';
 
 
 
@@ -45,13 +55,10 @@ class postGame extends Phaser.Scene{
         this.renderWinner();
 
         this.createButtons()
-
-
-
 }
 
     update(){
-      if (this.mode == 'offline') {
+      if (this.mode == 'local') {
         this.toEnterButtonOFF();
         this.toSelectButtonOFF();
       }else if (this.mode == 'online'){
@@ -61,8 +68,7 @@ class postGame extends Phaser.Scene{
     }
 
     createButtons (){
-      if (this.mode == 'offline') {
-
+      if (this.mode == 'local') {
         this.playButton = this.add.sprite(config.width/2, config.height/1.1).setScale(.2).setDepth(2);
         this.characterButton = this.add.sprite(config.width/1.4, config.height/1.1).setScale(.2).setDepth(2);
         this.menuButton = this.add.sprite(config.width/3.5, config.height/1.1 ).setScale(.2).setDepth(2);
@@ -98,13 +104,19 @@ class postGame extends Phaser.Scene{
     }
 
     renderWinner(){
-    if(this.winner.character == 'juani'){
+        //console.log("Ganador: "+this.winner.character);
+        if(this.winnerCharacter == 'juani'){
             this.add.image(config.width/2, config.height/1.8, "juani_winner").setScale(.33).setDepth(1);
-        }else if (this.winner.character == 'juani_cursed'){
+        }else if (this.winnerCharacter == 'juani_cursed'){
             this.add.image(config.width/2, config.height/1.8, "juani_cursed_winner").setScale(.33).setDepth(1);
+        }else if(this.winnerCharacter == 'gato_finanzas'){
+          this.add.image(config.width/2, config.height/1.8, "gato_finanzas_winner").setScale(.33).setDepth(1);
         }
 
-        this.add.text(200, 200, this.winner.name, {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1);
+        if(this.mode == "online"){
+          this.add.text(200, 200, this.winner.name, {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1);
+        }
+       
         /*
       if(this.winner == 'Jugador 1'){
         this.add.image(config.width/2, config.height/1.8, "juani_winner").setScale(.33).setDepth(1);

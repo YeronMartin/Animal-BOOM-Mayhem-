@@ -17,7 +17,7 @@ class characterScene extends Phaser.Scene {
 
   init(data){
     this.player = new serverPlayer();
-    this.player.name = data.player;
+    this.player.name = data.name;
     this.mode = data.mode;
   }
 
@@ -47,7 +47,7 @@ class characterScene extends Phaser.Scene {
     this.keys1.setDepth(1);
     this.keys1.setScale(0.3);
 
-    if (this.mode == 'offline') {
+    if (this.mode == 'local') {
       this.keys2 = this.add.image(config.width, 500, 'controls2');
       this.keys2.setOrigin(1, 0);
       this.keys2.setDepth(1);
@@ -100,7 +100,7 @@ class characterScene extends Phaser.Scene {
 
     if (this.mode == 'online') {
       this.toEnterButtonON();
-    }else if (this.mode == 'offline') {
+    }else if (this.mode == 'local') {
       this.toEnterButtonOFF();
     }
 
@@ -111,7 +111,12 @@ class characterScene extends Phaser.Scene {
     if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
       if (this.isSelected == true) {
         this.player.character = this.carrusel.getCurrent();
-        this.scene.start('stageScene',{player : this.player, mode: this.mode});
+
+        var p = {name: this.player.name, character: this.player.character};
+
+        console.log(p);
+
+        this.scene.start('stageScene',{player : p, mode: this.mode});
       }else{
         this.scene.start('modeScene',  {player : this.player.name});
       }

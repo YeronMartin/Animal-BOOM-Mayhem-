@@ -76,6 +76,15 @@ class lobbyScene extends Phaser.Scene {
   }
 
   postPlayer(player) {
+
+/*
+    switch(player.character){
+      case "juani": player.character = "rep_Juani"; break;
+      case "juani_cursed": player.character = "rep_Juani_Cursed"; break;
+      case "gato_finanzas": player.character = "rep_Gato_Finanzas"; break;
+    }
+  */  console.log("LE ENVIO AL SERVER "+player.character)
+
     var passInfo = '{"name" : ' + '"' + player.name + '", "character" : ' + '"' + player.character + '"' + "}'";
     this.connection.send(passInfo);
   }
@@ -115,14 +124,22 @@ class lobbyScene extends Phaser.Scene {
 
     //Insertar los jugadores en un mapa
     var newMap = new Map();
-    var x = 0;
+
     for (var i = 0; i < data.players.length; i++) {
       this.playersList[i] = data.players[i];
 
       if (data.players[i] != null) {
         if (!playerMap.has(data.players[i].name)) {
+
+          switch(data.players[i].character){
+            case "juani": data.players[i].character = "rep_Juani"; break;
+            case "juani_cursed": data.players[i].character = "rep_Juani_cursed";  break;
+            case "gato_finanzas:": data.players[i].character = "rep_Gato_finanzas"; break;
+          }
+
+
           var p = new playerLobby(scene, 50, 100, data.players[i].name, data.players[i].character, data.players[i].victories, data.players[i].eliminations, data.players[i].times_played);
-          playerMap.set(data.players[i].name, p); 99
+          playerMap.set(data.players[i].name, p);
           playerMap.get(data.players[i].name).hide();
           console.log(playerMap);
         }
@@ -181,6 +198,7 @@ class lobbyScene extends Phaser.Scene {
       switch(p.character){
         case "rep_Juani": p.character = "juani"; break;
         case "rep_Juani_cursed": p.character = "juani_cursed";  break;
+        case "rep_Gato_finanzas:": p.character = "gato_finanzas"; break;
       }
 
       if(p.name == this.player.name){
@@ -192,7 +210,7 @@ class lobbyScene extends Phaser.Scene {
       playersMsg[i] = p_msg;
     }
 
-    this.scene.start("stadiumGame", { characters: ['juani', 'juani_cursed'], mode: 'online', room: this.roomId, id: myId, players : playersMsg});
+    this.scene.start("stadiumGame", { characters: ['juani', 'juani_cursed', 'gato_finanzas'], mode: 'online', room: this.roomId, id: myId, players : playersMsg});
   }
 
   update() {

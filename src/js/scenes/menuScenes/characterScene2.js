@@ -55,7 +55,7 @@ class characterScene2 extends Phaser.Scene {
     this.keys1.setDepth(1);
     this.keys1.setScale(0.3);
 
-    if (this.mode == 'offline') {
+    if (this.mode == 'local') {
       this.keys2 = this.add.image(config.width, 500, 'controls2');
       this.keys2.setOrigin(1, 0);
       this.keys2.setDepth(1);

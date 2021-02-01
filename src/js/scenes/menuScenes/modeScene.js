@@ -11,11 +11,14 @@ class modeScene extends Phaser.Scene{
 
     init(data){
       this.player = new serverPlayer();
-      this.player.name = data.player;
+      this.nick = data.name;
+
+      console.log("LEIDO:");
+      console.log(this.name);
     }
 
      preload(){
-    }
+      }
 
     create(){
         this.add.image(0, 0, "character_background").setOrigin(0, 0).setDepth(0).setScale(1.3)
@@ -92,7 +95,7 @@ class modeScene extends Phaser.Scene{
           if (this.selectedButton == 1) {
             this.selectedButton = null;
             this.lastSelectedButton = null;
-            this.scene.start("characterScene", {player : this.player, mode: 'offline'});
+            this.scene.start("characterScene", {player : this.player, mode: 'local'});
 
           } else if (this.selectedButton == 0) {
             this.selectedButton = null;
@@ -102,8 +105,11 @@ class modeScene extends Phaser.Scene{
           } else if (this.selectedButton == 2) {
             this.selectedButton = null;
             this.lastSelectedButton = null;
-            this.player.character = "rep_Juani_cursed";
-            this.scene.start("characterScene", {player : this.player,  mode: 'online'});
+
+            //this.player.name = this.nick;
+            //this.player.character = "rep_Juani_cursed";
+
+            this.scene.start("characterScene", {name : this.nick,  mode: 'online'});
           }
         }
       }

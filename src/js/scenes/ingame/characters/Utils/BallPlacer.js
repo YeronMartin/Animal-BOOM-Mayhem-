@@ -29,20 +29,20 @@ class BallPlacer{
         
 
         if(n > 9 && this.allowedBalls.includes("mini_black_hole")){
-            this.scene.ballsList[i] = new BlackHoleBall (this.scene, ballPosition.x, ballPosition.y);
+            this.scene.ballsList[i] = new BlackHoleBall (this.scene, 0, ballPosition.x, ballPosition.y);
         }else if(n > 8 && this.allowedBalls.includes("flaming_ball")){
-            this.scene.ballsList[i] = new FlamingBall (this.scene, ballPosition.x, ballPosition.y);
+            this.scene.ballsList[i] = new FlamingBall (this.scene, 0, ballPosition.x, ballPosition.y);
         }else if(n > 6){
-            this.scene.ballsList[i] = new BallBasket(this.scene, ballPosition.x, ballPosition.y);
+            this.scene.ballsList[i] = new BallBasket(this.scene, 0, ballPosition.x, ballPosition.y);
         }else if(n > 4){
-            this.scene.ballsList[i] = new BallTemporizedBomb(this.scene, ballPosition.x, ballPosition.y);
+            this.scene.ballsList[i] = new BallTemporizedBomb(this.scene, 0, ballPosition.x, ballPosition.y);
         }else{
-            this.scene.ballsList[i] = new BallBomb (this.scene, ballPosition.x, ballPosition.y);
+            this.scene.ballsList[i] = new BallBomb (this.scene, 0, ballPosition.x, ballPosition.y);
         }
     }
 
     generateValidBallPosition(){
-        var minDistance = 200;
+        var minDistance = 250;
         var validPosition = false;
         var tries = 10;
         var ballPosition = new Phaser.Math.Vector2(0, 0);
@@ -58,6 +58,7 @@ class BallPlacer{
                     if(this.getDistanceBetweenPoints(ballPosition.x, ballPosition.y, this.scene.ballsList[i].x, 
                         this.scene.ballsList[i].y) < minDistance){
                         validPosition = false;
+                        console.log("no vale");
                         break;
                     }
                 }

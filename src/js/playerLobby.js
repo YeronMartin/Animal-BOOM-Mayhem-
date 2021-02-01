@@ -49,8 +49,14 @@ class playerLobby {
       this.height/1.04, this.timesPerWeek, {fill: '#000', font: "Arial", font: "30px"}).setOrigin(0.5, 0.5).setDepth(3);
     this.nickname_text = this.sceneName.add.text(this.posX + this.width/2, this.posY +
       this.height/1.27, this.nickname, {fill: '#000', font: "Arial", font: "30px"}).setOrigin(0.5, 0.5).setDepth(3);
-    this.character = this.sceneName.add.image(this.posX + this.width/2, this.posY +
+
+
+      console.log("HE METIDO UNA IMAGEN DE  "+this.character);
+
+      this.character = this.sceneName.add.image(this.posX + this.width/2, this.posY +
       this.height/2.6, this.character).setDepth(3).setScale(0.2);
+
+
   }
 
   destroy(){

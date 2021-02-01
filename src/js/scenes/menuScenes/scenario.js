@@ -9,6 +9,10 @@ class scenario extends Phaser.Scene{
         var lastSelectedButton;
     }
 
+    init(msg){
+
+    }
+
     preload(){
         this.load.image("stage_background", "././resources/img/sceneBackground/stage_background.png");
         this.load.image("rep_estadio", "././resources/img/Interfaces/stageRep/rep_estadio.png");
@@ -55,6 +59,8 @@ class scenario extends Phaser.Scene{
 
         this.menuSelectSfx = this.sound.add('menuSelectSfx');
         this.menuSelectSfx.setVolume(0.2);
+
+        console.log("ESTOY EN SCENARIO");
     }
 
     update(){

@@ -148,6 +148,7 @@ class loadingScene extends Phaser.Scene {
     this.load.image("character_description_area", "././resources/img/interfaces/areas/character_description_area.png");
     this.load.image("juani_winner", "././resources/img/Interfaces/characterRep/juani_winner.png");
     this.load.image("juani_cursed_winner", "././resources/img/Interfaces/characterRep/juani_cursed_winner.png");
+    this.load.image("gato_finanzas_winner", "././resources/img/Interfaces/characterRep/gato_Finanzas_winner.png");
     this.load.spritesheet('postGame_buttons', '././././resources/img/Interfaces/buttons/postGame_buttons.png', { frameWidth: 913, frameHeight: 226} );
 
 

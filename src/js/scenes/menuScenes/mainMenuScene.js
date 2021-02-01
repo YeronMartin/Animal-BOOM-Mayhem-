@@ -140,7 +140,7 @@ toEnterButton(){
             this.menuSelectSfx.play();
 
             console.log(this.nicknameBox.getChildByName('nameField').value);
-            this.scene.start("modeScene", {player : this.nicknameBox.getChildByName('nameField').value});
+            this.scene.start("modeScene", {name : this.nicknameBox.getChildByName('nameField').value});
             this.selectedButton = null;
 
             this.inputBoxActive = false;

@@ -14,6 +14,8 @@ class PlayerAnimator{
     }
 
     setupCharacterAnimations(character){
+        console.log("Montando animaciones de "+character);
+
         this.idle_anim = this.scene.anims.create({
             key: character+'_idle',
             frames: this.scene.anims.generateFrameNames(character, {frames: [0]}),

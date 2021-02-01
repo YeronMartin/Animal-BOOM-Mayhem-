@@ -1179,6 +1179,7 @@ Principal_ ​.
   inicializar las posiciones de los personajes y de las pelotas cuando se inicia una partida, crear pelotas durante la partida, etc…
   
   
+  
   En el caso del cliente, solo se ha añadido en esta fase una nueva clase, la clase IngameSocket. El resto de clases se han mantenido igual o se han modificado. Este ha sido
   el caso de las clases lobbyscene e Ingamescene que ya existían, pero se han modificado en esta práctica para poder establecer la conexión mediante WebSockets. 
   

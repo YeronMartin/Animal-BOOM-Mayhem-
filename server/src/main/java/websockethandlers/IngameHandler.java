@@ -82,7 +82,6 @@ public class IngameHandler  extends TextWebSocketHandler {
 		System.out.println("Tenemos "+active_player_sessions.size()+" sesiones guardadas");
 	}
 	
-	
 	private void findPlayerBySessionAmongAllMatches(WebSocketSession session) {
 		for(MatchManager m: matchManagerList) {
 			for(PlayerIngameData p: m.getPlayers()) {
@@ -280,6 +279,7 @@ public class IngameHandler  extends TextWebSocketHandler {
 			 n.put("posY", p.getPosition().getY());
 			 n.put("movX", p.getDirection().getX());
 			 n.put("movY", p.getDirection().getY());
+			 n.put("health", p.getHealth());
 			 
 			 nodoListaJugadores.add(n);
 		 }
@@ -321,7 +321,7 @@ public class IngameHandler  extends TextWebSocketHandler {
 		nodo.put("type", "GAME_OVER");
 		nodo.put("id", winnerId);
 		
-		System.out.println("SACABO LA PARTIDA DE LA ROOM "+m.getRoom().getRoomId());
+		System.out.println("SE ACABÓ LA PARTIDA DE LA ROOM "+m.getRoom().getRoomId());
 		sendMessageToAllPlayersInMatch(m, nodo);
 	}
 	

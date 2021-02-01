@@ -56,7 +56,6 @@ public class MatchManager {
 	// ==========================================
 	
 	public void setupGame(Room r) {
-		
 		this.room = r;
 		
 		players.clear();
@@ -120,15 +119,29 @@ public class MatchManager {
 		
 		b.setPosition(new Vector2(posX, posY));
 		
-		float type = getRandomNumberBetween(0, 10);
+		float type = getRandomNumberBetween(0, 100);
 		
+		if(type > 90) {
+			b.setType(4);	//BlackHole
+		}else if(type > 80) {
+			b.setType(3);	//Flaming
+		}else if(type > 70){
+			b.setType(0);	//Basketball
+		}else if(type > 60) {
+			b.setType(2);
+		}else {
+			b.setType(1);
+		}
+		
+		
+		/*
 		if(type > 8) {
 			b.setType(0);	//Basketball
 		}else if(type > 6) {
 			b.setType(2);	//Potato
-		}else {
+		}else{
 			b.setType(1);	//Bomb
-		}
+		}*/
 		
 		balls.add(b);
 		ballIdCounter++;
@@ -173,7 +186,6 @@ public class MatchManager {
 			System.out.println("Todos los jugadores se han conectado");
 			handler.sendStartMatchMessageToMatch(this);
 			
-			
 			startUpdateTimer();
 		}
 	}
@@ -197,7 +209,6 @@ public class MatchManager {
 		}
 	  };
 	
-	  
 	public void sendUpdate() {
 		update(0.04f);
 		handler.sendSavedPlayerStatusOfMatchToAllItsPlayers(this);
@@ -218,7 +229,7 @@ public class MatchManager {
 		
 		int playerIndex = findPlayerIndexById(data.get("id").asInt());
 		
-		System.out.println("Este señor es el jugador "+playerIndex);
+		//System.out.println("Este señor es el jugador "+playerIndex);
 		
 		if(playerIndex > -1) {
 			players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
@@ -308,15 +319,29 @@ public class MatchManager {
 		int playerIndex = findPlayerIndexById(data.get("id").asInt());
 		
 		if(playerIndex > -1) {
-			
 			players.get(playerIndex).setPosition(new Vector2(data.get("posX").floatValue(), data.get("posY").floatValue()));
 			players.get(playerIndex).setDirection(new Vector2(0, 0));
 			
 			players.get(playerIndex).setHealth(0);
+			
+			int killerId = data.get("killerId").asInt();
+			
+			if(killerId > -1) 
+				increaseEliminationCountOfPlayer(killerId);
 		}
 	
 		//COMPROBAR SI LA PARTIDA HA ACABADO
 		startGameOver();
+	}
+	
+	private void increaseEliminationCountOfPlayer(int id) {
+		for(PlayerLobby pl: room.getLobbyPlayers()) {
+			if(pl.getID() == id) {
+				System.out.println("Este señor es un héroe: "+pl.getName());
+				pl.addEliminations(1);
+				return;
+			}
+		}
 	}
 	
 	public void ballDeleted(JsonNode data) {
@@ -343,14 +368,28 @@ public class MatchManager {
 	
 	//Comprueba cuántos jugadores quedan vivos y, si es solo uno, envía un mensaje de gameover.
 	private void startGameOver() {
-		int id = getIdOfLastPLayerAlive();
+		int winnerId = getIdOfLastPLayerAlive();
 
 		//Chapamos todo
 		//balls.clear();
 		//players.clear();
 		
-		if(id > -1) 
-			handler.sendGameOverState(this, id);
+		if(winnerId > -1) {
+			increaseScoreOfAllPlayers(winnerId);
+			
+			handler.sendGameOverState(this, winnerId);
+			
+			handler.getLobbyHandler().updateSavedScoresOfPlayersInRoom(room);
+		}
+	}
+	
+	private void increaseScoreOfAllPlayers(int winner) {
+		for(PlayerLobby pl: room.getLobbyPlayers()) {
+			pl.addTimesPlayed(1);
+			
+			if(pl.getID() == winner)
+				pl.addVictory(1);
+		}
 	}
 	
 	private int getIdOfLastPLayerAlive(){

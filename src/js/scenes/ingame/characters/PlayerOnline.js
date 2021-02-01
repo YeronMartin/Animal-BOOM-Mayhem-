@@ -213,6 +213,7 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
 
         console.log("Pelota lanzada por dummy");
 
+        this.ball.launchedByPlayer = this.id;
         this.ball.visible = true;
         this.ball = null;
     }
@@ -256,7 +257,7 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
     // Recibir daño
     //====================================================================================================
 
-    takeDamage(ballId){
+    takeDamage(entity, isBall){
         if(this.hurted)
             return;
 
@@ -266,8 +267,11 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
 
             if(this.crouching)
                 this.exitCrouchMode();
-
-            this.enterHurtState(ballId);
+            
+            if(isBall)
+                this.enterHurtState(entity.id);
+            else
+                this.enterHurtState(-1);
            
             this.animator.lifebar.anims.play('lifebar_'+this.team+'_'+this.health);
         }else{
@@ -275,12 +279,15 @@ class PlayerOnline extends Phaser.GameObjects.Sprite{
             this.animator.playHurt();
             this.animator.lifebar.destroy();
 
+            if(entity.launchedByPlayer != null){
+                this.killerId = entity.launchedByPlayer;
+            }
+
+            
 
             this.scene.ingameSocket.sendEliminatedState(this);
 
             this.removeFromSceneLists();
-
-            //this.scene.playerEliminated(this.team);
         }
     }
 

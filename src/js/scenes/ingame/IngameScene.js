@@ -55,9 +55,10 @@ class IngameScene extends Phaser.Scene {
         this.load.spritesheet("potato_sheet", "././././resources/img/balls/Patata_sheet.png", { frameWidth: 100, frameHeight: 100 });
         this.load.spritesheet('explosion_sheet', "././././resources/img/effects/explosion_sheet.png", { frameWidth: 431, frameHeight: 400 });
 
+
         this.load.image("bola_flamigera", "././././resources/img/balls/Pelota_flamigera.png");
         this.load.image("mini_agujero_negro", "././././resources/img/balls/Mini_agujero_negro.png");
-
+        this.load.spritesheet('black_hole_area_sheet', "././././resources/img/effects/black_hole_area_sheet.png", { frameWidth: 500, frameHeight: 500 });
 
         this.load.spritesheet('player_none', '././././resources/img/balls/player_none.png', { frameWidth: 180, frameHeight: 250 } );
         this.load.spritesheet('player_basketball', '././././resources/img/balls/player_basketball.png', { frameWidth: 180, frameHeight: 250 } );
@@ -206,12 +207,12 @@ class IngameScene extends Phaser.Scene {
 
     //Cuando un boloncio choqua contra un jugador
     colisionPlayerBall(player, ball){
-        player.takeDamage(ball.id);
+        player.takeDamage(ball, true);
         ball.impact();
     }
 
     colisionPlayerExplosion(player, explosion){
-        player.takeDamage(-1);
+        player.takeDamage(explosion, false);
     }
 
     setupBallAnimations(){
@@ -280,7 +281,7 @@ class IngameScene extends Phaser.Scene {
         //Área del agujero negro
         this.anims.create({
             key: 'blackHoleArea_anim',
-            frames: this.anims.generateFrameNames('explosion_sheet', {frames: [0,1]}),
+            frames: this.anims.generateFrameNames('black_hole_area_sheet', {frames: [0,1,2]}),
             frameRate: 10,
             repeat: -1
         });
@@ -389,7 +390,6 @@ class IngameScene extends Phaser.Scene {
             this.playersList[i].enterSuddenDeathMode();
         }
     }
-
 
     startGameOver(winnerObject){
         //Hay que buscar el nick del usuario que ha ganado

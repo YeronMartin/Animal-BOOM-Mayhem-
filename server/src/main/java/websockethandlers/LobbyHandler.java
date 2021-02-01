@@ -3,11 +3,11 @@ package websockethandlers;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,7 +20,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -71,7 +70,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 				PlayerLobby p =  new PlayerLobby();
 				p.setID(Integer.parseInt(br.readLine()));
 				p.setName(br.readLine());
-				p.setCharacter(br.readLine());
+				//p.setCharacter(br.readLine());
 				p.setWinnings(Integer.parseInt(br.readLine()));
 				p.setTimesPerWeek(Integer.parseInt(br.readLine()));
 				p.setDeaths(Integer.parseInt(br.readLine()));
@@ -99,7 +98,7 @@ public class LobbyHandler extends TextWebSocketHandler {
 				if(!r.isRoomAvailable())
 					continue;
 				
-				if(r.getLobbyPlayers().size() > 0 && !r.isCountDownStarted()) {
+				if(r.getLobbyPlayers().size() > 1 && !r.isCountDownStarted()) {
 					if(r.getCountDownToStart() > 0) {
 						int timeLeft = r.getCountDownToStart();
 						timeLeft--;
@@ -156,6 +155,10 @@ public class LobbyHandler extends TextWebSocketHandler {
 				sendLobbyDataToAllPlayersInRoom(room);
 				
 				System.out.println("Jugador "+p.getName()+" eliminado de la sala "+room.getRoomId());
+				
+				
+				room.setCountDownToStart(10);
+				room.setCountDownStarted(false);
 			}
 		}
 	}
@@ -195,17 +198,52 @@ public class LobbyHandler extends TextWebSocketHandler {
 		addPlayerToLobby(session, name, character);
 	}
 	
+	private boolean isPlayerNameAlreadyTaken(String name) {
+		for(Room r: roomList) {
+			for(PlayerLobby pl: r.getLobbyPlayers()) {
+				if(pl.getName().equals(name)) 
+					return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private String setValidNameForUser(String name) {
+		boolean valid = false;
+		String newName = "";
+		int numberOption = 0;
+		
+		while(!valid) {
+			if(isPlayerNameAlreadyTaken(name+numberOption)) {
+				numberOption++;
+			}else {
+				valid = true;
+				newName = name + numberOption;
+			}
+		}
+		
+		System.out.println("Tu nuevo nombre es: "+newName);
+		
+		return newName;
+	}
+	
 	private void addPlayerToLobby(WebSocketSession s, String name, String character) {
 		PlayerLobby p;
 		//Comprobar si el jugador ya se encontraba registrado
-		if(stored_players.containsKey(name)) {
+		if(stored_players.containsKey(name) && !isPlayerNameAlreadyTaken(name)) {
 			p = stored_players.get(name);
 			System.out.println("Mira quien ha vuelto: "+p.getName()+" con id "+p.getID());
 			p.setSession(s);
-		}else {
+		}else if(!isPlayerNameAlreadyTaken(name)){
 			p = new PlayerLobby(s, stored_players.size(), name, character);
 			System.out.println("Nuevo jugador registrado: "+p.getName()+" con id "+p.getID());
 			stored_players.put(p.getName(),p);
+		}else {
+			name = setValidNameForUser(name);
+			p = new PlayerLobby(s, stored_players.size(), name, character);
+			System.out.println("Nombre no disponible, tu nuevo nombre será "+p.getName()+" con id "+p.getID());
+			sendNewNameToPlayer(p);
 		}
 		
 		//Hay que meter al jugador en una Room
@@ -219,12 +257,12 @@ public class LobbyHandler extends TextWebSocketHandler {
 			System.out.println("Todas las salas están llenas u ocupadas");
 			roomIdCount++;
 			r = new Room(roomIdCount);
+			roomList.add(r);
 		}else {
 			System.out.println("Sala disponible: "+r.getRoomId());
 		}
 		
 		r.addPlayerToRoom(p);
-		
 		sendLobbyDataToAllPlayersInRoom(r);
 	}
 	
@@ -241,6 +279,15 @@ public class LobbyHandler extends TextWebSocketHandler {
 	//==========================================================
 	//	ENVIAR MENSAJE
 	//==========================================================
+	
+	private void sendNewNameToPlayer(PlayerLobby p) {
+		ObjectNode nodo = mapper.createObjectNode();
+		
+		nodo.put("type", "NEW_NAME");
+		nodo.put("newName", p.getName());
+		
+		sendMessageToPlayer(p.getSession(), nodo);
+	}
 	
 	private void sendLobbyDataToAllPlayersInRoom(Room r){
 		//Empaquetar nuevo mensaje (información actualizada lobby)
@@ -278,13 +325,23 @@ public class LobbyHandler extends TextWebSocketHandler {
 		sendMessageToAllPlayersInRoom(r, msgTime);
 	}
 	
-
 	private void sendMessageToAllPlayersInRoom(Room r, JsonNode msg) {
 		try {
 			for(PlayerLobby p : r.getLobbyPlayers()) {
 				synchronized(p.getSession()) {
 					p.getSession().sendMessage(new TextMessage(msg.toString()));
 				}
+			}
+		} catch (IOException e) {
+			System.out.println("Error al enviar estado del lobby");
+			e.printStackTrace();
+		}
+	}
+	
+	private void sendMessageToPlayer(WebSocketSession session, JsonNode msg) {
+		try {
+			synchronized(session) {
+				session.sendMessage(new TextMessage(msg.toString()));
 			}
 		} catch (IOException e) {
 			System.out.println("Error al enviar estado del lobby");
@@ -312,6 +369,44 @@ public class LobbyHandler extends TextWebSocketHandler {
 		msgStart.put("type", "START");
 					
 		sendMessageToAllPlayersInRoom(r, msgStart);
+	}
+	
+	//==========================================================
+	//	POST PARTIDA
+	//==========================================================
+	
+	public void updateSavedScoresOfPlayersInRoom(Room r) {
+		//Reemplazamos las puntuaciones anteriores con las nuevas
+		for(PlayerLobby p : r.getLobbyPlayers()) {
+			stored_players.replace(p.getName(), p);
+		}
+		
+		//Guardamos los datos en el archivo de texto
+		saveAll();
+	}
+	
+	public void saveAll() {
+		FileWriter file;
+		
+		try {
+			file = new FileWriter ("PlayersFile.txt", StandardCharsets.UTF_8);
+			
+			ArrayList<PlayerLobby>  playersList = new ArrayList<PlayerLobby>(this.stored_players.values());
+			file.write(playersList.size() + "\n");
+			for (int i = 0; i< playersList.size(); i++) {
+				file.write(playersList.get(i).getID() + "\n");
+				file.write(playersList.get(i).getName() + "\n");
+				//file.write(playersList.get(i).getCharacter() + "\n");
+				file.write(playersList.get(i).getTimesPerWeek() + "\n");
+				file.write(playersList.get(i).getWinnings() + "\n");
+				file.write(playersList.get(i).getDeaths() + "\n");
+			}
+			
+			System.out.println("Fichero escrito");
+			file.close();
+		}catch (IOException e){
+			System.out.println("Mensaje de excepcion: " + e.getMessage());
+		}
 	}
 	
 	

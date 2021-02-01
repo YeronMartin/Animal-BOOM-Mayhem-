@@ -1,6 +1,6 @@
 class BlackHoleArea extends Phaser.GameObjects.Sprite {
     constructor(scene, posX, posY){
-        super(scene, posX, posY, "explosion_sheet");
+        super(scene, posX, posY, "black_hole_area_sheet");
 
         this.setupPhysics(scene);
 
@@ -8,6 +8,8 @@ class BlackHoleArea extends Phaser.GameObjects.Sprite {
         this.scene.add.existing(this);
 
         this.setDepth(4);
+        this.setScale(0.8);
+
 
         this.anims.play('blackHoleArea_anim');
         
@@ -71,7 +73,7 @@ class BlackHoleArea extends Phaser.GameObjects.Sprite {
             }else if(distance > this.innerRadius){
                 p.addObjectToAtractionList(this);
             }else{
-                p.takeDamage();
+                p.takeDamage(this, false);
                 p.removeObjectFromAtractionList(this);
             }
         }

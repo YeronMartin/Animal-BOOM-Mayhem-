@@ -23,7 +23,8 @@ class creditsScene extends Phaser.Scene{
 
         this.add.text((config.width / 2), config.height/3 + 150, " Carlos del Águila Mateu\n Jesús David Rojo Martín\n María Busto Ramos\n Yerón Martín Sánchez", {fill: '#fff', font: "Arial", font: "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
 
-        this.add.text((config.width / 2), config.height/3 + 250, "!MUCHAS GRACIAS POR JUGAR!", {fill: '#fff', font: "Arial", font:  "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+        this.add.text((config.width / 2), config.height/3 + 400, "!MUCHAS GRACIAS POR JUGAR!", {fill: '#fff', font: "Arial", font:  "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
+        this.add.text((config.width / 2), config.height/3 + 250, "\nMúsica y efectos de sonido:\nAdobe stock \nFreesound", {fill: '#fff', font: "Arial", font:  "20px"}).setDepth(2).setWordWrapWidth(350).setOrigin(0.5, 0.5);
 
 
 

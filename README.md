@@ -1068,10 +1068,60 @@ Principal_ ​.
   En caso de que el servidor esté apagado, aparecería un error en la consola y ninguno de los jugadores se mostrarían en el lobby.  
   
   
+  
   ## 9. Fase 4
   A continuación, se van a resumir las nuevas funcionalidades introducidas en la fase 4. En concreto, nos vamos a centrar en el uso de WebSockets.
   
+  
   ### 9.1 WebSockets
+  En esta fase 4, se ha incluido WebSockets como mecanismo de comunicación asíncrona en el juego. Por lo tanto, el protocolo que hemos empleado ha sido WebSocketes (ws).
+  También, cabe destacar que, en esta fase cuatro, no se hace uso de API REST. Toda la parte de gestión que se implementó en la fase 3 con API REST, se ha implementado en 
+  esta fase con WebSockets.
+  
+  En primer lugar, se ha implementado la conexión entre cliente y servidor con WebSockets. Para ello, en el lado del servidor, se han creado en la clase Application dos
+  manejadores, uno para el lobby (LobbyHandler) y otro para la partida (IngameHandler). El cliente se puede conectar a estos dos canales empleando WebSockets cuando quiera 
+  jugar. Inicialmente, el cliente se conectará al canal del lobby y, cuando inicie la partida tras cierto tiempo, el cliente cerrará la conexión con el socket del lobby para
+  conectarse al canal de la partida (canal ingame).
+  
+  En el lado del cliente, se ha implementado un método SetUpConnection () tanto en el lobby como en el socket de la partida para que, cuando el cliente quiera jugar el
+  juego, simplemente tenga que conectarse al websocket correspondiente y enviar un mensaje al servidor.
+  
+  Una vez establecida la conexión, cliente y servidor van a poder intercambiar mensajes que se enviarán en formato JSON. Concretamente, cada vez que alguno de los clientes
+  conectados al servidor actualice cierta información, este enviará un mensaje con estos cambios al servidor y el servidor lo procesará, lo empaquetará y se lo devolverá al
+  resto de clientes conectados para mantenerlos actualizados. Cabe destacar que, como cliente y servidor se intercambian multitud de información (datos del jugador en el
+  lobby, datos del jugador en partida, mensaje de inicio, etc...), los mensajes se crean con una etiqueta “type” que especifica el tipo de información que contiene el
+  mensaje. De esta manera, tanto el cliente como el servidor pueden identificar el tipo de información y actualizarla con los métodos correspondientes.
+  
+  
+  
+  Por otro lado, en cuanto al lobby, este funciona de manera similar a la fase 3, pero se han incluido nuevas funcionalidades. Lo primero a destacar es que se ha
+  implementado toda la parte del lobby que se tenía en la fase 3 con WebSockets. Por lo tanto, los jugadores cuando se conectan al lobby se muestran en la pantalla con su
+  personaje y cierta información. También, cuando se conecta un jugador, si este es nuevo se crea desde cero un perfil, pero, si este ya existía entonces se recuperan sus
+  datos que están almacenados en un fichero.
+  
+  Sin embargo, además de esto, el lobby cuenta con un temporizador que, al unirse dos jugadores, se activa. Al terminar el tiempo, se inicia la partida. En este momento, el
+  lobbyHandler le pasa la lista de jugadores activos en el lobby al IngameHandler para que prepare la partida. 
+  
+  Asimismo, otra nueva funcionalidad que se ha incluido son las salas. El juego ahora dispone de salas a las que se pueden conectar los jugadores. El límite de estas salas
+  son dos jugadores. Cuando una sala se llena, se crea una nueva y los nuevos jugadores se insertan en esta. La gestión de las salas se lleva a cabo en la clase
+  LobbyHandler.
+  
+  
+  Otra de las funcionalidades que hemos conseguido implementar gracias a los WebSockets es la jugabilidad en línea. Ahora, cuando dos clientes se conectan al juego, estos
+  pueden jugar desde cada ventana y visualizar las acciones del otro en pantalla. Para ello, los clientes se conectan al canal ingame utilizando WebSockets (clase 
+  IngameSocket del cliente). Cuando un cliente hace algo en la partida, este envía la nueva información al servidor que la recibe en su clase IngameHandler. Aquí, el 
+  servidor procesa y actualiza la información como le corresponda y la vuelve a empaquetar para enviársela al resto de clientes y mantenerlos actualizados. Este intercambio
+  de información se repite continuamente con toda la información relativa a la partida (pelotas, jugadores, fin de la partida, etc...).
+  
+  En el caso del servidor, las clases que se encargan de la gestión de la partida son: IngameHandler (manejador de la partida) y MatchManager (clase encargada de la
+  preparación y actualización de la partida).
+  
+  Al finalizar la partida, los jugadores pasan a la pantalla de victoria donde pueden volver a la pantalla de selección de personajes o al menú principal. 
+  
+  
+  Se profundizará más en las clases empleadas para conseguir todo esto en el apartado del diagrama de clases.
+
+
   
   ### 9.2 Diagrama de clases (actualizado)
   

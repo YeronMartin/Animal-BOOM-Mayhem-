@@ -101,8 +101,7 @@ class loadingScene extends Phaser.Scene {
   }
 
   toMainMenuScene() {
-    //this.scene.start('mainMenuScene');
-    this.scene.start('modeScene');
+    this.scene.start('mainMenuScene');
   }
 
   loadResorces (){

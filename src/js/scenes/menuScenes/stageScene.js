@@ -123,7 +123,7 @@ class stageScene extends Phaser.Scene{
               }else if (this.mode == 'offline'){
                 console.log ("jugador 1" + this.firstPlayer.character);
                 console.log ("jugador 2" + this.secondPlayer.character);
-                this.scene.start("StadiumGame", {player: this.player, mode: this.mode, firstPlayer: this.firstPlayer, secondPlayer: this.secondPlayer});
+                this.scene.start("stadiumGame", {player: this.player, mode: this.mode, firstPlayer: this.firstPlayer, secondPlayer: this.secondPlayer});
               }
 
             }

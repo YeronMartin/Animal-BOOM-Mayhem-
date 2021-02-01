@@ -1075,7 +1075,7 @@ Principal_ ​.
   
   ### 9.1 WebSockets
   En esta fase 4, se ha incluido WebSockets como mecanismo de comunicación asíncrona en el juego. Por lo tanto, el protocolo que hemos empleado ha sido WebSocketes (ws).
-  También, cabe destacar que, en esta fase cuatro, no se hace uso de API REST. Toda la parte de gestión que se implementó en la fase 3 con API REST, se ha implementado en 
+  También, cabe destacar que, en esta fase cuatro, no se hace uso de API REST. Toda la parte de gestión que se implementó en la fase 3 con API REST se ha implementado en 
   esta fase con WebSockets.
   
   En primer lugar, se ha implementado la conexión entre cliente y servidor con WebSockets. Para ello, en el lado del servidor, se han creado en la clase Application dos

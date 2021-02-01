@@ -8,10 +8,16 @@ class stageScene extends Phaser.Scene{
       var selectedButton;
       var lastSelectedButton;
       var player;
+      var mode;
+      var firstPlayer;
+      var secondPlayer;
   }
 
   init(data){
     this.player = data.player;
+    this.mode = data.mode;
+    this.firstPlayer = data.firstPlayer;
+    this.secondPlayer = data.secondPlayer;
   }
 
   preload(){
@@ -20,19 +26,19 @@ class stageScene extends Phaser.Scene{
   create(){
     //Creacion de la imagenes
       this.add.image(0, 0, "stage_background").setOrigin(0, 0).setScale(1.3);
-      this.add.text(config.width/6, config.height/18, 'Selecciona el escenario', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1);
+      this.add.text(config.width/2, 50, 'Selecciona el escenario', {fill: '#fff', font: "Arial", font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
 
       //Seteo de los botones
       this.estadioButton = new stageCard( this, config.width/2, config.height/1.12, "rep_estadio", "rep_estadio_selected", "rep_estadio_background");
-
+      this.estadioButton.renderStage();
       //creación de el sprite de flecha
       this.initAnimArrow();
       this.exitButton = this.add.sprite(config.width/20, config.height/11).setScale(.1).setDepth(1);
       this.exitButton.play('white');
 
       //Inicalizacion de las variables de seleccion
-      this.selectedButton = null;
-      this.lastSelectedButton = null;
+      this.selectedButton = 1;
+      this.lastSelectedButton = 1;
 
       //Flechas
       this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -102,7 +108,7 @@ class stageScene extends Phaser.Scene{
             this.renderButtons();
           }
       }if(Phaser.Input.Keyboard.JustDown(this.key_ESC)){ //Si se pulsa la felcha izquierda
-        this.scene.start("characterScene");
+        this.scene.start("characterScene", {player: this.player});
     }
   };
 
@@ -110,9 +116,16 @@ class stageScene extends Phaser.Scene{
         if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
           if (this.selectedButton != null) {
             if (this.selectedButton == 0) {
-              this.scene.start("characterScene");
+              this.scene.start("characterScene", {player: this.player});
             } else if (this.selectedButton == 1){
-              this.scene.start("lobbyScene", {player: this.player});
+              if (this.mode == "online") {
+                this.scene.start("lobbyScene", {player: this.player, mode: this.mode});
+              }else if (this.mode == 'offline'){
+                console.log ("jugador 1" + this.firstPlayer.character);
+                console.log ("jugador 2" + this.secondPlayer.character);
+                this.scene.start("StadiumGame", {player: this.player, mode: this.mode, firstPlayer: this.firstPlayer, secondPlayer: this.secondPlayer});
+              }
+
             }
           }
 

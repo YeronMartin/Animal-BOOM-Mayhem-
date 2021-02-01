@@ -12,8 +12,8 @@ class stageCard  extends Phaser.GameObjects.Sprite{
 
     //Setteo de la interactividad de la imagen
     this.stageImageButton = this.scene.add.image(this.posX, this.posY, this.rep).setDepth(1).setScale(.06);
-    this.stageImage = this.scene.add.image(config.width/4.5, config.height/5, this.rep_background).setDepth(1)
-    .setScale(.20).setOrigin(0, 0).setVisible(false);
+    this.stageImage = this.scene.add.image(config.width/2, config.height/2, this.rep_background).setDepth(1)
+    .setScale(.25).setVisible(false);
   };
 
   renderButton(){

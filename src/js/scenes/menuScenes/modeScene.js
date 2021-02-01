@@ -12,8 +12,6 @@ class modeScene extends Phaser.Scene{
     init(data){
       this.player = new serverPlayer();
       this.player.name = data.player;
-
-      console.log("Leido: " + data.player);
     }
 
      preload(){
@@ -21,7 +19,7 @@ class modeScene extends Phaser.Scene{
 
     create(){
         this.add.image(0, 0, "character_background").setOrigin(0, 0).setDepth(0).setScale(1.3)
-        this.add.text(500, 50, 'Elige el modo de juego',{
+        this.add.text(config.width/2, 75, 'Elige el modo de juego',{
           fill: '#fff',
           font: "Arial",
           font: "40px"}).setDepth(1).setOrigin(0.5, 0.5);
@@ -94,7 +92,7 @@ class modeScene extends Phaser.Scene{
           if (this.selectedButton == 1) {
             this.selectedButton = null;
             this.lastSelectedButton = null;
-            this.scene.start("characterScene", {player : this.player});
+            this.scene.start("characterScene", {player : this.player, mode: 'offline'});
 
           } else if (this.selectedButton == 0) {
             this.selectedButton = null;
@@ -105,7 +103,7 @@ class modeScene extends Phaser.Scene{
             this.selectedButton = null;
             this.lastSelectedButton = null;
             this.player.character = "rep_Juani_cursed";
-            this.scene.start("characterScene", {player : this.player});
+            this.scene.start("characterScene", {player : this.player,  mode: 'online'});
           }
         }
       }

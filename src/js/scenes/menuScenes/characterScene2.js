@@ -1,9 +1,7 @@
-class characterScene extends Phaser.Scene {
+class characterScene2 extends Phaser.Scene {
   constructor() {
-    super("characterScene");
+    super("characterScene2");
     var exitButton;
-    var juaniButton;
-    var juaniCursedButton;
     var lastSelectedButton;
     var selectedButton;
     var descriptionText;
@@ -13,12 +11,15 @@ class characterScene extends Phaser.Scene {
     var mode;
     var firstPlayer;
     var secondPlayer;
+    var error_same_char;
   }
 
   init(data){
-    this.player = new serverPlayer();
-    this.player.name = data.player;
+    this.player = data.player;
     this.mode = data.mode;
+    this.firstPlayer = data.firstPlayer;
+
+
   }
 
   preload() {
@@ -26,11 +27,18 @@ class characterScene extends Phaser.Scene {
 
   create() {
     this.add.image(0, 0, "character_background").setOrigin(0, 0).setDepth(0).setScale(1.3);
-    this.textoTitulo = this.add.text(config.width / 2, config.height / 11, 'Personajes', {
+    this.textoTitulo = this.add.text(config.width / 2, config.height / 11, 'Jugador 2 elige personaje', {
       fill: '#fff',
       font: "Arial",
       font: "40px"
     }).setDepth(1);
+
+    this.error_same_char = this.add.text(config.width / 2, config.height / 4.5, '', {
+      fill: '#f00',
+      font: "Arial",
+      font: "20px"
+    }).setDepth(1).setOrigin(0.5, 0.5);
+
     this.textoTitulo.setOrigin(0.5, 0.5);
 
     this.initAnimArrow();
@@ -52,7 +60,6 @@ class characterScene extends Phaser.Scene {
       this.keys2.setOrigin(1, 0);
       this.keys2.setDepth(1);
       this.keys2.setScale(0.3);
-      this.textoTitulo.setText ('Jugador 1 elige personaje');
     }
 
     //Inicalizacion de varibales de seleccion
@@ -76,14 +83,10 @@ class characterScene extends Phaser.Scene {
     this.menuSelectSfx.setVolume(0.2);
 
     //Informacion de los jugadores
-    this.firstPlayer = new serverPlayer();
     this.secondPlayer = new serverPlayer();
   }
 
   update() {
-
-    //this.toSelectButton();
-    //this.toEnterButton();
     if (Phaser.Input.Keyboard.JustDown(this.key_W) && this.isSelected == true){
         this.exitButton.play('selected');
         this.isSelected = false;
@@ -98,37 +101,22 @@ class characterScene extends Phaser.Scene {
         this.carrusel.updateRight();
     }
 
-    if (this.mode == 'online') {
-      this.toEnterButtonON();
-    }else if (this.mode == 'offline') {
-      this.toEnterButtonOFF();
-    }
+    this.toEnterButton();
+  }
 
-
-  };
-
-  toEnterButtonON() {
-    if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
-      if (this.isSelected == true) {
-        this.player.character = this.carrusel.getCurrent();
-        this.scene.start('stageScene',{player : this.player, mode: this.mode});
-      }else{
-        this.scene.start('modeScene',  {player : this.player.name});
+  toEnterButton() {
+      if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
+        if (this.isSelected == true) {
+          this.secondPlayer.character = this.carrusel.getCurrent();
+          if (this.firstPlayer.character == this.carrusel.getCurrent()) {
+            this.error_same_char.setText('No puedes elegir el mismo personaje que el jugador 1');
+          }else{
+              this.scene.start('stageScene',{player : this.player, mode: this.mode, firstPlayer: this.firstPlayer, secondPlayer: this.secondPlayer});
+          }
+        }else{
+          this.scene.start('modeScene',  {player : this.player.name});
+        }
       }
-    }
-  };
-
-  toEnterButtonOFF() {
-
-    if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
-      if (this.isSelected == true) {
-        this.firstPlayer.character = this.carrusel.getCurrent();
-        this.player.character = this.carrusel.getCurrent();
-        this.scene.start('characterScene2',{player : this.player, mode: this.mode, firstPlayer: this.firstPlayer});
-      }else{
-        this.scene.start('modeScene',  {player : this.player.name});
-      }
-    }
   };
 
   initAnimArrow() {

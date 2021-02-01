@@ -35,7 +35,7 @@ class Carrousel {
     this.tweens = new Array (this.numCharacter);
 
     this.elementToSelect = 0;
-    this.currentElement = this.numCharacter -1;
+    this.currentElement = 0;
 
     this.initCarrosuel();
 
@@ -242,7 +242,7 @@ class Carrousel {
   this.tweens[a].data[1].getEndValue(),
   0.2, 0.1
   );
-
+  this.currentElement = b;
 
   this.tweens[b] =
   this.addTween(this.elements[b],
@@ -269,6 +269,8 @@ class Carrousel {
     this.tweens[a].data[1].getEndValue(),
     0.1, 0.2
     )
+
+    this.currentElement = a;
 
     this.tweens[b] =
     this.addTween(this.elements[b],
@@ -301,5 +303,17 @@ class Carrousel {
     this.elements_position[i].y,
     0.2, 0.25
     )
+  }
+
+  getCurrent (){
+    var charCurrent;
+    if (this.currentElement == 0){
+      return 'juani';
+    } else if (this.currentElement == 1){
+      return 'juani_Cursed';
+    }else if (this.currentElement == 2){
+      return 'gato_Finanzas'
+    }
+
   }
 };

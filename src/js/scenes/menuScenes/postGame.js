@@ -3,46 +3,84 @@ class postGame extends Phaser.Scene{
         super("postGame");
 
         var winner;
+        var mode;
+        var selectedButton;
+        var lastSelectedButton;
+        var menuButton;
+        var characterButton;
+        var playButton;
     }
 
     init(msg){
       this.winner = msg.winner;
+      this.mode = msg.mode;
+
     }
 
      preload(){
-       this.load.image("character_background", "././resources/img/sceneBackground/character_background.png");
-       this.load.image("character_description_area", "././resources/img/interfaces/areas/character_description_area.png");
-       this.load.image("juani_winner", "././resources/img/Interfaces/characterRep/juani_winner.png");
-       this.load.image("juani_cursed_winner", "././resources/img/Interfaces/characterRep/juani_cursed_winner.png");
+
     }
 
     create(){
         this.add.image(0, 0, "character_background").setOrigin(0, 0).setScale(1.3);
-        this.add.text(config.width/3 -10, config.height/18, 'Ganador', {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1);
-        this.add.text(config.width/20, config.height/1.4, 'Pulsa M para ir al menú\nprincipal', {fill: '#fff', font: "Arial", font: "16px"}).setDepth(2);
-        this.add.text(config.width/20, config.height/1.4 +40, 'Pulsa N para ir a la\npantalla de selección\nde personaje', {fill: '#fff', font: "Arial", font: "16px"}).setDepth(2);
-        this.add.text(config.width/20, config.height/1.4 +100, 'Pulsa B para volver a\njugar', {fill: '#fff', font: "Arial", font: "16px"}).setDepth(2);
-        this.add.image(config.width/80, config.height/1.5 +3, 'character_description_area').setDepth(1).setScale(.9, 1.1).setOrigin(0,0);
+        this.add.text(config.width/2, 75, 'Ganador', {fill: '#fff', font: "Arial", font: "60px"}).setDepth(1).setOrigin(0.5, 0.5);
+
+        this.mode = 'offline';
+
+
+
+        this.initAnimButtons();
+
+        this.lastSelectedButton = 1;
+        this.selectedButton = 1;
+
+
+        //Flechas
+        this.key_A = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.key_D = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        //Enter y espacio
+        this.key_ENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+        this.key_SPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         this.renderWinner();
 
-        this.key_M = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-        this.key_N = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
-        this.key_B = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+        this.createButtons()
+
+
+
 }
 
     update(){
-        if(Phaser.Input.Keyboard.JustDown(this.key_M)){
-            this.toMenuScene();
-        }else if(Phaser.Input.Keyboard.JustDown(this.key_N)){
-            this.toCharacterScene();
-        }else if(Phaser.Input.Keyboard.JustDown(this.key_B)){
-            this.toGameScene();
-        }
+      if (this.mode == 'offline') {
+        this.toEnterButtonOFF();
+        this.toSelectButtonOFF();
+      }else if (this.mode == 'online'){
+        this.toEnterButtonON();
+        this.toSelectButtonON();
+      }
+    }
+
+    createButtons (){
+      if (this.mode == 'offline') {
+
+        this.playButton = this.add.sprite(config.width/2, config.height/1.1).setScale(.2).setDepth(2);
+        this.characterButton = this.add.sprite(config.width/1.4, config.height/1.1).setScale(.2).setDepth(2);
+        this.menuButton = this.add.sprite(config.width/3.5, config.height/1.1 ).setScale(.2).setDepth(2);
+
+        this.playButton.play('play_selected');
+        this.characterButton.play('personajes');
+        this.menuButton.play('menu');
+
+      }else if (this.mode == 'online'){
+        this.characterButton = this.add.sprite(config.width/1.5, config.height/1.1).setScale(.2).setDepth(2);
+        this.menuButton = this.add.sprite(config.width/3, config.height/1.1 ).setScale(.2).setDepth(2);
+
+        this.characterButton.play('personajes');
+        this.menuButton.play('menu_selected');
+      }
     }
 
     toMenuScene(){
-        this.input.keyboard.removeCapture('M,N,B');
 
         this.game.sound.stopAll();
         this.game.sound.play('menu_bgm', {volume: 0.1});
@@ -52,7 +90,7 @@ class postGame extends Phaser.Scene{
     toCharacterScene(){
         this.game.sound.stopAll();
         this.game.sound.play('menu_bgm', {volume: 0.1});
-        this.scene.start("character");
+        this.scene.start("characterScene");
     }
 
     toGameScene(){
@@ -60,8 +98,7 @@ class postGame extends Phaser.Scene{
     }
 
     renderWinner(){
-
-        if(this.winner.character == 'juani'){
+    if(this.winner.character == 'juani'){
             this.add.image(config.width/2, config.height/1.8, "juani_winner").setScale(.33).setDepth(1);
         }else if (this.winner.character == 'juani_cursed'){
             this.add.image(config.width/2, config.height/1.8, "juani_cursed_winner").setScale(.33).setDepth(1);
@@ -77,7 +114,215 @@ class postGame extends Phaser.Scene{
       }
       */
 
+    }
 
+    toSelectButtonOFF() {
+      if (Phaser.Input.Keyboard.JustDown(this.key_A)) { //Si se pulsa la felcha izquierda
+        if (this.selectedButton == null) { //Si previamente no se ha seleccionado ningún elemento
+          //Selecciona la flecha de salida
+          this.selectedButton = 2;
+        } else {
+          //Si la felcha se ha seleccionado
+          if (this.selectedButton == 0) {
+            this.selectedButton = 3;
+          }
+          this.selectedButton--;
+        }
+        this.renderButtonsOFF();
+      } else if (Phaser.Input.Keyboard.JustDown(this.key_D)) {
+        if (this.selectedButton == null) { //Si previamente no se ha seleccionado ningún elemento
+          //Selecciona la flecha de salida
+          this.selectedButton = 0;
+        } else {
+          //Si la felcha se ha seleccionado
+          if (this.selectedButton == 2) {
+            this.selectedButton = -1;
+          }
+          this.selectedButton++;
+        }
+        this.renderButtonsOFF();
+      }
+
+    };
+
+    toEnterButtonOFF() {
+      if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
+        if (this.selectedButton != null) {
+          if (this.selectedButton == 1) {
+            this.selectedButton = null;
+            this.lastSelectedButton = null;
+            this.toGameScene();
+
+          } else if (this.selectedButton == 0) {
+            this.selectedButton = null;
+            this.lastSelectedButton = null;
+            this.toMenuScene();
+
+          } else if (this.selectedButton == 2) {
+            this.selectedButton = null;
+            this.lastSelectedButton = null;
+            this.toCharacterScene();
+          }
+        }
+      }
+    };
+
+    renderButtonsOFF() {
+      switch (this.selectedButton) {
+        case 0:
+          this.menuButton.play('menu_selected');
+          break;
+        case 1:
+          this.playButton.play('play_selected');
+          break;
+        case 2:
+          this.characterButton.play('personajes_selected');
+          break;
+        default:
+          break;
+      }
+      switch (this.lastSelectedButton) {
+        case 0:
+        this.menuButton.play('menu');
+          break;
+        case 1:
+          this.playButton.play('play');
+          break;
+        case 2:
+          this.characterButton.play('personajes');
+          break;
+        default:
+          break;
+      }
+
+      this.lastSelectedButton = this.selectedButton;
+
+    }
+
+    initAnimButtons() {
+      this.anims.create({
+        key: 'play',
+        frames: this.anims.generateFrameNames('postGame_buttons', {
+          frames: [0]
+        }),
+        frameRate: 0,
+        repeat: 1
+      });
+
+      this.anims.create({
+        key: 'play_selected',
+        frames: this.anims.generateFrameNames('postGame_buttons', {
+          frames: [1]
+        }),
+        frameRate: 0,
+        repeat: 1
+      });
+
+      this.anims.create({
+        key: 'personajes',
+        frames: this.anims.generateFrameNames('postGame_buttons', {
+          frames: [2]
+        }),
+        frameRate: 0,
+        repeat: 1
+      });
+      this.anims.create({
+        key: 'personajes_selected',
+        frames: this.anims.generateFrameNames('postGame_buttons', {
+          frames: [3]
+        }),
+        frameRate: 0,
+        repeat: 1
+      });
+
+      this.anims.create({
+        key: 'menu',
+        frames: this.anims.generateFrameNames('postGame_buttons', {
+          frames: [4]
+        }),
+        frameRate: 0,
+        repeat: 1
+      });
+
+      this.anims.create({
+        key: 'menu_selected',
+        frames: this.anims.generateFrameNames('postGame_buttons', {
+          frames: [5]
+        }),
+        frameRate: 0,
+        repeat: 1
+      });
+    };
+
+    toSelectButtonON() {
+      if (Phaser.Input.Keyboard.JustDown(this.key_A)) { //Si se pulsa la felcha izquierda
+        if (this.selectedButton == null) { //Si previamente no se ha seleccionado ningún elemento
+          //Selecciona la flecha de salida
+          this.selectedButton = 1;
+        } else {
+          //Si la felcha se ha seleccionado
+          if (this.selectedButton == 0) {
+            this.selectedButton = 2;
+          }
+          this.selectedButton--;
+        }
+        this.renderButtonsON();
+      } else if (Phaser.Input.Keyboard.JustDown(this.key_D)) {
+        if (this.selectedButton == null) { //Si previamente no se ha seleccionado ningún elemento
+          //Selecciona la flecha de salida
+          this.selectedButton = 0;
+        } else {
+          //Si la felcha se ha seleccionado
+          if (this.selectedButton == 1) {
+            this.selectedButton = -1;
+          }
+          this.selectedButton++;
+        }
+        this.renderButtonsON();
+      }
+
+    };
+
+    toEnterButtonON() {
+      if (Phaser.Input.Keyboard.JustDown(this.key_ENTER) || Phaser.Input.Keyboard.JustDown(this.key_SPACE)) {
+        if (this.selectedButton != null) {
+          if (this.selectedButton == 0) {
+            this.selectedButton = null;
+            this.lastSelectedButton = null;
+            this.toMenuScene();
+
+          } else if (this.selectedButton == 1) {
+            this.selectedButton = null;
+            this.lastSelectedButton = null;
+            this.toCharacterScene();
+          }
+        }
+      }
+    };
+
+    renderButtonsON() {
+      switch (this.selectedButton) {
+        case 0:
+          this.menuButton.play('menu_selected');
+          break;
+        case 1:
+          this.characterButton.play('personajes_selected');
+          break;
+        default:
+          break;
+      }
+      switch (this.lastSelectedButton) {
+        case 0:
+        this.menuButton.play('menu');
+          break;
+        case 1:
+          this.characterButton.play('personajes');
+          break;
+        default:
+          break;
+      }
+
+      this.lastSelectedButton = this.selectedButton;
 
     }
 

@@ -101,7 +101,8 @@ class loadingScene extends Phaser.Scene {
   }
 
   toMainMenuScene() {
-    this.scene.start('mainMenuScene');
+    //this.scene.start('mainMenuScene');
+    this.scene.start('modeScene');
   }
 
   loadResorces (){
@@ -133,11 +134,23 @@ class loadingScene extends Phaser.Scene {
     this.load.image("controls1", "././resources/img/interfaces/areas/Keyboard.png");
     this.load.image("controls2", "././resources/img/interfaces/areas/Keyboard2.png");
 
+    this.load.image("juani_carrousel", "././resources/img/Interfaces/characterRep/carrusel/juani_carrousel.png");
+    this.load.image("juani_Cursed_carrousel", "././resources/img/Interfaces/characterRep/carrusel/juani_Cursed_carrousel.png");
+    this.load.image("gato_Finanzas_carrousel", "././resources/img/Interfaces/characterRep/carrusel/gato_Finanzas_carrousel.png");
+
     //stageScene
     this.load.image("stage_background", "././resources/img/sceneBackground/stage_background.png");
     this.load.image("rep_estadio", "././resources/img/Interfaces/stageRep/rep_estadio.png");
     this.load.image("rep_estadio_selected", "././resources/img/Interfaces/stageRep/rep_estadio_selected.png");
     this.load.image("rep_estadio_background", "././resources/img/Interfaces/stageRep/rep_estadio_background.png");
+
+    //postGame
+    this.load.image("character_background", "././resources/img/sceneBackground/character_background.png");
+    this.load.image("character_description_area", "././resources/img/interfaces/areas/character_description_area.png");
+    this.load.image("juani_winner", "././resources/img/Interfaces/characterRep/juani_winner.png");
+    this.load.image("juani_cursed_winner", "././resources/img/Interfaces/characterRep/juani_cursed_winner.png");
+    this.load.spritesheet('postGame_buttons', '././././resources/img/Interfaces/buttons/postGame_buttons.png', { frameWidth: 913, frameHeight: 226} );
+
 
   }
 

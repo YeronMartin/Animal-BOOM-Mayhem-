@@ -38,8 +38,9 @@ hacerse con la “​ _corona explosiva_ ​”.
 ## ÍNDICE
 
 1. Cambios  
-  1.1 Segunda revisión   
-  1.2 Tercera revisión
+  1.1 Segunda versión   
+  1.2 Tercera versión  
+  1.3 Cuarta versión
 2. Introducción  
   2.1 Inspiración  
   2.2 Plataforma  
@@ -106,17 +107,19 @@ hacerse con la “​ _corona explosiva_ ​”.
 6. Música y efectos de sonido   
 7. Diagrama de clases y API REST   
 8. Instrucciones precisas para ejecutar la aplicación    
-9. Fase 4   
+9. Fase 4     
+    9.1 WebSockets   
+    9.2 Diagrama de clases (actualizado)
 10. Mejoras    
     10.1 Personajes   
     10.2 Pelotas   
       10.2.1 Pelota de fuego   
       10.2.2 Agujero negro  
     10.3 Interfaz  
-      10.3.1 Modo de juego  
-      10.3.2 Créditos  
-      10.3.3 Selección de personaje
-      10.3.4 PostGame
+      10.3.1 Modo de juego     
+      10.3.2 Créditos     
+      10.3.3 Selección de personaje   
+      10.3.4 PostGame   
 11. Referencias
      
 
@@ -148,6 +151,15 @@ A día 19 de Enero de 2021 se han realizado cambios en el readme respecto a la i
     ● Se ha actualizado el apartado 4.Interfaz incluyendo una tercera versión con las nuevas pantallas incluidas en la fase 3.
     ● Se ha incluido un apartado de diagrama de clases.
     ● Se ha incluido un apartado con instrucciones para ejecutar la aplicación.
+    
+ ### 1.3 Cuarta versión
+ A día 1 de Febrero de 2021 se han realizado cambios en el readme respecto a la integración de elementos que faltaban en la versión previa:
+ 
+    ● Se ha adjuntado un vídeo indicando cómo usar el juego.
+    ● Se ha incluido un apartado explicando las novedades incluidas en la fase 4.
+    ● Se ha incluido un apartado explicando la conexión mediante WebSockets realizada.
+    ● Se ha añadido el diagrama de clases actualizado incluyendo las nuevas clases implementadas para la fase 4.
+    ● Se ha incluido un apartado de mejoras incluidas respecto a las anteriores fases (fase 5).
 
 ## 2. Introducción
 Sirva este documento como documento de diseño del juego ​ _Animal BOOM
@@ -1055,6 +1067,10 @@ Principal_ ​.
 
   En caso de que el servidor esté apagado, aparecería un error en la consola y ninguno de los jugadores se mostrarían en el lobby.  
   ## 9. Instrucciones precisas para ejecutar la aplicación  
+  
+  ### 9.1 WebSockets
+  
+  ### 9.2 Diagrama de clases (actualizado)
   
   ## 10. Mejoras  
   Para la fase de mejoras se han añadido y modificado los siguientes elementos:  

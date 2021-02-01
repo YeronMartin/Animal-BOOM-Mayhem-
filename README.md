@@ -106,7 +106,18 @@ hacerse con la “​ _corona explosiva_ ​”.
 6. Música y efectos de sonido   
 7. Diagrama de clases y API REST   
 8. Instrucciones precisas para ejecutar la aplicación    
-9. Referencias
+9. Instrucciones precisas para ejecutar la aplicación    
+10. Mejoras    
+    10.1 Personajes   
+    10.2 Pelotas   
+      10.2.1 Pelota de fuego   
+      10.2.2 Agujero negro  
+    10.3 Interfaz  
+      10.3.1 Modo de juego  
+      10.3.2 Créditos  
+      10.3.3 Selección de personaje
+      10.3.4 PostGame
+11. Referencias
      
 
 ## 1. Cambios
@@ -1042,11 +1053,43 @@ Principal_ ​.
   activado, se registran dos jugadores. Si alguno de los jugadores se desconecta del servidor en el tiempo de duración del lobby, la información de este desaparecerá de la
   pantalla.
 
-  En caso de que el servidor esté apagado, aparecería un error en la consola y ninguno de los jugadores se mostrarían en el lobby.
-
-
+  En caso de que el servidor esté apagado, aparecería un error en la consola y ninguno de los jugadores se mostrarían en el lobby.  
+  ## 9. Instrucciones precisas para ejecutar la aplicación  
   
-  ## 9. Referencias
+  ## 10. Mejoras  
+  Para la fase de mejoras se han añadido y modificado los siguientes elementos:  
+  
+  ### 10.1. Personajes  
+  Gato Finanzas, de orígenes italianos, Gato Finanzas es contable de día y bailarín de twerk de noche. Listo para barrer la pista de Animal BOOM Mayhem y 
+  poder ehcarse unos bailables. 
+  
+  ### 10.2. Pelotas 
+  #### 10.2. Pelota de fuego  
+  La pelota de fuego una vez lanzada crea una estela de llamas que si es atravesada produce daños.  
+  
+  #### 10.2. Agujero negro  
+  Cuando colisiona la pelota 'Agujero de Negro' absorbe todo lo que tiene a su alrededor, tanto personajes como pelotas, de manera que si un jugador  
+  se queda atrapado en su gravedad posiblmente acabe muriendo si varias pelotas han sido arrastradas consigo.  
+  
+  ### 10.3. Interfaz  
+  #### 10.3.1 Modo de juego  
+  Se ha añadido una nueva escena al juego que permite a los usuarios seleccionar entre online u offline, si seleccionan el modo offline el jugador podrá jugar con  
+  un compañero sin necesidad de conectarse al servidor. En caso del online el jugador podrá
+  Se ha añadido una nueva escena al juego que permite a los usuarios seleccionar entre online u offline, si seleccionan el modo offline el jugador podrá jugar con  
+  un compañero sin necesidad de conectarse al servidor. jugador con otros usuario.  
+  
+  #### 10.3.2. Créditos  
+  Como mejora se planteó acreditar los efectos de sonido y música empleados.  
+  
+  #### 10.3.3. Selección de personajes.
+  Con respecto a la escena de selección de personajes se ha implemntado un carrusel para aportarle más dinamismo al juego. En caso de que el jugador haya elegido  
+  jugar en offline se accederá a la pantalla de selección de personaje, y una vez seleccionado volcerá a aprecer la pantalla para que pueda elegir el jugador 2.  
+  Como restricción se ha añadido que en offline los jugadores no puedan elegir al mismo personaje.  
+  
+  #### 10.3.4. PostGame.  
+  Finalmente la última mejora que se ha añadido es que en la escena postGame las acciones dejen de ser por teclado y se puedan manejar mediante botones.
+  
+  ## 11. Referencias
   La música se ha obtenido de la siguiente página:
   
    ● https://stock.adobe.com/es/

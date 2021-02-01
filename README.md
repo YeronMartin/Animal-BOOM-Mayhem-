@@ -106,7 +106,7 @@ hacerse con la “​ _corona explosiva_ ​”.
 6. Música y efectos de sonido   
 7. Diagrama de clases y API REST   
 8. Instrucciones precisas para ejecutar la aplicación    
-9. Instrucciones precisas para ejecutar la aplicación    
+9. Fase 4   
 10. Mejoras    
     10.1 Personajes   
     10.2 Pelotas   
